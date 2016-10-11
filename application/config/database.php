@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'www.akijob.com.br',
+	'hostname' => 'localhost',
 	'username' => 'versa713',
 	'password' => 'fnEl3667Xw',
 	'database' => 'versa713_akijob',
