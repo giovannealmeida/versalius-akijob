@@ -1,48 +1,120 @@
-<html>
-	<head>
-		<title>CodeIgniter : Login Facebook via Oauth 2.0</title>
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/style.css">
-		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro|Open+Sans+Condensed:300|Raleway' rel='stylesheet' type='text/css'>
-	</head>
-	<body>
-		<div id="main">
-			<div id="login">
-				<h2> <?php echo '<a href='.$user_profile->getLink()." target='_blank' ><img class='fb_profile' src=".'https://graph.facebook.com/'.$user_profile->getId().'/picture'.'>'.'</a>'."<p class='profile_name'>Welcome ! <em>".$user_profile['name'].'</em></p>';
-                echo "<a class='logout' href=".base_url('index.php/oauth_login/logout').">Logout</a>";
-                ?></h2>
-				<hr/>
-				<h3><u>Profile</u></h3>
-				<?php
-                echo '<p>Nome : '.$user_profile->getName().'</p>';
-				echo '<p>Cidade : '.$user_location["city"]." - ".$user_location["state"]." - ".$user_location["country"]." (".$user_location["latitude"].",".$user_location["longitude"].")</p>";
-				echo '<p>Sexo : '.$user_profile->getGender().'</p>';
-                echo '<p>Data de Nascimento : '.$user_profile->getBirthday()->format('m/d/Y').'</p>';
-                echo "<p>Facebook URL : ".
-				"<a href=\"https://www.facebook.com/{$user_profile->getId()}".
-				$user_profile->getLink().
-				"\" target=\"_blank\"".
-				"> https://www.facebook.com/".
-				$user_profile->getId().
-				'</a></p>';
-                ?>
-			</div>
-		</div>
-	</body>
-	<script type="text/javascript">
-    if (window.location.hash && window.location.hash == '#_=_') {
-        if (window.history && history.pushState) {
-            window.history.pushState("", document.title, window.location.pathname);
-        } else {
-            // Prevent scrolling by storing the page's current scroll offset
-            var scroll = {
-                top: document.body.scrollTop,
-                left: document.body.scrollLeft
-            };
-            window.location.hash = '';
-            // Restore the scroll offset, should be flicker free
-            document.body.scrollTop = scroll.top;
-            document.body.scrollLeft = scroll.left;
-        }
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Login</title>
+
+	<style type="text/css">
+	::selection{ background-color: #E13300; color: white; }
+	::moz-selection{ background-color: #E13300; color: white; }
+	::webkit-selection{ background-color: #E13300; color: white; }
+	body {
+		background-color: #fff;
+		margin: 40px;
+		font: 13px/20px normal Helvetica, Arial, sans-serif;
+		color: #4F5155;
+	}
+	a {
+		color: #003399;
+		background-color: transparent;
+		font-weight: normal;
+	}
+	h1 {
+		color: #444;
+		background-color: transparent;
+		border-bottom: 1px solid #D0D0D0;
+		font-size: 19px;
+		font-weight: normal;
+		margin: 0 0 14px 0;
+		padding: 14px 15px 10px 15px;
+	}
+	code {
+		font-family: Consolas, Monaco, Courier New, Courier, monospace;
+		font-size: 12px;
+		background-color: #f9f9f9;
+		border: 1px solid #D0D0D0;
+		color: #002166;
+		display: block;
+		margin: 14px 0 14px 0;
+		padding: 12px 10px 12px 10px;
+	}
+	#body{
+		margin: 0 15px 0 15px;
+	}
+
+	p.footer{
+		text-align: right;
+		font-size: 11px;
+		border-top: 1px solid #D0D0D0;
+		line-height: 32px;
+		padding: 0 10px 0 10px;
+		margin: 20px 0 0 0;
+	}
+
+	#container{
+		margin: 10px;
+		border: 1px solid #D0D0D0;
+		-webkit-box-shadow: 0 0 8px #D0D0D0;
+	}
+	</style>
+</head>
+<body>
+<div id="container">
+	<h1>Perfil</h1>
+
+	<div id="body">
+		<p>My Profile</p>
+		<table>
+			<tr>
+				<td>ID</td>
+				<td>:</td>
+				<td><?php echo $user_profile['id_auth'];?></td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td>:</td>
+				<td><?php echo $user_profile['name'];?></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td>:</td>
+				<td><?php echo $user_profile['email'];?></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				<td>:</td>
+				<td><?php echo $user_profile['gender'];?></td>
+			</tr>
+			<tr>
+				<td>Photo</td>
+				<td>:</td>
+				<td><img src="<?php echo $user_profile['picture'];?>" width="200"></td>
+			</tr>
+		</table>
+
+		<p><a href="<?php echo site_url('login/logout');?>">Sign Out</a></p>
+
+	</div>
+
+	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
+</div>
+
+<script type="text/javascript">
+if (window.location.hash && window.location.hash == '#_=_') {
+	if (window.history && history.pushState) {
+		window.history.pushState("", document.title, window.location.pathname);
+	} else {
+		// Prevent scrolling by storing the page's current scroll offset
+		var scroll = {
+			top: document.body.scrollTop,
+			left: document.body.scrollLeft
+		};
+		window.location.hash = '';
+		// Restore the scroll offset, should be flicker free
+		document.body.scrollTop = scroll.top;
+		document.body.scrollLeft = scroll.left;
+	}
+}
 </script>
+</body>
 </html>

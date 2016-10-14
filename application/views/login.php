@@ -6,9 +6,11 @@
 	</head>
 	<body>
 		<div id="main">
-			<div id="login">
-				<h2>CodeIgniter : Login Facebook via Oauth 2.0</h2>
-				<a href="<?=$login_url?>">Login com Facebook</a>
+			<div id="login_facebook">
+				<a href="<?=$login_url_facebook?>">Login com Facebook</a>
+			</div>
+			<div id="login_google">
+				<a href="<?=$login_url_google?>">Login com Google</a>
 			</div>
 		</div>
 	</body>
