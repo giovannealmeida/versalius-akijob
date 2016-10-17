@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Login</title>
+	<title>Perfil</title>
 
 	<style type="text/css">
 	::selection{ background-color: #E13300; color: white; }
@@ -65,34 +65,31 @@
 	<div id="body">
 		<p>My Profile</p>
 		<table>
-			<tr>
-				<td>ID</td>
-				<td>:</td>
-				<td><?php echo $user_profile['id_auth'];?></td>
-			</tr>
+
 			<tr>
 				<td>Name</td>
 				<td>:</td>
-				<td><?php echo $user_profile['name'];?></td>
+				<td><?php echo $user_profile->name;?></td>
 			</tr>
 			<tr>
 				<td>Email</td>
 				<td>:</td>
-				<td><?php echo $user_profile['email'];?></td>
+				<td><?php echo $user_profile->email;?></td>
 			</tr>
 			<tr>
 				<td>Gender</td>
 				<td>:</td>
-				<td><?php echo $user_profile['gender'];?></td>
+				<td><?php echo $user_profile->id_gender == 1 ? "Masculino" : "Feminino";?></td>
 			</tr>
 			<tr>
-				<td>Photo</td>
+				<td>Data de Nascimento</td>
 				<td>:</td>
-				<td><img src="<?php echo $user_profile['picture'];?>" width="200"></td>
+				<td><?php echo $user_profile->birthday ?></td>
 			</tr>
+
 		</table>
 
-		<p><a href="<?php echo site_url('login/logout');?>">Sign Out</a></p>
+		<p><a href="<?php echo site_url('logout');?>">Sign Out</a></p>
 
 	</div>
 

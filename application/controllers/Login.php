@@ -6,120 +6,138 @@ class Login extends CI_Controller
     {
         parent::__construct();
 
-		$this->facebook = new Facebook\Facebook([
-		  'app_id' => '1330791536954247',
-		  'app_secret' => '71ba607dfdc732389a7cc46a6ee209d8',
-		  'default_graph_version' => 'v2.5',
-		]);
-		$this->load->library("googleplus");
+        if ($this->session->userdata('logged_in')) {
+            redirect('profile');
+        } else {
+            // var_dump($this->session->userdata('logged_in'));
+        }
 
+        $this->facebook = new Facebook\Facebook([
+          'app_id' => '1330791536954247',
+          'app_secret' => '71ba607dfdc732389a7cc46a6ee209d8',
+          'default_graph_version' => 'v2.5',
+        ]);
+        $this->load->library('googleplus');
     }
 
-	public function index()
-	{
+    public function index()
+    {
+        $this->load->model('Users_model', 'users');
 
-		$helper = $this->facebook->getRedirectLoginHelper();
-		$permissions = ['public_profile ', 'user_likes', 'user_location', 'user_birthday', 'email'];
-		$data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/index.php/login/callback_facebook', $permissions);
-		$data['login_url_google'] = $this->googleplus->loginURL();
+        if ($this->input->post()) { // Login email/senha
+
+            $user = $this->users->getUser($this->input->post('email'), sha1($this->input->post('password')));
+            if ($user == null) {
+                $this->session->set_flashdata('account_exists', 1);
+
+                redirect('login/register');
+            } else {
+
+                $this->session->set_userdata('logged_in', $user);
+                redirect('profile');
+            }
+        } elseif ($this->session->flashdata('user_data')) { // Autenticação externa
+
+            $user_profile = $this->session->flashdata('user_data')['user_profile'];
+
+            if ($this->users->exists($user_profile['email'])) {
+                $user = $this->users->getUserExternalAuth($user_profile['email'], $user_profile['id_auth'], $this->session->flashdata('user_data')['type']);
+                if ($user == null) { // Bloquear novo insert
+                    $this->session->set_flashdata('email_exists', true);
+                    $this->session->set_flashdata('temp_user_data', $user_profile);
+                    redirect('login/register');
+                } else { // Realizar login com o email da autenticação externa
+                    $this->session->set_userdata('logged_in', $user);
+                    redirect('profile');
+                }
+
+                $user = null;
+            } else { // Realiza cadastro da autenticação externa
+                $user_insert = array('name' => $user_profile['name'], 'email' => $user_profile['email'], 'link_social_media' => $user_profile['link_rede']);
+                $user_insert['id_gender'] = $user_profile['gender'] == 'male' ? 1 : 2;
+                if ($this->session->flashdata('user_data')['type'] == 'facebook') {
+                    $key = 'id_facebook';
+                } else {
+                    $key = 'id_google';
+                }
+                $user_insert[$key] = $user_profile['id_auth'];
+                if (!isset($user_profile['birthday'])) {
+                    $this->session->set_flashdata("temp_user_data", $user_insert);
+                    redirect("login/register");
+                }
+                $user_insert['birthday'] = date('Y-m-d', strtotime($user_profile['birthday']));
+                $user = $this->users->insert($user_insert);
+
+                $this->session->set_userdata('logged_in', $user);
+                redirect('profile');
+            }
+        }
+
+        $helper = $this->facebook->getRedirectLoginHelper();
+        $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email'];
+        $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
+        $data['login_url_google'] = $this->googleplus->loginURL();
 
         $this->load->view('login', $data);
+    }
 
-	}
+    public function register()
+    {
+        if ($this->input->post()) {
+            $this->load->model('Users_model', 'users');
+            $this->load->library('form_validation');
 
-	public function callback_google(){
-		if (isset($_GET['code'])) {
+            $this->form_validation->set_rules('name', 'name', 'required');
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email|callback_email_check');
+            $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('password2', 'password2', 'required|matches[password]');
+            $this->form_validation->set_rules('birthday', 'birthday', 'required');
+            if ($this->form_validation->run() == true) {
+                $user_insert = array(
+                    "name" => $this->input->post("name"),
+                    "email" => $this->input->post("email"),
+                    "password" => sha1($this->input->post("password")),
+                    "birthday" => date('Y-m-d', strtotime($this->input->post("birthday"))),
+                    "id_gender" => $this->input->post("gender"),
 
-			$this->googleplus->getAuthenticate();
-			$this->session->set_userdata('user_profile',$this->googleplus->getUserInfo());
-			$this->session->set_userdata("login", "google");
-			$this->session->set_userdata("authenticated", true);
-			redirect('login/profile');
+                );
 
-		}
-	}
+                $user = $this->users->insert($user_insert);
 
-	public function callback_facebook(){
-		$helper = $this->facebook->getRedirectLoginHelper();
-		try {
-		  $accessToken = $helper->getAccessToken();
-		} catch(Facebook\Exceptions\FacebookResponseException $e) {
-		  // When Graph returns an error
-		  echo 'Graph returned an error: ' . $e->getMessage();
-		  exit;
-		} catch(Facebook\Exceptions\FacebookSDKException $e) {
-		  // When validation fails or other local issues
-		  echo 'Facebook SDK returned an error: ' . $e->getMessage();
-		  exit;
-		}
+                if ($user != null) {
+                    $this->session->set_userdata("logged_in", $user);
+                    redirect("index");
+                }
 
-		if (isset($accessToken)) {
-		  // Logged in!
-		  $_SESSION['facebook_access_token'] = (string) $accessToken;
-		  $this->session->set_userdata("login", "facebook");
-		  $this->session->set_userdata("authenticated", true);
+                die("Ocorreu um erro");
+            }
+        }
 
-		  redirect(base_url()."index.php/login/profile");
-	  } else {
-		  die("NOT LOGGED");
-	  }
-	}
+        if ($this->session->flashdata('temp_user_data')) {
+            $data['user_profile'] = $this->session->flashdata('temp_user_data');
+        }
 
-	public function profile(){
-		$data = array();
+        $this->load->model('Gender_model', 'gender');
+        $data['genders'] = $this->gender->getAll();
 
-		if (!$this->session->userdata("authenticated")) {
-			redirect();
-		}else {
-			if ($this->session->userdata("login") == "google") {
-				$aux = $this->session->userdata("user_profile");
-				$data["user_profile"] = array(
-					'email' => $aux["email"],
-					"name" => $aux["name"],
-					"id_auth" => $aux["id"],
-					"link_rede" => $aux["link"],
-					"gender" => $aux["gender"],
-					"picture" => $aux["picture"]
-				);
-			} elseif ($this->session->userdata("login") == "facebook") {
-				$this->facebook->setDefaultAccessToken($this->session->userdata("facebook_access_token"));
+        $this->load->view('register', $data);
+    }
 
-				try {
-				  $response = $this->facebook->get('/me?fields=name,gender,birthday,location,email');
+    public function email_check($str)
+    {
+        $this->load->model('Users_model', 'users');
+        if ($this->users->exists($str)) {
+             $this->form_validation->set_message('email_check', 'O email já foi cadastrado');
+            return false;
+        }
 
-				  $aux = $response->getGraphUser();
-				  $data["user_profile"] = array(
-					  "name" => $aux->getName(),
-					  "email" => $aux->getEmail(),
-					  "id_auth" => $aux->getId(),
-					  "link_rede" => $aux->getLink() ,
-					  "gender" => $aux->getGender(),
-					  "birthday" => $aux->getBirthday()->format('d/m/Y'),
-					  "picture" => "https://graph.facebook.com/".$aux->getId().'/picture'
-				  );
-				  $location_id = $response->getGraphUser()->getLocation()->getId();
-				  $data['user_location'] = $this->facebook->get("/{$location_id}?fields=location")->getDecodedBody()["location"];
+        return true;
+    }
 
-				} catch(Facebook\Exceptions\FacebookResponseException $e) {
-				  echo 'Graph returned an error: ' . $e->getMessage();
-				  exit;
-				} catch(Facebook\Exceptions\FacebookSDKException $e) {
-				  echo 'Facebook SDK returned an error: ' . $e->getMessage();
-				  exit;
-				}
-			}
-		}
+    public function logout()
+    {
+        session_destroy();
 
-
-		$this->load->view("profile", $data);
-
-	}
-
-	public function logout()
-	{
-
-		session_destroy();
-
-		redirect(base_url());
-	}
+        redirect(base_url());
+    }
 }
