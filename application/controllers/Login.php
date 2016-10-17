@@ -9,7 +9,7 @@ class Login extends CI_Controller
         if ($this->session->userdata('logged_in')) {
             redirect('profile');
         } else {
-            // var_dump($this->session->userdata('logged_in'));
+            var_dump($this->session->userdata('logged_in'));
         }
 
         $this->facebook = new Facebook\Facebook([
