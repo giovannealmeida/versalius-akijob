@@ -63,6 +63,8 @@
 	<h1>Perfil</h1>
 
 	<div id="body">
+		<a href="<?=base_url("subscribe")?>">Assine</a> <br/>
+		<a href="<?=base_url("premium")?>">Área Premium</a>
 		<p>My Profile</p>
 		<table>
 

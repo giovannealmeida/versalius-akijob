@@ -28,5 +28,14 @@
 
 			</tbody>
 		</table>
+		<br>
+		<br>
+		
+		<form action="<?=base_url("subscribe/redeem")?>" method="post">
+			<label>Insira o Código: </label>
+			<input type="text" name="code" id="code">
+			<br>
+			<input type="submit" value="Resgatar">
+		</form>
 	</body>
 </html>
