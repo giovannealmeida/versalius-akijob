@@ -335,7 +335,7 @@
   Selectpicker.VERSION = '1.11.2';
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
-  Selectpicker.DEFAULTS = {
+  /*Selectpicker.DEFAULTS = {
     noneSelectedText: 'Nothing selected',
     noneResultsText: 'No results matched {0}',
     countSelectedText: function (numSelected, numTotal) {
@@ -381,7 +381,7 @@
     selectOnTab: false,
     dropdownAlignRight: false,
     windowPadding: 0
-  };
+  };*/
 
   Selectpicker.prototype = {
 

@@ -16,23 +16,19 @@
             <br>
             <form>
                 <div class = "row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Serviço:</label>
                             <div class="select_service">
                                 <select class="selectpicker" multiple data-live-search="true" data-width="100%">
-                                    <option>Pedreiro</option>
-                                    <option>Ajudante de pedreiro</option>
-                                    <option>Encanador</option>
-                                    <option>Advogado</option>
-                                    <option>Padeiro</option>
-                                    <option>Economista</option>
-                                    <option>Médico</option>
+                                    <?php foreach ($jobs as $job): ?>
+                                        <option value="<?= $job['id'] ?>"><?= $job['name'] ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Descrição:</label>
                             <input type="text" class="form-control" id="descricao">
@@ -69,29 +65,21 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Cidade:</label>
-                            <select class="selectpicker" data-width="100%">
-                                <option>Itajuípe</option>
-                                <option>Coaraci</option>
-                                <option>Itapitanga</option>
-                                <option>Itabuna</option>
-                                <option>Buerarema</option>
-                                <option>Ilhéus</option>
+                            <label>Estado:</label>
+                            <select class="selectpicker" data-live-search="true" data-width="100%" id="selectState">
+                                <option> -- </option>
+                                <?php foreach ($states as $state): ?>
+                                    <option value="<?= $state['id'] ?>"><?= $state['name']. ' - ' .$state['initials'] ?></option>
+                                <?php endforeach; ?>
                             </select>
-
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Estado:</label>
-                            <select class="selectpicker" data-width="100%">
-                                <option>Acre</option>
-                                <option>Amazonas</option>
-                                <option>Alagoas</option>
-                                <option>Bahia</option>
-                                <option>Ceará</option>
-                                <option>Distrito Federal</option>
+                            <label>Cidade:</label>
+                            <select class="selectpicker" data-live-search="true" data-width="100%" id="selectCity">
                             </select>
+
                         </div>
                     </div>
                 </div>
@@ -131,8 +119,10 @@
                 </div>
             </div>
         </div>
+        <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initAutocomplete" async defer></script>
-        <script src="<?= base_url('/assets/js/google_maps/maps_register.js'); ?>" type="text/javascript"></script>
-        <link href="<?= base_url('/assets/css/google_maps/maps_register.css'); ?>" rel="stylesheet" type="text/css" />
+        <script src="<?= base_url('/assets/js/google_maps/mapsRegister.js'); ?>" type="text/javascript"></script>
+        <script src="<?= base_url('/assets/js/changeCity.js'); ?>" type="text/javascript"></script>
+        <link href="<?= base_url('/assets/css/google_maps/mapsRegister.css'); ?>" rel="stylesheet" type="text/css" />
     </body>
 </html>
