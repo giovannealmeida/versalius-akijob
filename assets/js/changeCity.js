@@ -1,34 +1,38 @@
 jQuery(function () {
-  urlConsulta = base_url.url + "index.php/consultas/getEstados/";
-  // $('#selectCidade').append($('<option></option>').val(0).html("Carregando..."));
+    urlConsulta = base_url.url + "index.php/consultas/getEstados/";
+    // $('#selectCidade').append($('<option></option>').val(0).html("Carregando..."));
 
     $("#selectState").change(function () {
-      $nivel = 5;
-      var idState = this.value;
-      $("#selectCity").empty();
+        $nivel = 5;
+        var idState = this.value;
+        $("#selectCity").empty();
 
-      $('#selectCity').append($('<option></option>').val(0).html("Carregando..."));
-      $('#selectCity').prop('disabled', true);
-      $('#selectCity').prop('disabled', true);
+        $('#selectCity').append($('<option></option>').val(0).html("Carregando..."));
+        $('#selectCity').prop('disabled', true);
+        $('#selectCity').prop('disabled', true);
+        $('#selectCity').selectpicker('refresh');
 
-      urlConsulta = base_url.url + "index.php/consult/getCityByState/" + idState;
-      $.ajax({url: urlConsulta,
-        success: function (result) {
-          $("#selectCity").empty();
-          $('#selectCity').append($('<option></option>').val(0).html("--"));
-          $.each(JSON.parse(result), function (index, item) {
-            $('#selectCity').append($('<option></option>').val(item.id).html(item.name));
+        urlConsulta = base_url.url + "index.php/consult/getCityByState/" + idState;
+        $.ajax({url: urlConsulta,
+            success: function (result) {
+                $("#selectCity").empty();
+                $.each(JSON.parse(result), function (index, item) {
+                    $('#selectCity').append($('<option></option>').val(item.id).html(item.name));
+                });
 
-          });
-
-          $('#selectCity').prop('disabled', false);
-          $('#selectCity').prop('disabled', false);
-        },
-        error: function (error) {
-          alert("Falha ao consultar cidade!");
-        }
-      });
+                $('#selectCity').prop('disabled', false);
+                $('#selectCity').prop('disabled', false);
+                $('#selectCity').selectpicker('refresh');
+            },
+            error: function (error) {
+                alert("Falha ao consultar cidade!");
+            }
+        });
 
     }); //  end selectEstado OnChange
 
-  }); // end document ready
+    $("#register").click(function () {
+        $("#registerService").submit();
+    });
+
+}); // end document ready

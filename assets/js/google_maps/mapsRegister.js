@@ -9,6 +9,13 @@
 
 var map;
 var markers = [];
+var latitude;
+var longitude;
+
+function setLatLng(lat, lng){
+    this.latitude = lat;
+    this.longitude = lng;
+}
 
 function initAutocomplete() {
 
@@ -24,7 +31,7 @@ function initAutocomplete() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
-        center: {lat: -14.67806, lng: -39.375},
+        center: {lat: latitude, lng: longitude},
         styles: myStyles
     });
 
