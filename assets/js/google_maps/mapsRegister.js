@@ -13,8 +13,8 @@ var latitude;
 var longitude;
 
 function setLatLng(lat, lng){
-    this.latitude = lat;
-    this.longitude = lng;
+    this.latitude = Number(lat);
+    this.longitude = Number(lng);
 }
 
 function initAutocomplete() {

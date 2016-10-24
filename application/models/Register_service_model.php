@@ -27,7 +27,7 @@ class Register_service_model extends CI_Model {
 
         return false;
     }
-    
+
     function insertServicesJobs($data) {
         $this->db->insert('tb_services_jobs', $data);
 
@@ -37,6 +37,19 @@ class Register_service_model extends CI_Model {
         }
 
         return false;
+    }
+
+    function getUserLatLng($idUser) {
+        $this->db->select('c.latitude, c.longitude');
+        $this->db->from('tb_users u');
+        $this->db->join('tb_city c', 'u.id_city = c.id', "inner");
+        $this->db->where('u.id', $idUser);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return null;
+        }
     }
 
 }

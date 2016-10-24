@@ -52,9 +52,11 @@ class Register_service extends CI_Controller {
             }
         }
         $jobs = $this->Register_service_model->getJobsAll();
+        $coordinates = $this->Register_service_model->getUserLatLng(3);
         $states = $this->State_model->getStatesAll();
         $data = array("jobs" => $jobs,
-            "states" => $states
+            "states" => $states,
+            'coordinates' => $coordinates
         );
 
         if ($this->input->post('selectState') != NULL) {

@@ -153,7 +153,7 @@
         <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initAutocomplete" async defer></script>
         <script src="<?= base_url('/assets/js/google_maps/mapsRegister.js'); ?>" type="text/javascript"></script>
-        <script> setLatLng(-14,78556, -39,28028); </script>
+        <script> setLatLng(<?=$coordinates[0]['latitude']?>, <?=$coordinates[0]['longitude']?>); </script>
         <script src="<?= base_url('/assets/js/changeCity.js'); ?>" type="text/javascript"></script>
         <link href="<?= base_url('/assets/css/google_maps/mapsRegister.css'); ?>" rel="stylesheet" type="text/css" />
     </body>
