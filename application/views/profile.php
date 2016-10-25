@@ -66,6 +66,16 @@
 		<a href="<?=base_url("subscribe")?>">Assine</a> <br/>
 		<a href="<?=base_url("premium")?>">Área Premium</a>
 		<p>My Profile</p>
+		<?php if ($premium_data["isPremium"]): ?>
+			<h4 style="color:red;">VOCÊ É PREMIUM, PORRA, VLW POR DAR DINHEIRO PÁ NÓIS</h4>
+			<p>
+				<b>Fim da assinatura: </b> <?= date("d-m-Y", strtotime($premium_data["endSubscription"])); ?>
+			</p>
+			<?php else: ?>
+				<p>
+					<b>Conta Free</b>... Canguinha :(
+				</p>
+		<?php endif; ?>
 		<table>
 
 			<tr>
