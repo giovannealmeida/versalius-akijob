@@ -36,14 +36,10 @@ class Register_service extends CI_Controller {
                 $form['zip_code'] = $this->input->post('zipCode');
                 $form['latitude'] = $this->input->post('latitude');
                 $form['longitude'] = $this->input->post('longitude');
-                $$form['description'] = $this->input->post('description');
+                $form['description'] = $this->input->post('description');
+                $form['id_job'] = $this->input->post('selectService');
                 $confirmationInsert = $this->Register_service_model->insertServices($form);
                 if ($confirmationInsert) {
-                    $servicesJobs['id_service'] = $this->db->insert_id();
-                    foreach ($this->input->post('selectService[]') as $value) {
-                        $servicesJobs['id_job'] = $value;
-                        $this->Register_service_model->insertServicesJobs($servicesJobs);
-                    }
                     $this->session->set_flashdata("mensagem", "Cadastro realizado com sucesso");
                 } else {
                     $this->session->set_flashdata("erro", "Falha ao cadastrar! Consulte administrador do sistema");

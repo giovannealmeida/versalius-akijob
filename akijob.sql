@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 25-Out-2016 às 02:59
+-- Generation Time: 25-Out-2016 às 03:36
 -- Versão do servidor: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -5923,46 +5923,19 @@ CREATE TABLE `tb_services` (
   `zip_code` int(11) DEFAULT NULL,
   `latitude` varchar(30) DEFAULT NULL,
   `longitude` varchar(30) DEFAULT NULL,
-  `description` text
+  `description` text,
+  `id_job` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `tb_services`
 --
 
-INSERT INTO `tb_services` (`id`, `id_user`, `address`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `description`) VALUES
-(1, 1, 'Praça 7 De Setembro', 84, '', 'Centro', 387, 45630000, '-14.671368579636402', '-39.37320426106453', NULL),
-(2, 2, 'Rua D', 45, '', 'Centro comercial', 379, 45600, '-14.78768375639549', '-39.28808569908142', NULL),
-(3, 3, 'Av. Proclamação, Rua seis', 254, 'Apartamento, 2º Andar', 'Jardim Savóia', 366, 45658250, '-14.763413647274652', '-39.063131511211395', NULL),
-(4, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.785920257883237', '-39.0444016456604', NULL);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tb_services_jobs`
---
-
-CREATE TABLE `tb_services_jobs` (
-  `id` int(11) NOT NULL,
-  `id_service` int(11) NOT NULL,
-  `id_job` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `tb_services_jobs`
---
-
-INSERT INTO `tb_services_jobs` (`id`, `id_service`, `id_job`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3),
-(4, 2, 4),
-(5, 2, 5),
-(6, 2, 6),
-(7, 3, 7),
-(8, 3, 8),
-(9, 3, 9),
-(10, 4, 1);
+INSERT INTO `tb_services` (`id`, `id_user`, `address`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `description`, `id_job`) VALUES
+(1, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.789281266208205', '-39.044530391693115', NULL, NULL),
+(2, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.787497033701829', '-39.04719114303589', NULL, NULL),
+(3, 1, 'Praça 7 De Setembro', 84, 'próximo ao colégio leolina', 'centro', 203, 45630000, '-14.786957611684453', '-39.04822111129761', NULL, 1),
+(4, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.785671292233273', '-39.049808979034424', 'Teste', 2);
 
 -- --------------------------------------------------------
 
@@ -6092,16 +6065,9 @@ ALTER TABLE `tb_plans`
 --
 ALTER TABLE `tb_services`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_city_service` (`id_city`),
   ADD KEY `fk_user_service` (`id_user`),
-  ADD KEY `fk_city_service` (`id_city`);
-
---
--- Indexes for table `tb_services_jobs`
---
-ALTER TABLE `tb_services_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_service_job` (`id_service`),
-  ADD KEY `fk_job_service` (`id_job`);
+  ADD KEY `fk_jobs_service` (`id_job`);
 
 --
 -- Indexes for table `tb_states`
@@ -6148,12 +6114,7 @@ ALTER TABLE `tb_jobs_types`
 -- AUTO_INCREMENT for table `tb_services`
 --
 ALTER TABLE `tb_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `tb_services_jobs`
---
-ALTER TABLE `tb_services_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tb_states`
 --
@@ -6185,14 +6146,8 @@ ALTER TABLE `tb_jobs`
 --
 ALTER TABLE `tb_services`
   ADD CONSTRAINT `fk_city_service` FOREIGN KEY (`id_city`) REFERENCES `tb_city` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_user_service` FOREIGN KEY (`id_user`) REFERENCES `tb_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
--- Limitadores para a tabela `tb_services_jobs`
---
-ALTER TABLE `tb_services_jobs`
-  ADD CONSTRAINT `fk_job_service` FOREIGN KEY (`id_job`) REFERENCES `tb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_service_job` FOREIGN KEY (`id_service`) REFERENCES `tb_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_jobs_service` FOREIGN KEY (`id_job`) REFERENCES `tb_jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_service` FOREIGN KEY (`id_user`) REFERENCES `tb_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limitadores para a tabela `tb_subscriptions`

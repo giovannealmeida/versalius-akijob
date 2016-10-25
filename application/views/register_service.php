@@ -112,7 +112,7 @@
                             <?php foreach ($jobs as $job): ?>
                                 <?php $optionsService[$job['id']] = $job['name']; ?>
                             <?php endforeach; ?>
-                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService[]", 'id' => "selectService",), $optionsService, ($this->input->post('selectService')) ? $this->input->post('selectService') : $selectedService); ?>
+                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService", 'id' => "selectService",), $optionsService, ($this->input->post('selectService')) ? $this->input->post('selectService') : $selectedService); ?>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Qualificação:</label>
-                            <textarea class="form-control" rows="5" id="description" value="<?php $this->input->post('description') == NULL ? '' : $this->input->post('description') ?>"></textarea>
+                            <textarea name="description" id="description" class="form-control" rows="5" id="description" ><?php $this->input->post('description') == NULL ? '' : $this->input->post('description') ?></textarea>
                         </div>
                     </div>
                 </div>
