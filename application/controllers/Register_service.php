@@ -20,10 +20,10 @@ class Register_service extends CI_Controller {
             $this->form_validation->set_rules('selectState', 'Estado', 'required');
             $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
             $this->form_validation->set_rules('zipCode', 'CEP', 'required');
-            $this->form_validation->set_rules('latitude', 'Latitude', 'required');
-            $this->form_validation->set_rules('longitude', 'Longitude', 'required');
+            $this->form_validation->set_rules('latitude', 'Latitude', 'required|callback_points_maps');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+            $this->form_validation->set_message('points_maps', 'Click no mapa para marcar sua localização');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
             if ($this->form_validation->run() !== FALSE) {
@@ -36,8 +36,14 @@ class Register_service extends CI_Controller {
                 $form['zip_code'] = $this->input->post('zipCode');
                 $form['latitude'] = $this->input->post('latitude');
                 $form['longitude'] = $this->input->post('longitude');
-                $form['description'] = $this->input->post('description');
+                $form['qualification'] = $this->input->post('qualification');
                 $form['id_job'] = $this->input->post('selectService');
+                if ($this->input->post('availability_fds') != NULL) {
+                    $form['availability_fds'] = $this->input->post('availability_fds');
+                }
+                if ($this->input->post('availability_24h') != NULL) {
+                    $form['availability_24h'] = $this->input->post('availability_24h');
+                }
                 $confirmationInsert = $this->Register_service_model->insertServices($form);
                 if ($confirmationInsert) {
                     $this->session->set_flashdata("mensagem", "Cadastro realizado com sucesso");
@@ -60,6 +66,10 @@ class Register_service extends CI_Controller {
         }
 
         $this->load->view("register_service.php", $data);
+    }
+
+    public function callback_points_maps() {
+        return false;
     }
 
 }

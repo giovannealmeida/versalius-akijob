@@ -14,140 +14,121 @@
         <div class="container" style="height:50%;">
             <h2>Cadastro de serviços</h2>
             <br>
-            <form action="<?= base_url('index.php/register_service/index'); ?>" method="post" id="registerService">
-                <input id="latitude" name="latitude" type="hidden">
-                <input id="longitude" name="longitude" type="hidden">
-                <?php if (validation_errors()): ?>
-                    <div class="alert alert-danger">
-                        <strong>Erros no formulário!</strong><br/>
-                        <br/>
-                        <?php echo validation_errors(); ?>
-                    </div>
-                <?php endif; ?>
-                <?php if ($this->session->flashdata("mensagem")) : ?>
-                    <div class="alert alert-success">
-                        <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
-                        <br/>
-                    </div>
-                <?php elseif ($this->session->flashdata("erro")): ?>
-                    <div class="alert alert-danger">
-                        <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
-                        <br/>
-                    </div>
-                <?php endif; ?>
-                <div class = "row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Endereço:</label>
-                            <?php echo form_input(array('name' => 'address', 'class' => 'form-control', 'id' => 'address'), set_value('address', $this->input->post('address') == NULL ? '' : $this->input->post('address'))); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Número:</label>
-                            <?php echo form_input(array('name' => 'number', 'class' => 'form-control', 'id' => 'number'), set_value('number', $this->input->post('number') == NULL ? '' : $this->input->post('number'))); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Complemento:</label>
-                            <?php echo form_input(array('name' => 'complement', 'class' => 'form-control', 'id' => 'complement'), set_value('complement', $this->input->post('complement') == NULL ? '' : $this->input->post('complement'))); ?>
-                        </div>
+            <?php echo form_open('register_service/index', array('id' => "registerService")); ?>
+            <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude', 'type' => "hidden")); ?>
+            <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude', 'type' => "hidden")); ?>
+            <?php if (validation_errors()): ?>
+                <div class="alert alert-danger">
+                    <strong>Erros no formulário!</strong><br/>
+                    <br/>
+                    <?php echo validation_errors(); ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($this->session->flashdata("mensagem")) : ?>
+                <div class="alert alert-success">
+                    <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
+                </div>
+            <?php elseif ($this->session->flashdata("erro")): ?>
+                <div class="alert alert-danger">
+                    <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
+                </div>
+            <?php endif; ?>
+            <div class = "row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <?php echo form_label('Endereço: ', 'address'); ?>
+                        <?php echo form_input(array('name' => 'address', 'class' => 'form-control', 'id' => 'address', 'placeholder' => "Endereço"), set_value('address')); ?>
                     </div>
                 </div>
-
-                <div class = "row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Bairro:</label>
-                            <?php echo form_input(array('name' => 'neighborhood', 'class' => 'form-control', 'id' => 'neighborhood'), set_value('neighborhood', $this->input->post('neighborhood') == NULL ? '' : $this->input->post('neighborhood'))); ?>
-                        </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <?php echo form_label('Número: ', 'number'); ?>
+                        <?php echo form_input(array('name' => 'number', 'class' => 'form-control', 'id' => 'number', 'placeholder' => "Número"), set_value('number')); ?>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Estado:</label>
-                            <?php if ($this->input->post('selectState') != NULL): ?>
-                                <?php $selectedState = array($this->input->post('selectState')); ?>
-                            <?php else : ?>
-                                <?php $selectedState = array(0); ?>
-                            <?php endif; ?>
-                            <?php $optionsState = array("" => "--"); ?>
-                            <?php foreach ($states as $state) : ?>
-                                <?php $optionsState += array($state['id'] => $state['name'] . ' - ' . $state['initials']); ?>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <?php echo form_label('Complemento: ', 'complement'); ?>
+                        <?php echo form_input(array('name' => 'complement', 'class' => 'form-control', 'id' => 'complement', 'placeholder' => "Complemento"), set_value('complement')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <?php echo form_label('Bairro: ', 'neighborhood'); ?>
+                        <?php echo form_input(array('name' => 'neighborhood', 'class' => 'form-control', 'id' => 'neighborhood', 'placeholder' => "Bairro"), set_value('neighborhood')); ?>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <?php echo form_label('Estado: ', 'name'); ?>
+                        <?php $optionsState = array("" => "--"); ?>
+                        <?php foreach ($states as $state) : ?>
+                            <?php $optionsState += array($state['id'] => $state['name'] . ' - ' . $state['initials']); ?>
+                        <?php endforeach; ?>
+                        <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $optionsState, set_value('selectState')); ?>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <?php echo form_label('Cidade: ', 'name'); ?>
+                        <?php $optionsCity = array(NULL => "--") ?>
+                        <?php if (isset($citys)) : ?>
+                            <?php foreach ($citys as $city) : ?>
+                                <?php $optionsCity[$city["id"]] = $city["name"]; ?>
                             <?php endforeach; ?>
-                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $optionsState, ($this->input->post('selectState')) ? $this->input->post('selectState') : $selectedState); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Cidade:</label>
-                            <?php if (isset($citys)) : ?>
-                                <?php foreach ($citys as $city) : ?>
-                                    <?php $optionsCity[$city["id"]] = $city["name"]; ?>
-                                <?php endforeach; ?>
-                                <?php $selectedCity = array($this->input->post('selectCity')); ?>
-                            <?php else : ?>
-                                <?php $optionsCity = array("" => " -- "); ?>
-                                <?php $selectedCity = array(0); ?>
-                            <?php endif; ?>
-                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $optionsCity, ($this->input->post('selectCity')) ? $this->input->post('selectCity') : $selectedCity); ?>
-                        </div>
+                        <?php endif; ?>
+                        <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $optionsCity, set_value('selectCity')); ?>
                     </div>
                 </div>
-                <div class = "row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>CEP:</label>
-                            <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control', 'id' => 'zipCode'), set_value('zipCode', $this->input->post('zipCode') == NULL ? '' : $this->input->post('zipCode'))); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Serviço(s):</label>
-                            <?php if ($this->input->post('selectService') != NULL): ?>
-                                <?php $selectedService = array($this->input->post('selectService')); ?>
-                            <?php else : ?>
-                                <?php $selectedService = array(0); ?>
-                            <?php endif; ?>
-                            <?php foreach ($jobs as $job): ?>
-                                <?php $optionsService[$job['id']] = $job['name']; ?>
-                            <?php endforeach; ?>
-                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService", 'id' => "selectService",), $optionsService, ($this->input->post('selectService')) ? $this->input->post('selectService') : $selectedService); ?>
-                        </div>
+            </div>
+            <div class = "row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?php echo form_label('CEP: ', 'zipCode'); ?>
+                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control', 'id' => 'zipCode', 'pattern' => "\(\d{2}\)\d{4}-\d{4}"), set_value('zipCode')); ?>
                     </div>
                 </div>
-                <div class = "row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Qualificação:</label>
-                            <textarea name="description" id="description" class="form-control" rows="5" id="description" ><?php $this->input->post('description') == NULL ? '' : $this->input->post('description') ?></textarea>
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?php echo form_label('Serviço(s): ', 'name'); ?>
+                        <?php foreach ($jobs as $job): ?>
+                            <?php $optionsService[$job['id']] = $job['name']; ?>
+                        <?php endforeach; ?>
+                        <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService", 'id' => "selectService",), $optionsService, set_value('selectService')); ?>
                     </div>
                 </div>
-
-                <div class = "row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">Disponibilidade Final de Semana</label>
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">Disponibilidade 24h</label>
-                            </div>
-                        </div>
+            </div>
+            <div class = "row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <?php echo form_checkbox(array('name' => "availability_fds", 'id' => 'availability_fds', 'value' => 1, 'style' => 'margin:10px', 'checked' => set_checkbox('availability_fds', 1, false))) . form_label('Disponibilidade Final de Semana', 'availability_fds'); ?>
+                        <?php echo form_checkbox(array('name' => 'availability_24h', 'id' => 'availability_24h', 'value' => 1, 'style' => 'margin:10px', 'checked' => set_checkbox('availability_fds', 1, false))) . form_label('Disponibilidade 24h', 'availability_24h'); ?> 
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class = "row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <?php echo form_label('Qualificação: ', 'qualification'); ?>
+                        <textarea name="qualification" id="qualification" class="form-control" rows="5" placeholder="Ex. Especialista em assentar piso.
+Ex. Especialista em conserto de carros. 
+Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
+                    </div>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
             <div class="col-md-12" style="height: 100%;">
                 <!-- BEGIN MAPA -->
                 <div id="map"></div>
-                <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
+                <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
                 <!-- END MAPA-->
             </div>
             <div class = "row">
                 <div style="margin-top: 30px; margin-bottom: 30px; float: right;">
-                    <button type="button" class="btn btn-danger">Cancelar</button>
-                    <button type="submit" class="btn btn-success" id="register">Cadastrar</button>
+                    <?php echo form_submit('submit', 'Cancelar', array('class' => "btn btn-danger", 'id' => "cancel")); ?>
+                    <?php echo form_submit('submit', 'Cadastrar', array('class' => "btn btn-success", 'id' => "register")); ?>
                 </div>
             </div>
         </div>
