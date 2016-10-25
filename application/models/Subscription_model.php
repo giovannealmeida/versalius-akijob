@@ -9,9 +9,20 @@ class Subscription_model extends CI_Model
         parent::__construct();
     }
 
-    public function isSubscribed()
+    public function isSubscribed($id_user)
     {
-        // $this->db->where("");
+        $today = date('Y-m-d'); ;
+        $this->db->select('*');
+        $this->db->from('tb_subscriptions');
+        $this->db->where('id_user',$id_user);
+        $this->db->where('start <=',$today);
+        $this->db->where('end >=',$today);
+        $result = $this->db->get();
+
+        if ($result->num_rows() > 0) {
+            return true;
+        }
+        return false;
     }
 
     public function insert($id_user, $id_plan, $period)
@@ -44,7 +55,7 @@ class Subscription_model extends CI_Model
     {
         // Hash exists
         $this->db->where('hash', $hash);
-        $query = $this->db->get('tb_hashes_subscription');
+        $query = $this->db->get('tb_subscriptions_hashes');
         if ($query->num_rows() != 1) {
             return false;
         }
@@ -52,19 +63,20 @@ class Subscription_model extends CI_Model
 
         // Hash used
         $this->db->where('h.id_hash', $hash_id);
-        $query = $this->db->get('tb_hashes_history h');
+        $query = $this->db->get('tb_subscriptions_hashes_history h');
         if ($query->num_rows() != 0) {
             return false;
         }
 
         date_default_timezone_set('America/Sao_Paulo');
-        $start = date('Y-m-d H:i:s');
+        $used_date = date('Y-m-d H:i:s');
 
-        $end = date('Y-m-d H:i:s', strtotime("+1 month", strtotime($start)));
+        $start = date('Y-m-d');
+        $end = date('Y-m-d', strtotime("+1 month", strtotime($start)));
         $this->db->trans_start();
 
         $this->db->insert("tb_subscriptions", array("id_user" => $id_user, "id_plan" => 2, "start" => $start, "end" => $end));
-        $this->db->insert("tb_hashes_history", array("id_user" => $id_user, "id_hash" => $hash_id, "used_date" => $start));
+        $this->db->insert("tb_subscriptions_hashes_history", array("id_user" => $id_user, "id_hash" => $hash_id, "used_date" => $used_date));
 
         $this->db->trans_complete();
 

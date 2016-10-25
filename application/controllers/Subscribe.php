@@ -28,6 +28,7 @@ class Subscribe extends CI_Controller
             show_404();
         }
         $this->subscription->insert($id_user, $id, $period);
+        redirect("profile");
     }
 
     public function redeem($hash = "")
@@ -65,11 +66,11 @@ class Subscribe extends CI_Controller
     // public function generate_hash()
     // {
     //     $this->load->model('Util_model', 'util');
-
+    //
     //     for ($i = 0; $i < 30; ++$i) {
     //         $batch[] = array('hash' => $this->util->generateRandomString(6));
     //     }
-
-    //     $this->db->insert_batch("tb_hashes_subscription", $batch);
+    //
+    //     $this->db->insert_batch("tb_subscriptions_hashes", $batch);
     // }
 }

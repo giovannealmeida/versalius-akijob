@@ -7,9 +7,9 @@ class Login extends CI_Controller
         parent::__construct();
 
         if ($this->session->userdata('logged_in')) {
-            redirect('profile');
+            redirect('index');
         } else {
-            var_dump($this->session->userdata('logged_in'));
+            // var_dump($this->session->userdata('logged_in'));
         }
 
         $this->facebook = new Facebook\Facebook([
@@ -34,7 +34,7 @@ class Login extends CI_Controller
             } else {
 
                 $this->session->set_userdata('logged_in', $user);
-                redirect('profile');
+                redirect('index');
             }
         } elseif ($this->session->flashdata('user_data')) { // Autenticação externa
 
@@ -48,7 +48,7 @@ class Login extends CI_Controller
                     redirect('login/register');
                 } else { // Realizar login com o email da autenticação externa
                     $this->session->set_userdata('logged_in', $user);
-                    redirect('profile');
+                    redirect('index');
                 }
 
                 $user = null;
@@ -69,7 +69,7 @@ class Login extends CI_Controller
                 $user = $this->users->insert($user_insert);
 
                 $this->session->set_userdata('logged_in', $user);
-                redirect('profile');
+                redirect('index');
             }
         }
 
