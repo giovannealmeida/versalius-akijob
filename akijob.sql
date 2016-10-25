@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 20-Out-2016 às 21:10
+-- Generation Time: 25-Out-2016 às 02:59
 -- Versão do servidor: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -5926,6 +5926,16 @@ CREATE TABLE `tb_services` (
   `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `tb_services`
+--
+
+INSERT INTO `tb_services` (`id`, `id_user`, `address`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `description`) VALUES
+(1, 1, 'Praça 7 De Setembro', 84, '', 'Centro', 387, 45630000, '-14.671368579636402', '-39.37320426106453', NULL),
+(2, 2, 'Rua D', 45, '', 'Centro comercial', 379, 45600, '-14.78768375639549', '-39.28808569908142', NULL),
+(3, 3, 'Av. Proclamação, Rua seis', 254, 'Apartamento, 2º Andar', 'Jardim Savóia', 366, 45658250, '-14.763413647274652', '-39.063131511211395', NULL),
+(4, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.785920257883237', '-39.0444016456604', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -5937,6 +5947,22 @@ CREATE TABLE `tb_services_jobs` (
   `id_service` int(11) NOT NULL,
   `id_job` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tb_services_jobs`
+--
+
+INSERT INTO `tb_services_jobs` (`id`, `id_service`, `id_job`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 2, 4),
+(5, 2, 5),
+(6, 2, 6),
+(7, 3, 7),
+(8, 3, 8),
+(9, 3, 9),
+(10, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -6021,7 +6047,9 @@ CREATE TABLE `tb_users` (
 --
 
 INSERT INTO `tb_users` (`id`, `id_gender`, `id_city`, `id_facebook`, `id_google`, `name`, `email`, `password`, `link_social_media`, `birthday`) VALUES
-(1, 1, 387, NULL, NULL, 'José Barreto dos Santos Neto', 'jbsneto18@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1993-09-18');
+(1, 1, 387, NULL, NULL, 'José Barreto dos Santos Neto', 'jbsneto18@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1993-09-18'),
+(2, 1, 379, NULL, NULL, 'Caíque Martins', 'caique@akijob.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1994-04-07'),
+(3, 1, 366, NULL, NULL, 'Alessandro Barbieri', 'alessandro@akijob.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1990-11-09');
 
 --
 -- Indexes for dumped tables
@@ -6120,12 +6148,12 @@ ALTER TABLE `tb_jobs_types`
 -- AUTO_INCREMENT for table `tb_services`
 --
 ALTER TABLE `tb_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tb_services_jobs`
 --
 ALTER TABLE `tb_services_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `tb_states`
 --
@@ -6135,7 +6163,7 @@ ALTER TABLE `tb_states`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --

@@ -15,6 +15,8 @@
             <h2>Cadastro de serviços</h2>
             <br>
             <form action="<?= base_url('index.php/register_service/index'); ?>" method="post" id="registerService">
+                <input id="latitude" name="latitude" type="hidden">
+                <input id="longitude" name="longitude" type="hidden">
                 <?php if (validation_errors()): ?>
                     <div class="alert alert-danger">
                         <strong>Erros no formulário!</strong><br/>
@@ -33,28 +35,6 @@
                         <br/>
                     </div>
                 <?php endif; ?>
-                <div class = "row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Serviço(s):</label>
-                            <?php if ($this->input->post('selectService') != NULL): ?>
-                                <?php $selectedService = array($this->input->post('selectService')); ?>
-                            <?php else : ?>
-                                <?php $selectedService = array(0); ?>
-                            <?php endif; ?>
-                            <?php foreach ($jobs as $job): ?>
-                                <?php $optionsService[$job['id']] = $job['name']; ?>
-                            <?php endforeach; ?>
-                            <?php echo form_multiselect(array('class' => "selectpicker", 'multiple data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService[]", 'id' => "selectService",), $optionsService, ($this->input->post('selectService')) ? $this->input->post('selectService') : $selectedService); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Descrição:</label>
-                            <?php echo form_input(array('name' => 'description', 'class' => 'form-control', 'id' => 'description'), set_value('description', $this->input->post('description') == NULL ? '' : $this->input->post('description'))); ?>
-                        </div>
-                    </div>
-                </div>
                 <div class = "row">
                     <div class="col-md-5">
                         <div class="form-group">
@@ -115,22 +95,45 @@
                     </div>
                 </div>
                 <div class = "row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>CEP:</label>
                             <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control', 'id' => 'zipCode'), set_value('zipCode', $this->input->post('zipCode') == NULL ? '' : $this->input->post('zipCode'))); ?>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Latitude:</label>
-                            <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude'), set_value('latitude', $this->input->post('latitude') == NULL ? '' : $this->input->post('latitude'))); ?>
+                            <label>Serviço(s):</label>
+                            <?php if ($this->input->post('selectService') != NULL): ?>
+                                <?php $selectedService = array($this->input->post('selectService')); ?>
+                            <?php else : ?>
+                                <?php $selectedService = array(0); ?>
+                            <?php endif; ?>
+                            <?php foreach ($jobs as $job): ?>
+                                <?php $optionsService[$job['id']] = $job['name']; ?>
+                            <?php endforeach; ?>
+                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService[]", 'id' => "selectService",), $optionsService, ($this->input->post('selectService')) ? $this->input->post('selectService') : $selectedService); ?>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                </div>
+                <div class = "row">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label>Longitude:</label>
-                            <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude'), set_value('longitude', $this->input->post('longitude') == NULL ? '' : $this->input->post('longitude'))); ?>
+                            <label>Qualificação:</label>
+                            <textarea class="form-control" rows="5" id="description" value="<?php $this->input->post('description') == NULL ? '' : $this->input->post('description') ?>"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = "row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Disponibilidade Final de Semana</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Disponibilidade 24h</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,18 +145,16 @@
                 <!-- END MAPA-->
             </div>
             <div class = "row">
-                <div class="col-md-1" style="margin-top: 30px; float:right;">
-                    <button type="submit" class="btn btn-success" id="register">Cadastrar</button>
-                </div>
-                <div class="col-md-1" style="margin-top: 30px; float:right;">
+                <div style="margin-top: 30px; margin-bottom: 30px; float: right;">
                     <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="register">Cadastrar</button>
                 </div>
             </div>
         </div>
         <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initAutocomplete" async defer></script>
         <script src="<?= base_url('/assets/js/google_maps/mapsRegister.js'); ?>" type="text/javascript"></script>
-        <script> setLatLng(<?=$coordinates[0]['latitude']?>, <?=$coordinates[0]['longitude']?>); </script>
+        <script> setLatLng(<?= $coordinates[0]['latitude'] ?>, <?= $coordinates[0]['longitude'] ?>);</script>
         <script src="<?= base_url('/assets/js/changeCity.js'); ?>" type="text/javascript"></script>
         <link href="<?= base_url('/assets/css/google_maps/mapsRegister.css'); ?>" rel="stylesheet" type="text/css" />
     </body>
