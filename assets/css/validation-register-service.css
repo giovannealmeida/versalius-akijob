@@ -1,0 +1,11 @@
+#registerService .has-error .control-label,
+#registerService .has-error .help-block,
+#registerService .has-error .form-control-feedback {
+    color: #f39c12;
+}
+
+#registerService .has-success .control-label,
+#registerService .has-success .help-block,
+#registerService .has-success .form-control-feedback {
+    color: #18bc9c;
+}

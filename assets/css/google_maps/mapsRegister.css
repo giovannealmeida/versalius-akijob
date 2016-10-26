@@ -12,11 +12,7 @@ html, body {
     margin: 0;
     padding: 0;
 }
-#map {
-    height: 100%;
-    margin-left: -15px;
-    margin-right: -15px;
-}
+
 .controls {
     margin-top: 10px;
     border: 1px solid transparent;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 25-Out-2016 às 03:36
+-- Generation Time: 26-Out-2016 às 15:18
 -- Versão do servidor: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -5923,19 +5923,20 @@ CREATE TABLE `tb_services` (
   `zip_code` int(11) DEFAULT NULL,
   `latitude` varchar(30) DEFAULT NULL,
   `longitude` varchar(30) DEFAULT NULL,
-  `description` text,
-  `id_job` int(11) DEFAULT NULL
+  `qualification` text,
+  `id_job` int(11) DEFAULT NULL,
+  `availability_fds` int(1) NOT NULL DEFAULT '0',
+  `availability_24h` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `tb_services`
 --
 
-INSERT INTO `tb_services` (`id`, `id_user`, `address`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `description`, `id_job`) VALUES
-(1, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.789281266208205', '-39.044530391693115', NULL, NULL),
-(2, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.787497033701829', '-39.04719114303589', NULL, NULL),
-(3, 1, 'Praça 7 De Setembro', 84, 'próximo ao colégio leolina', 'centro', 203, 45630000, '-14.786957611684453', '-39.04822111129761', NULL, 1),
-(4, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.785671292233273', '-39.049808979034424', 'Teste', 2);
+INSERT INTO `tb_services` (`id`, `id_user`, `address`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `qualification`, `id_job`, `availability_fds`, `availability_24h`) VALUES
+(1, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, 45630000, '-14.67134522684841', '-39.37327802181244', '', 1, 0, 0),
+(2, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.793057151744835', '-39.0488862991333', '', 1, 1, 1),
+(3, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.786584164887117', '-39.05697584152222', 'teste', 6, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -6114,7 +6115,7 @@ ALTER TABLE `tb_jobs_types`
 -- AUTO_INCREMENT for table `tb_services`
 --
 ALTER TABLE `tb_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tb_states`
 --

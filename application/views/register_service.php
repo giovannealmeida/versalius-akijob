@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -11,22 +12,9 @@
         <script src="http://formvalidation.io/vendor/formvalidation/js/formValidation.min.js"></script>
         <script src="http://formvalidation.io/vendor/formvalidation/js/framework/bootstrap.min.js"></script>
         <title>Places Searchbox</title>
-        <style type="text/css">
-            #registerService .has-error .control-label,
-            #registerService .has-error .help-block,
-            #registerService .has-error .form-control-feedback {
-                color: #f39c12;
-            }
-
-            #registerService .has-success .control-label,
-            #registerService .has-success .help-block,
-            #registerService .has-success .form-control-feedback {
-                color: #18bc9c;
-            }
-        </style>
     </head>
     <body>
-        <div class="container" style="height:50%;">
+        <div class="container">
             <h2>Cadastro de serviços</h2>
             <br>
             <?php echo form_open('register_service/index', array('id' => "registerService")); ?>
@@ -123,9 +111,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="height: 100%;">
+                <div class="col-md-12">
                     <!-- BEGIN MAPA -->
-                    <div id="map" style="width:100%;height: 500px;"></div>
+                    <div id="map" style="width:100%;height: 500px; margin-left: 0px"></div>
                     <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
                     <!-- END MAPA-->
                 </div>
@@ -138,62 +126,12 @@
             </div>
             <?php echo form_close(); ?>
         </div>
-        <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
+        <script src="<?= base_url('/assets/js/changeCity.js'); ?>" type="text/javascript"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initAutocomplete" async defer></script>
         <script src="<?= base_url('/assets/js/google_maps/mapsRegister.js'); ?>" type="text/javascript"></script>
-
-        <script> setLatLng(<?= $coordinates[0]['latitude'] ?>, <?= $coordinates[0]['longitude'] ?>);</script>
-        <script src="<?= base_url('/assets/js/changeCity.js'); ?>" type="text/javascript"></script>
         <link href="<?= base_url('/assets/css/google_maps/mapsRegister.css'); ?>" rel="stylesheet" type="text/css" />
-
-        <script>
-            $(document).ready(function () {
-                $('#registerService').formValidation({
-                    framework: 'bootstrap',
-                    icon: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    fields: {
-                        address: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'O endereço é obrigatório'
-                                }
-                            }
-                        },
-                        neighborhood: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'O bairro é obrigatório'
-                                }
-                            }
-                        },
-                        selectState: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'O estado é obrigatório'
-                                }
-                            }
-                        },
-                        selectCity: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'O cidade é obrigatório'
-                                }
-                            }
-                        },
-                        zipCode: {
-                            validators: {
-                                notEmpty: {
-                                    message: 'O cep é obrigatório'
-                                }
-                            }
-                        }
-                    }
-                });
-            });
-        </script>
+        <script> setLatLng(<?= $coordinates[0]['latitude'] ?>, <?= $coordinates[0]['longitude'] ?>);</script>
+        <link href="<?= base_url('/assets/css/validation-register-service.css'); ?>" rel="stylesheet" type="text/css" />
+        <script src="<?= base_url('/assets/js/validation-register-service.js'); ?>" type="text/javascript"></script>
     </body>
 </html>
