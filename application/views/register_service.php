@@ -5,10 +5,13 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="<?= base_url('/assets/css/style.css'); ?>" rel="stylesheet" type="text/css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="<?= base_url('/assets/css/bootstrap-select.min.css'); ?>" rel="stylesheet" type="text/css" />
         <script src="<?= base_url('/assets/js/bootstrap-select.min.js'); ?>" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js" type="text/javascript"></script>
+        <script src="<?= base_url('/assets/js/mask.js'); ?>" type="text/javascript"></script>
         <script src="http://formvalidation.io/vendor/formvalidation/js/formValidation.min.js"></script>
         <script src="http://formvalidation.io/vendor/formvalidation/js/framework/bootstrap.min.js"></script>
         <title>Places Searchbox</title>
@@ -29,6 +32,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <?php echo form_label('Endereço: ', 'address'); ?>
+                        <span class="required">*</span>
                         <?php echo form_input(array('name' => 'address', 'class' => 'form-control', 'id' => 'address', 'placeholder' => "Endereço"), set_value('address')); ?>
                     </div>
                 </div>
@@ -49,12 +53,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <?php echo form_label('Bairro: ', 'neighborhood'); ?>
+                        <span class="required">*</span>
                         <?php echo form_input(array('name' => 'neighborhood', 'class' => 'form-control', 'id' => 'neighborhood', 'placeholder' => "Bairro"), set_value('neighborhood')); ?>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <?php echo form_label('Estado: ', 'name'); ?>
+                        <span class="required">*</span>
                         <?php $optionsState = array("" => "--"); ?>
                         <?php foreach ($states as $state) : ?>
                             <?php $optionsState += array($state['id'] => $state['name'] . ' - ' . $state['initials']); ?>
@@ -65,6 +71,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <?php echo form_label('Cidade: ', 'name'); ?>
+                        <span class="required">*</span>
                         <?php $optionsCity = array(NULL => "--") ?>
                         <?php if (isset($citys)) : ?>
                             <?php foreach ($citys as $city) : ?>
@@ -79,12 +86,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <?php echo form_label('CEP: ', 'zipCode'); ?>
-                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control', 'id' => 'zipCode'), set_value('zipCode')); ?>
+                        <span class="required">*</span>
+                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control zipCode', 'id' => 'zipCode'), set_value('zipCode')); ?>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <?php echo form_label('Serviço(s): ', 'name'); ?>
+                        <span class="required">*</span>
                         <?php foreach ($jobs as $job): ?>
                             <?php $optionsService[$job['id']] = $job['name']; ?>
                         <?php endforeach; ?>
@@ -113,15 +122,23 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN MAPA -->
+                    <label class="control-label">Click no mapa para marcar sua localização</label>
+                     <span class="required"> * </span>
                     <div id="map" style="width:100%;height: 500px; margin-left: 0px"></div>
                     <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
                     <!-- END MAPA-->
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label" style="margin-top: 3%">Itens com asteríscos são obrigatórios</label>
+                    <span class="required"> * </span>
+                </div>
+            </div>
             <div class = "row">
                 <div style="margin-top: 30px; margin-bottom: 30px; float: right;">
                     <button type="button" class="btn btn-danger" id="cancel">Cancelar</button>
-                    <input type="submit" class="btn btn-success" value="Cadastrar">
+                    <input type="submit" class="btn btn-success" value="Cadastrar" onclick="return confirm('Confirma o cadastro?')">
                 </div>
             </div>
             <?php echo form_close(); ?>

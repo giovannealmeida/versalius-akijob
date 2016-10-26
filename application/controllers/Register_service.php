@@ -12,7 +12,6 @@ class Register_service extends CI_Controller {
         $this->load->model("City_model");
 
         if ($this->input->post() != NULL) {
-            print_r("Teste");die;
             $this->load->library('form_validation');
 
             $this->form_validation->set_rules('selectService[]', 'Serviço(s)', 'required');

@@ -51,3 +51,7 @@ a.logout {
     top: 46px;
     right: 45px;
 }
+
+.required{
+      color:red;
+}
