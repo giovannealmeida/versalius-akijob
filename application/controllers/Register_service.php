@@ -20,8 +20,10 @@ class Register_service extends CI_Controller {
             $this->form_validation->set_rules('selectState', 'Estado', 'required');
             $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
             $this->form_validation->set_rules('zipCode', 'CEP', 'required');
+            $this->form_validation->set_rules('latitude', 'Latitude', 'required|callback_points_maps');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+            $this->form_validation->set_message('points_maps', 'Click no mapa para marcar sua localização');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
             if ($this->form_validation->run() !== FALSE) {
@@ -65,8 +67,15 @@ class Register_service extends CI_Controller {
 
         $this->load->view("register_service.php", $data);
     }
-    
-    public function cancel(){
+
+    public function points_maps() {
+        if ($this->input->post('latitude') == NULL)
+            return FALSE;
+        else
+            return TRUE;
+    }
+
+    public function cancel() {
         redirect('profile');
     }
 

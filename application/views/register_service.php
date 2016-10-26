@@ -12,8 +12,8 @@
         <script src="<?= base_url('/assets/js/bootstrap-select.min.js'); ?>" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js" type="text/javascript"></script>
         <script src="<?= base_url('/assets/js/mask.js'); ?>" type="text/javascript"></script>
-        <script src="http://formvalidation.io/vendor/formvalidation/js/formValidation.min.js"></script>
-        <script src="http://formvalidation.io/vendor/formvalidation/js/framework/bootstrap.min.js"></script>
+        <!--<script src="http://formvalidation.io/vendor/formvalidation/js/formValidation.min.js"></script>-->
+        <!--<script src="http://formvalidation.io/vendor/formvalidation/js/framework/bootstrap.min.js"></script>-->
         <title>Places Searchbox</title>
     </head>
     <body>
@@ -119,8 +119,8 @@
                     <div class="form-group">
                         <?php echo form_label('Qualificação: ', 'qualification'); ?>
                         <textarea name="qualification" id="qualification" class="form-control" rows="5" placeholder="Ex. Especialista em assentar piso.
-                                  Ex. Especialista em conserto de carros.
-                                  Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
+Ex. Especialista em conserto de carros.
+Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
                     </div>
                 </div>
             </div>
