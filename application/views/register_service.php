@@ -8,7 +8,22 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="<?= base_url('/assets/css/bootstrap-select.min.css'); ?>" rel="stylesheet" type="text/css" />
         <script src="<?= base_url('/assets/js/bootstrap-select.min.js'); ?>" type="text/javascript"></script>
+        <script src="http://formvalidation.io/vendor/formvalidation/js/formValidation.min.js"></script>
+        <script src="http://formvalidation.io/vendor/formvalidation/js/framework/bootstrap.min.js"></script>
         <title>Places Searchbox</title>
+        <style type="text/css">
+            #registerService .has-error .control-label,
+            #registerService .has-error .help-block,
+            #registerService .has-error .form-control-feedback {
+                color: #f39c12;
+            }
+
+            #registerService .has-success .control-label,
+            #registerService .has-success .help-block,
+            #registerService .has-success .form-control-feedback {
+                color: #18bc9c;
+            }
+        </style>
     </head>
     <body>
         <div class="container" style="height:50%;">
@@ -17,19 +32,8 @@
             <?php echo form_open('register_service/index', array('id' => "registerService")); ?>
             <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude', 'type' => "hidden")); ?>
             <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude', 'type' => "hidden")); ?>
-            <?php if (validation_errors()): ?>
-                <div class="alert alert-danger">
-                    <strong>Erros no formulário!</strong><br/>
-                    <br/>
-                    <?php echo validation_errors(); ?>
-                </div>
-            <?php endif; ?>
             <?php if ($this->session->flashdata("mensagem")) : ?>
                 <div class="alert alert-success">
-                    <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
-                </div>
-            <?php elseif ($this->session->flashdata("erro")): ?>
-                <div class="alert alert-danger">
                     <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
                 </div>
             <?php endif; ?>
@@ -87,7 +91,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <?php echo form_label('CEP: ', 'zipCode'); ?>
-                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control', 'id' => 'zipCode', 'pattern' => "\(\d{2}\)\d{4}-\d{4}"), set_value('zipCode')); ?>
+                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control', 'id' => 'zipCode'), set_value('zipCode')); ?>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -113,8 +117,8 @@
                     <div class="form-group">
                         <?php echo form_label('Qualificação: ', 'qualification'); ?>
                         <textarea name="qualification" id="qualification" class="form-control" rows="5" placeholder="Ex. Especialista em assentar piso.
-Ex. Especialista em conserto de carros. 
-Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
+                                  Ex. Especialista em conserto de carros. 
+                                  Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
                     </div>
                 </div>
             </div>
@@ -135,8 +139,59 @@ Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
         <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initAutocomplete" async defer></script>
         <script src="<?= base_url('/assets/js/google_maps/mapsRegister.js'); ?>" type="text/javascript"></script>
+
         <script> setLatLng(<?= $coordinates[0]['latitude'] ?>, <?= $coordinates[0]['longitude'] ?>);</script>
         <script src="<?= base_url('/assets/js/changeCity.js'); ?>" type="text/javascript"></script>
         <link href="<?= base_url('/assets/css/google_maps/mapsRegister.css'); ?>" rel="stylesheet" type="text/css" />
+
+        <script>
+            $(document).ready(function () {
+                $('#registerService').formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        address: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'O endereço é obrigatório'
+                                }
+                            }
+                        },
+                        neighborhood: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'O bairro é obrigatório'
+                                }
+                            }
+                        },
+                        selectState: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'O estado é obrigatório'
+                                }
+                            }
+                        },
+                        selectCity: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'O cidade é obrigatório'
+                                }
+                            }
+                        },
+                        zipCode: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'O cep é obrigatório'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
