@@ -21,8 +21,13 @@
             <h2>Cadastro de serviços</h2>
             <br>
             <?php echo form_open('register_service/index', array('id' => "registerService")); ?>
-            <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude', 'type' => "hidden")); ?>
-            <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude', 'type' => "hidden")); ?>
+            <?php if (validation_errors()): ?>
+                <div class="alert alert-danger">
+                    <strong>Erros no formulário!</strong><br/>
+                    <br/>
+                    <?php echo validation_errors(); ?>
+                </div>
+            <?php endif; ?>
             <?php if ($this->session->flashdata("mensagem")) : ?>
                 <div class="alert alert-success">
                     <strong><?php echo $this->session->flashdata("mensagem"); ?></strong><br/>
@@ -87,7 +92,7 @@
                     <div class="form-group">
                         <?php echo form_label('CEP: ', 'zipCode'); ?>
                         <span class="required">*</span>
-                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control zipCode', 'id' => 'zipCode'), set_value('zipCode')); ?>
+                        <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control zipCode', 'id' => 'zipCode', 'pattern' => ".{8,}"), set_value('zipCode')); ?>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -119,11 +124,19 @@
                     </div>
                 </div>
             </div>
+            <div class = "row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <?php echo form_label('Click no mapa para marcar sua localização: ', 'latitude'); ?>
+                        <span class="required"> * </span>
+                        <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude', 'type' => "hidden")); ?>
+                        <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude', 'type' => "hidden")); ?>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN MAPA -->
-                    <label class="control-label">Click no mapa para marcar sua localização</label>
-                     <span class="required"> * </span>
                     <div id="map" style="width:100%;height: 500px; margin-left: 0px"></div>
                     <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
                     <!-- END MAPA-->
@@ -137,7 +150,7 @@
             </div>
             <div class = "row">
                 <div style="margin-top: 30px; margin-bottom: 30px; float: right;">
-                    <button type="button" class="btn btn-danger" id="cancel">Cancelar</button>
+                    <a href="<?= base_url('register_service/cancel'); ?>" type="button" class="btn btn-danger" id="cancel">Cancelar</a>
                     <input type="submit" class="btn btn-success" value="Cadastrar" onclick="return confirm('Confirma o cadastro?')">
                 </div>
             </div>
