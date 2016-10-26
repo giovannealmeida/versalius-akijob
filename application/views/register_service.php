@@ -108,7 +108,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <?php echo form_checkbox(array('name' => "availability_fds", 'id' => 'availability_fds', 'value' => 1, 'style' => 'margin:10px', 'checked' => set_checkbox('availability_fds', 1, false))) . form_label('Disponibilidade Final de Semana', 'availability_fds'); ?>
-                        <?php echo form_checkbox(array('name' => 'availability_24h', 'id' => 'availability_24h', 'value' => 1, 'style' => 'margin:10px', 'checked' => set_checkbox('availability_fds', 1, false))) . form_label('Disponibilidade 24h', 'availability_24h'); ?> 
+                        <?php echo form_checkbox(array('name' => 'availability_24h', 'id' => 'availability_24h', 'value' => 1, 'style' => 'margin:10px', 'checked' => set_checkbox('availability_fds', 1, false))) . form_label('Disponibilidade 24h', 'availability_24h'); ?>
                     </div>
                 </div>
             </div>
@@ -117,24 +117,26 @@
                     <div class="form-group">
                         <?php echo form_label('Qualificação: ', 'qualification'); ?>
                         <textarea name="qualification" id="qualification" class="form-control" rows="5" placeholder="Ex. Especialista em assentar piso.
-                                  Ex. Especialista em conserto de carros. 
+                                  Ex. Especialista em conserto de carros.
                                   Ex. Especialista em Java." ><?php echo set_value('qualification'); ?></textarea>
                     </div>
                 </div>
             </div>
-            <?php echo form_close(); ?>
-            <div class="col-md-12" style="height: 100%;">
-                <!-- BEGIN MAPA -->
-                <div id="map"></div>
-                <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
-                <!-- END MAPA-->
+            <div class="row">
+                <div class="col-md-12" style="height: 100%;">
+                    <!-- BEGIN MAPA -->
+                    <div id="map" style="width:100%;height: 500px;"></div>
+                    <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
+                    <!-- END MAPA-->
+                </div>
             </div>
             <div class = "row">
                 <div style="margin-top: 30px; margin-bottom: 30px; float: right;">
-                    <?php echo form_submit('submit', 'Cancelar', array('class' => "btn btn-danger", 'id' => "cancel")); ?>
-                    <?php echo form_submit('submit', 'Cadastrar', array('class' => "btn btn-success", 'id' => "register")); ?>
+                    <button type="button" class="btn btn-danger" id="cancel">Cancelar</button>
+                    <input type="submit" class="btn btn-success" value="Cadastrar">
                 </div>
             </div>
+            <?php echo form_close(); ?>
         </div>
         <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initAutocomplete" async defer></script>

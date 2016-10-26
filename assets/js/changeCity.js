@@ -31,8 +31,4 @@ jQuery(function () {
 
     }); //  end selectEstado OnChange
 
-    $("#register").click(function () {
-        $("#registerService").submit();
-    });
-
 }); // end document ready
