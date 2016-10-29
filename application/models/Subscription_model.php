@@ -11,12 +11,12 @@ class Subscription_model extends CI_Model
 
     public function isSubscribed($id_user)
     {
-        $today = date('Y-m-d'); ;
+        $today = date('Y-m-d');
         $this->db->select('*');
         $this->db->from('tb_subscriptions');
         $this->db->where('id_user',$id_user);
-        $this->db->where('start <=',$today);
-        $this->db->where('end >=',$today);
+        //$this->db->where('start <=',$today);
+        //$this->db->where('end >=',$today);
         $result = $this->db->get();
 
         if ($result->num_rows() > 0) {
@@ -48,6 +48,20 @@ class Subscription_model extends CI_Model
             return $query->result()[0]->end;
         }
 
+        return null;
+    }
+    
+    public function getPlanByUser($idUser)
+    {
+        $this->db->select('p.name, p.price_per_month, p.price_per_year, s.start, s.end');
+        $this->db->from('tb_plans p');
+        $this->db->join('tb_subscriptions s', 'p.id = s.id_plan', "inner");
+        $this->db->where('s.id_user', $idUser);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
         return null;
     }
 

@@ -28,7 +28,7 @@ class Subscribe extends CI_Controller
             show_404();
         }
         $this->subscription->insert($id_user, $id, $period);
-        redirect("profile");
+        redirect("profile/plan");
     }
 
     public function redeem($hash = "")

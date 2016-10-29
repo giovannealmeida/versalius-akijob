@@ -3,7 +3,6 @@ jQuery(function () {
     // $('#selectCidade').append($('<option></option>').val(0).html("Carregando..."));
 
     $("#selectState").change(function () {
-        $nivel = 5;
         var idState = this.value;
         $("#selectCity").empty();
 
@@ -17,7 +16,7 @@ jQuery(function () {
             success: function (result) {
                 $("#selectCity").empty();
                 $.each(JSON.parse(result), function (index, item) {
-                    $('#selectCity').append($('<option></option>').val(item.id).html(item.name));
+                    $('#selectCity').append($('<option></option>').val(index).html(item));
                 });
 
                 $('#selectCity').prop('disabled', false);

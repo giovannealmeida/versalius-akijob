@@ -11,13 +11,18 @@ var map;
 var markers = [];
 var latitude;
 var longitude;
+var dataService;
 
 function setLatLng(lat, lng){
     this.latitude = Number(lat);
     this.longitude = Number(lng);
 }
 
-function initAutocomplete() {
+function setMarker(dataService){
+    this.dataService = dataService;
+}
+
+function initMap() {
 
     var myStyles = [
         {
@@ -117,5 +122,8 @@ function initAutocomplete() {
     function deleteMarkers() {
         clearMarkers();
         markers = [];
+    }
+    if(dataService != undefined){
+        addMarker(dataService);
     }
 }

@@ -9,14 +9,15 @@ class State_model extends CI_Model
         parent::__construct();
     }
 
-    public function getStatesAll(){
+    public function getAll(){
         $query =  $this->db->get("tb_states");
         if ($query->num_rows() > 0) {
-            return $query->result_array();
+            foreach ($query->result() as $gender) {
+                $return[$gender->id] = $gender->name;
+            }
+            return $return;
         } else {
             return null;
         }
-
-
     }
 }
