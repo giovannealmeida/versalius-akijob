@@ -1,57 +1,197 @@
-#main {
-    width: 960px;
-    margin: 50px auto;
-    font-family: raleway;
-}
-h2 {
-    position: relative;
-    background-color: #26c489;
-    text-align: center;
-    border-radius: 10px 10px 0 0;
-    margin: -10px -40px;
-    padding: 30px;
-    color: white;
-}
-hr {
-    border: 0;
-    border-bottom: 1px solid #ccc;
-    margin: 10px -40px;
-    margin-bottom: 30px;
-}
-#login {
-    width: 462px;
-    float: left;
-    border-radius: 10px;
-    font-family: raleway;
-    border: 2px solid #ccc;
-    padding: 10px 40px 34px;
-    margin-top: 0;
-    margin-left: -70px;
-    ;
-    background-color: #DBF6ED;
-}
-img.fb {
-    height: 50px;
-    padding-left: 90px;
-}
-img.fb_profile {
-    height: 50px;
-    padding-right: 20px;
-    margin-left: -410px;
-}
-p.profile_name {
-    font-size: 16px;
-    margin-top: -19px;
-    margin-left: -148px;
-}
-a.logout {
-    position: absolute;
-    font-size: 18px;
-    text-decoration: none;
-    top: 46px;
-    right: 45px;
+html, body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
 }
 
-.required{
-      color:red;
+/* Wrapper for page content to push down footer */
+
+.no-padding-left {
+    padding-left: 0px;
+}
+.no-padding-right {
+    padding-right: 0px;
+}
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+
+#footer {
+    height: 60px;
+    background-color: #2C3E50;
+}
+#footer p {
+    margin: 20px 0;
+    color: white;
+}
+#footer>.container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.navbar-default {
+    background-color: #2C3E50;
+    border: none;
+}
+a.navbar-brand img {
+    height: 30px;
+}
+.navbar-right a {
+    color: white;
+}
+.navbar-right a:hover {
+    text-decoration: underline;
+}
+
+/*///////////////////////////////////////////////////*/
+
+.search-form-container {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    min-height: 170px;
+    padding-top: 20px;
+}
+.search-form {
+    display: inline-block;
+}
+.logo {
+    height: 160px;
+}
+
+/*////////////////////////////////////*/
+
+#main-result, #main-result>.row {
+    height: 100%;
+}
+#main-result>.row {
+    overflow-y: scroll;
+}
+#left {
+    height: 100%;
+}
+#map-canvas {
+    width: 66.6666%;
+    height: calc(100% - 0);
+    position: absolute;
+    right: 16px;
+    top: 50px;
+    bottom: 0;
+    overflow: hidden;
+}
+.list-result li:hover {
+    background-color: #efefef;
+}
+@media(max-width:767px) {
+    .search-navbar {
+        width: 100%;
+    }
+    .score {
+        float: right !important;
+    }
+}
+@media(min-width:768px) {
+    .search-navbar {
+        width: 235px;
+    }
+
+    .score {
+        float: right !important;
+    }
+}
+@media(min-width:992px) {
+    #map-canvas {
+        width: 50%;
+        height: calc(100% - 0);
+        position: absolute;
+        right: 16px;
+        top: 50px;
+        bottom: 0;
+        overflow: hidden;
+    }
+    .search-navbar {
+        width: 200px;
+    }
+
+    .score {
+        float: right !important;
+    }
+}
+@media(min-width:1200px) {
+    #map-canvas {
+        width: 66.6666%;
+        height: calc(100% - 0);
+        position: absolute;
+        right: 16px;
+        top: 50px;
+        bottom: 0;
+        overflow: hidden;
+    }
+    .search-navbar {
+        width: 200px;
+    }
+}
+.likes-buttons-col {
+    padding-top: 11px;
+}
+.address {
+    color: grey;
+    display: block;
+}
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.score {
+    float: left;
+    width: 40px;
+    height: 40px;
+    background: #51d45c;
+    margin-left: 7px;
+    margin-right: 10px;
+    /*margin-top: 11px;*/
+    border-radius: 100%;
+    color: white;
+    line-height: 40px;
+    text-align: center;
+}
+span.list-group-item-heading {
+    font-size: 1.5em;
+    font-weight: bold
+}
+.recomendations {
+    font-size: 0.8em;
+    float: right;
+    margin-right: 10px;
+    color: grey;
+}
+span.job {
+    font-size: 0.8em;
+    float: left;
+    margin-right: 10px;
+    color: grey;
+}
+
+.list-group-item{
+    border-radius: 0px !important;
+    border: none;
+}
+
+.divider{
+    height: 2px;
+    margin-top: 3px;
+    border-bottom: 1px solid lightgrey;
+}
+
+img.tier{
+    height: 20px;
+    margin-bottom: 8px;
 }
