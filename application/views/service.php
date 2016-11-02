@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <?php echo form_label('Serviço(s): ', 'name'); ?>
+                        <?php echo form_label('Serviço(s): ', 'selectService'); ?>
                         <span class="required">*</span>
                         <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectService", 'id' => "selectService",), $jobs, set_value('selectService', isset($dataService) ? $dataService->id_job : "")); ?>
                     </div>

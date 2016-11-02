@@ -1,31 +1,34 @@
 <?php
 
-class Novo extends CI_Controller
-{
-    public function __construct()
-    {
+class Novo extends CI_Controller {
+
+    public function __construct() {
         parent::__construct();
-
-
     }
 
-    public function search()
-	{
+    public function search() {
+        $this->load->model("Services_model", 'service');
+        $this->load->model("City_model", 'city');
+        $data['jobs'] = $this->service->getJobsAll();
+        $data['citys'] = $this->city->getAll();
+        $this->load->view("search", $data);
+    }
 
-        $this->load->view("search");
-	}
+    public function results() {
+        $this->load->model("Services_model", 'service');
+        $this->load->model("City_model", 'city');
+        $data['jobs'] = $this->service->getJobsAll();
+        $data['citys'] = $this->city->getAll();
+        if ($this->input->post() != NULL) {
+            $data['services'] = $this->service->getServicesByIdByCity($this->input->post('selectJob'), $this->input->post('selectCity'));
+            $data['city'] = $this->city->getCityById($this->input->post('selectCity'));
+        }
+        $this->load->view("results", $data);
+    }
 
-    public function results()
-	{
-
-        $this->load->view("results");
-	}
-
-    public function foursquare()
-	{
+    public function foursquare() {
 
         $this->load->view("foursquare_boot");
-	}
-
+    }
 
 }

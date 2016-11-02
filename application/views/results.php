@@ -1,189 +1,331 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<title>Akijob - Resultado</title>
-	<link href="<?=base_url("assets/css/bootstrap.min.css")?>" rel="stylesheet">
-	<link href="<?=base_url("assets/css/style.css")?>" rel="stylesheet">
-	<link href="<?=base_url("assets/css/result.css")?>" rel="stylesheet">
-	<link href="<?=base_url("assets/css/bootstrap-select.min.css")?>" rel="stylesheet">
-
-
-</head>
-
-<body>
-
-	<!-- begin template -->
-	<div class="navbar navbar-custom navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="<?=base_url()?>"><img src="<?=base_url("assets/img/logo-vetor.png")?>" alt="AkiJob" /></a>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-left">
-					<div class="form-group search-navbar">
-						<label class="sr-only" for="services_select">Serviços</label>
-						<select class=" form-control selectpicker" data-live-search="true" data-width="100%">
-							<option>Serviços</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-						</select>
-					</div>
-					<div class="form-group search-navbar">
-						<label class="sr-only" for="city_select ">Cidade</label>
-						<select class=" form-control selectpicker" data-live-search="true" data-width="100%">
-							<option>Cidade</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-						</select>
-					</div>
-					<button type="submit" class="btn btn-primary search-button">Buscar</button>
-				</form>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Login</a></li>
-
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</div>
-
-	<div id="map-canvas" class="hidden-xs hidden-sm"></div>
-	<div class="container-fluid" id="main-result">
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="left">
-
-				<h3>Profissionais Encontrados</h2>
-
-				<hr>
-				<div class="list-container">
-					<div class="list-group ">
-
-						<div class="list-group-item ">
-							<div class="row">
-								<div class="score">
-									<b>10,0</b>
-								</div>
-								<div class="details">
-									<a href="#"><span class="list-group-item-heading">Caíque Martins de Santana </span></a><img src="<?=base_url("assets/img/crown-platina.png")?>" alt="tier" class="tier"/>
-									<small class="address">Rua Valquiria de Oliviera, Santo Antônio</small>
-									<span class="job ">Padeiro</span><span class="recomendations hidden-xs">12 Recomendações</span>
-								</div>
+        <title>Akijob - Resultado</title>
+        <link href="<?= base_url("assets/css/bootstrap.min.css") ?>" rel="stylesheet">
+        <link href="<?= base_url("assets/css/style.css") ?>" rel="stylesheet">
+        <link href="<?= base_url("assets/css/result.css") ?>" rel="stylesheet">
+        <link href="<?= base_url("assets/css/bootstrap-select.min.css") ?>" rel="stylesheet">
 
 
-							</div>
-						</div>
-						<div class="divider"></div>
+    </head>
 
-						<div class="list-group-item ">
-							<div class="row">
-								<div class="score">
-									<b>10,0</b>
-								</div>
-								<div class="details">
-									<a href="#"><span class="list-group-item-heading">Caíque Martins de Santana </span></a><img src="<?=base_url("assets/img/crown-gold.png")?>" alt="tier" class="tier"/>
-									<small class="address">Rua Valquiria de Oliviera, Santo Antônio</small>
-									<span class="job ">Padeiro</span><span class="recomendations hidden-xs">12 Recomendações</span>
-								</div>
+    <body>
+
+        <!-- begin template -->
+        <div class="navbar navbar-custom navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?= base_url() ?>"><img src="<?= base_url("assets/img/logo-vetor.png") ?>" alt="AkiJob" /></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-left" action="<?= base_url("novo/results") ?>" method="post">
+                        <div class="form-group search-navbar">
+                            <label class="sr-only" for="selectJob">Serviços</label>
+                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",), $jobs, set_value('selectJob')); ?>
+                        </div>
+                        <div class="form-group search-navbar">
+                            <label class="sr-only" for="selectCity ">Cidade</label>
+                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, set_value('selectCity')); ?>
+                        </div>
+                        <button type="submit" class="btn btn-primary search-button">Buscar</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Login</a></li>
+
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <div id="map-canvas" class="hidden-xs hidden-sm"></div>
+        <div class="container-fluid" id="main-result">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="left">
+
+                    <h3>Profissionais Encontrados</h2>
+
+                        <hr>
+                        <div class="list-container">
+                            <?php foreach ($services as $key => $service): ?>
+                                <div class="list-group " id="<?= $key ?>">
+                                    <div class="list-group-item ">
+                                        <div class="row">
+                                            <div class="score">
+                                                <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
+                                            </div>
+                                            <div class="details">
+                                                <a href="#"><span class="list-group-item-heading"><?= $service->name ?></span></a> 
+                                                <?php if (($service->positive_recommendations - $service->negative_recommendations) >= 100 && ($service->positive_recommendations - $service->negative_recommendations) <= 1000): ?>
+                                                    <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
+                                                <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 1000 && ($service->positive_recommendations - $service->negative_recommendations) <= 5000): ?>
+                                                    <img src="<?= base_url("assets/img/crown-silver.png") ?>" alt="tier" class="tier"/>
+                                                <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 5000 && ($service->positive_recommendations - $service->negative_recommendations) < 10000): ?>
+                                                    <img src="<?= base_url("assets/img/crown-gold.png") ?>" alt="tier" class="tier"/>
+                                                <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 10000): ?>
+                                                    <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
+                                                <?php endif; ?>
+                                                <small class="address"><?= $service->address . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
+                                                <span class="job "><?= $service->job ?></span>
+                                                <span class="recomendations hidden-xs">
+                                                    <?= $service->positive_recommendations - $service->negative_recommendations ?> Recomendações
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                </div>
+                <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
+                    <div id="floating-panel">
+                        <input id="delete-all-button" type=button value="Limpar">
+                    </div>
+                    <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
+                    <div id="map" style="width: 100%; height: 880px; margin-top: 50px"></div>
+                    <link href="<?= base_url('/assets/css/google_maps/mapsSearch.css'); ?>" rel="stylesheet" type="text/css" />
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                    <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
+                    <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
+                    async defer></script>
+                </div>
+
+            </div>
+        </div>
+        <!-- end template -->
+
+        <script>
+
+            // In the following example, markers appear when the user clicks on the map.
+            // The markers are stored in an array.
+            // The user can then click an option to hide, show or delete the markers.
+            var map;
+            var markers = [];
+            var infoWindows = [];
+            var all_overlays = [];
+
+            function initMap() {
+                var myStyles = [
+                    {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [
+                            {visibility: "off"}
+                        ]
+                    }
+                ];
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: {lat: <?= $city->latitude ?>, lng: <?= $city->longitude ?>},
+                    styles: myStyles
+                });
+
+                var drawingManager = new google.maps.drawing.DrawingManager({
+                    drawingControl: true,
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                        drawingModes: [
+                            google.maps.drawing.OverlayType.CIRCLE,
+                            google.maps.drawing.OverlayType.POLYGON,
+                            google.maps.drawing.OverlayType.POLYLINE,
+                            google.maps.drawing.OverlayType.RECTANGLE
+                        ]
+                    },
+                    circleOptions: {
+                        fillColor: '#ADD8E6',
+                        opacity: 1,
+                        weight: 1,
+                        fillOpacity: 0.4,
+                        clickable: false,
+                        editable: false,
+                        zIndex: 1
+                    }
+                });
+                drawingManager.setMap(map);
+
+                google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
+                    all_overlays.push(event);
+                    verifyMakersInDrawn();
+                });
+                // Create the search box and link it to the UI element.
+                var input = document.getElementById('pac-input');
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                // Bias the SearchBox results towards current map's viewport.
+                map.addListener('bounds_changed', function () {
+                    searchBox.setBounds(map.getBounds());
+                });
+
+                // [START region_getplaces]
+                // Listen for the event fired when the user selects a prediction and retrieve
+                // more details for that place.
+                searchBox.addListener('places_changed', function () {
+                    var places = searchBox.getPlaces();
+
+                    if (places.length == 0) {
+                        return;
+                    }
+
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function (place) {
+                        var icon = {
+                            url: place.icon,
+                            size: new google.maps.Size(71, 71),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(17, 34),
+                            scaledSize: new google.maps.Size(25, 25)
+                        };
+
+                        if (place.geometry.viewport) {
+                            // Only geocodes have viewport.
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    });
+                    map.fitBounds(bounds);
+                });
+
+                google.maps.event.addDomListener(document.getElementById('delete-all-button'), 'click', deleteAllShape);
+                loadMarkers();
+            }
 
 
-							</div>
-						</div>
-						<div class="divider"></div>
+            // Adds a marker to the map and push to the array.
+            function addMarker(location, html) {
+                var marker = new google.maps.Marker({
+                    position: location,
+                    icon: {
+                        url: '../assets/img/marker-default.png',
+                        anchor: new google.maps.Point(10, 10),
+                        scaledSize: new google.maps.Size(50, 50)
+                    },
+                    map: map
+                });
+                setInfo(marker, html);
+                markers.push(marker);
+            }
 
-						<div class="list-group-item ">
-							<div class="row">
-								<div class="score">
-									<b>10,0</b>
-								</div>
-								<div class="details">
-									<a href="#"><span class="list-group-item-heading">Caíque Martins de Santana </span></a><img src="<?=base_url("assets/img/crown-silver.png")?>" alt="tier" class="tier"/>
-									<small class="address">Rua Valquiria de Oliviera, Santo Antônio</small>
-									<span class="job ">Padeiro</span><span class="recomendations hidden-xs">12 Recomendações</span>
-								</div>
+            // Sets the map on all markers in the array.
+            function setMapOnAll(map) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(map);
+                }
+            }
 
+            // Removes the markers from the map, but keeps them in the array.
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
 
-							</div>
-						</div>
-						<div class="divider"></div>
+            // Shows any markers currently in the array.
+            function showMarkers() {
+                setMapOnAll(map);
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setVisible(true);
+                }
+            }
 
-						<div class="list-group-item ">
-							<div class="row">
-								<div class="score">
-									<b>10,0</b>
-								</div>
-								<div class="details">
-									<a href="#"><span class="list-group-item-heading">Caíque Martins de Santana </span></a><img src="<?=base_url("assets/img/crown-bronze.png")?>" alt="tier" class="tier"/>
-									<small class="address">Rua Valquiria de Oliviera, Santo Antônio</small>
-									<span class="job ">Padeiro</span><span class="recomendations hidden-xs">12 Recomendações</span>
-								</div>
+            // Deletes all markers in the array by removing references to them.
+            function deleteMarkers() {
+                clearMarkers();
+                markers = [];
+            }
 
+            function deleteAllShape() {
+                for (var i = 0; i < all_overlays.length; i++) {
+                    all_overlays[i].overlay.setMap(null);
+                }
+                all_overlays = [];
+                showMarkers();
+            }
 
-							</div>
-						</div>
-						<div class="divider"></div>
+            function setInfo(marker, html) {
+                var infowindow = new google.maps.InfoWindow({
+                    content: html
+                });
 
+                infoWindows.push(infowindow);
 
-					</div>
+                marker.addListener('click', function () {
+                    for (var i = 0; i < infoWindows.length; i++) {
+                        infoWindows[i].close();
+                    }
+                    infowindow.open(marker.get('map'), marker);
+                });
+            }
 
-				</div>
-			</div>
-			<div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
-				<!--map-canvas will be postioned here-->
-			</div>
+            function verifyMakersInDrawn() {
+                var i = j = 0;
+                while (j < all_overlays.length) { //número de desenhos
+                    i = 0;
+                    while (i < markers.length) { // Número de marcadors
+                        if (all_overlays[j].type == google.maps.drawing.OverlayType.CIRCLE || all_overlays[j].type == google.maps.drawing.OverlayType.RECTANGLE) {
+                            if (all_overlays[j].overlay.getBounds().contains(markers[i].getPosition())) { //verifica se o marcador está dentro do desenho
+                                markers[i].setMap(map);
+                                markers[i].setVisible(true);
+                            } else {
+                                // remove the ones that are not within the circle's bounds
+                                if (markers[i].visible && j == 0) {
+                                    markers[i].setMap(null);
+                                    markers[i].setVisible(false);
+                                }
+                                //break;
+                            }
+                        } else {
+                            var coordinates = all_overlays[j].overlay.getPath().getArray();
+                            if (google.maps.geometry.poly.containsLocation(markers[i].getPosition(), new google.maps.Polygon({paths: coordinates}))) {
+                                // only do setMap if the marker wasn't already visible 
+                                //if (markers[i].getVisible() != true) {
+                                markers[i].setMap(map);
+                                markers[i].setVisible(true);
+                                //}
+                            } else {
+                                // remove the ones that are not within the circle's bounds
+                                if (markers[i].visible && j == 0) {
+                                    markers[i].setMap(null);
+                                    markers[i].setVisible(false);
+                                }
+                            }
+                        }
+                        i++;
+                    }
+                    j++;
+                }
+            }
 
-		</div>
-	</div>
-	<!-- end template -->
+            function loadMarkers() {
+<?php foreach ($services as $service): ?>
+                    var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
+                    var htm = "<h1><?= $service->name ?></h1><br>" +
+                            "<b>Email: </b><?= $service->email ?><br>" +
+                            "<b>Endereço: </b><?= $service->address ?>, <?= $service->number ?><br>" +
+                            "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
+                            "<b>Complemento: </b><?= $service->complement ?><br>" +
+                            "<b>CEP: </b><?= $service->zip_code ?><br>";
+                    addMarker(location, htm);
+<?php endforeach; ?>
+            }
 
-
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="<?=base_url("assets/js/bootstrap.min.js")?>"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB51cLBRyONHcO6XKZPTThoi2P_PozYezw&callback=initialize"></script>
-	<script src="<?=base_url("assets/js/bootstrap-select.min.js")?>"></script>
-
-	<script type="text/javascript">
-		/* google maps -----------------------------------------------------*/
-		// google.maps.event.addDomListener(window, 'load', initialize);
-
-		function initialize() {
-
-			/* position Amsterdam */
-			var latlng = new google.maps.LatLng(52.3731, 4.8922);
-
-			var mapOptions = {
-				center: latlng,
-				scrollWheel: false,
-				zoom: 13
-			};
-
-			var marker = new google.maps.Marker({
-				position: latlng,
-				url: '/',
-				animation: google.maps.Animation.DROP
-			});
-
-			var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-			marker.setMap(map);
-
-		};
-		/* end google maps -----------------------------------------------------*/
-	</script>
+        </script>
+</html>
 
 </body>
 

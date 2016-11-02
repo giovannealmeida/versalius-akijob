@@ -13,12 +13,12 @@ var latitude;
 var longitude;
 var dataService;
 
-function setLatLng(lat, lng){
+function setLatLng(lat, lng) {
     this.latitude = Number(lat);
     this.longitude = Number(lng);
 }
 
-function setMarker(dataService){
+function setMarker(dataService) {
     this.dataService = dataService;
 }
 
@@ -94,6 +94,11 @@ function initMap() {
         deleteMarkers();
         var marker = new google.maps.Marker({
             position: location,
+            icon: {
+                url: '../assets/img/marker-default.png',
+                anchor: new google.maps.Point(10, 10),
+                scaledSize: new google.maps.Size(50, 50)
+            },
             map: map
         });
         markers.push(marker);
@@ -123,7 +128,7 @@ function initMap() {
         clearMarkers();
         markers = [];
     }
-    if(dataService != undefined){
+    if (dataService != undefined) {
         addMarker(dataService);
     }
 }
