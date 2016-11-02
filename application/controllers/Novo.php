@@ -30,22 +30,4 @@ class Novo extends CI_Controller {
 
         $this->load->view("foursquare_boot");
     }
-
-    public function profile() {
-        $this->load->model("Subscription_model", "subs");
-        $this->load->model("Services_model", "services");
-        $this->load->model("Users_model", "user");
-        $this->load->model("City_model", 'city');
-        $this->load->model("State_model", 'state');
-
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
-        $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
-
-        $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
-        $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
-
-        $this->load->view("profile", $data);
-    }
-
 }
