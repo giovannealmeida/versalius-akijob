@@ -59,35 +59,37 @@
 
                         <hr>
                         <div class="list-container">
-                            <?php foreach ($services as $key => $service): ?>
-                                <div class="list-group" id="line-<?= $key ?>">
-                                    <div class="list-group-item " id="item-<?= $key ?>">
-                                        <div class="row">
-                                            <div class="score">
-                                                <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
-                                            </div>
-                                            <div class="details">
-                                                <a href="#"><span class="list-group-item-heading"><?= $service->name ?></span></a> 
-                                                <?php if (($service->positive_recommendations - $service->negative_recommendations) >= 100 && ($service->positive_recommendations - $service->negative_recommendations) <= 1000): ?>
-                                                    <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
-                                                <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 1000 && ($service->positive_recommendations - $service->negative_recommendations) <= 5000): ?>
-                                                    <img src="<?= base_url("assets/img/crown-silver.png") ?>" alt="tier" class="tier"/>
-                                                <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 5000 && ($service->positive_recommendations - $service->negative_recommendations) < 10000): ?>
-                                                    <img src="<?= base_url("assets/img/crown-gold.png") ?>" alt="tier" class="tier"/>
-                                                <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 10000): ?>
-                                                    <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
-                                                <?php endif; ?>
-                                                <small class="address"><?= $service->address . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
-                                                <span class="job "><?= $service->job ?></span>
-                                                <span class="recomendations hidden-xs">
-                                                    <?= $service->positive_recommendations - $service->negative_recommendations ?> Recomendações
-                                                </span>
+                            <?php if (count($services) > 0): ?>
+                                <?php foreach ($services as $key => $service): ?>
+                                    <div class="list-group" id="line-<?= $key ?>">
+                                        <div class="list-group-item " id="item-<?= $key ?>">
+                                            <div class="row">
+                                                <div class="score">
+                                                    <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
+                                                </div>
+                                                <div class="details">
+                                                    <a href="#"><span class="list-group-item-heading"><?= $service->name ?></span></a> 
+                                                    <?php if (($service->positive_recommendations - $service->negative_recommendations) >= 100 && ($service->positive_recommendations - $service->negative_recommendations) <= 1000): ?>
+                                                        <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
+                                                    <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 1000 && ($service->positive_recommendations - $service->negative_recommendations) <= 5000): ?>
+                                                        <img src="<?= base_url("assets/img/crown-silver.png") ?>" alt="tier" class="tier"/>
+                                                    <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 5000 && ($service->positive_recommendations - $service->negative_recommendations) < 10000): ?>
+                                                        <img src="<?= base_url("assets/img/crown-gold.png") ?>" alt="tier" class="tier"/>
+                                                    <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 10000): ?>
+                                                        <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
+                                                    <?php endif; ?>
+                                                    <small class="address"><?= $service->address . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
+                                                    <span class="job "><?= $service->job ?></span>
+                                                    <span class="recomendations hidden-xs">
+                                                        <?= $service->positive_recommendations - $service->negative_recommendations ?> Recomendações
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="divider"></div>
                                     </div>
-                                    <div class="divider"></div>
-                                </div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                 </div>
                 <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
@@ -215,7 +217,6 @@
                     position: location,
                     icon: {
                         url: '../assets/img/marker-default.png',
-                        anchor: new google.maps.Point(10, 10),
                         scaledSize: new google.maps.Size(50, 50)
                     },
                     map: map
@@ -324,16 +325,18 @@
             }
 
             function loadMarkers() {
-<?php foreach ($services as $service): ?>
-                    var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
-                    var htm = "<h1><?= $service->name ?></h1><br>" +
-                            "<b>Email: </b><?= $service->email ?><br>" +
-                            "<b>Endereço: </b><?= $service->address ?>, <?= $service->number ?><br>" +
-                            "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
-                            "<b>Complemento: </b><?= $service->complement ?><br>" +
-                            "<b>CEP: </b><?= $service->zip_code ?><br>";
-                    addMarker(location, htm);
-<?php endforeach; ?>
+<?php if (count($services) > 0) : ?>
+    <?php foreach ($services as $service): ?>
+                        var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
+                        var htm = "<h1><?= $service->name ?></h1><br>" +
+                                "<b>Email: </b><?= $service->email ?><br>" +
+                                "<b>Endereço: </b><?= $service->address ?>, <?= $service->number ?><br>" +
+                                "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
+                                "<b>Complemento: </b><?= $service->complement ?><br>" +
+                                "<b>CEP: </b><?= $service->zip_code ?><br>";
+                        addMarker(location, htm);
+    <?php endforeach; ?>
+<?php endif; ?>
             }
 
             function highlightsDiv(id) {

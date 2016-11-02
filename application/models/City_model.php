@@ -21,18 +21,6 @@ class City_model extends CI_Model {
         }
     }
 
-    public function getStateByCity($id_city) {
-        $this->db->select('id_state');
-        $this->db->from('tb_city');
-        $this->db->where('id', $id_city);
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->result_array()[0]['id_state'];
-        } else {
-            return null;
-        }
-    }
-
     public function getCityById($idCity) {
         $this->db->where('id', $idCity);
         $query = $this->db->get("tb_city");

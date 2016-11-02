@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <?php echo form_label('Estado: ', 'selectState'); ?>
                         <span class="required">*</span>
-                        <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, $state_selected, set_value('selectState')); ?>
+                        <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, $state->id, set_value('selectState')); ?>
                     </div>
                 </div>
                 <div class="col-md-6">

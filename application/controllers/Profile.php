@@ -47,8 +47,8 @@ class Profile extends CI_Controller {
 
         $data['genders'] = $this->gender->getAll();
         $data['states'] = $this->state->getAll();
-        $data['state_selected'] = $this->city->getStateByCity($data['user_profile']->id_city);
-        $data['citys'] = $this->city->getCityByState($data['state_selected']);
+        $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
+        $data['citys'] = $this->city->getCityByState($data['state']->id);
         $this->load->view("profile/profile", $data);
     }
 

@@ -49,7 +49,7 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesByUser($idUser) {
-        $this->db->select('s.id, s.address, s.number, s.complement, s.neighborhood, j.name as job, s.zip_code, c.name as city');
+        $this->db->select('s.id, s.note, j.name as job');
         $this->db->from('tb_services s');
         $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
         $this->db->join('tb_city c', 's.id_city = c.id', "inner");
