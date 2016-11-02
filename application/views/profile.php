@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>Akijob - Perfil</title>
+	<meta name="generator" content="Bootply" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="" />
+	<link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
+	<link href="<?=base_url('assets/css/style.css')?>" rel="stylesheet">
+	<link href="<?=base_url('assets/css/bootstrap-select.min.css')?>" rel="stylesheet">
+
+
+
+	<!--[if lt IE 9]>
+          <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+
+</head>
+
+<!-- HTML code from Bootply.com editor -->
+
+<body>
+
+	<!-- Wrap all page content here -->
+	<div id="main">
+
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="<?=base_url()?>"><img src="<?=base_url('assets/img/logo-vetor.png')?>" alt="AkiJob" /></a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">Minha Conta</a></li>
+						<li><a href="#">Logout</a></li>
+
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+
+		<!-- Begin page content -->
+		<div class="container">
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<img class="app-marker" src="<?=base_url('assets/img/marker.png')?>" alt="" /> Use nosso aplicativo! <a class="pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
+							<img class="img-rounded img-responsive center-block profile-photo" src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/12661910_10201263910395842_3825443503449595796_n.jpg?oh=50529b472045cd4aab65d6171f942e67&amp;oe=58A1BAA5" alt="">
+						</div>
+						<div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+							<span class="profile-name">Filipe Marques</span> <img src="http://localhost/akijob/assets/img/crown-platina.png" alt="tier" class="tier">
+							<a href="#" class="pull-right hidden-xs hidden-sm"><button type="button" class="btn btn-warning">Editar Informações</button></a>
+							<p><small class="address"> <span class="glyphicon glyphicon-map-marker"> </span> Ilhéus, BA</small></p>
+							<p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> filipe.drisostes@gmail.com</small></p>
+							<p><small class="address"><span class="glyphicon glyphicon-phone"></span> (73) 99121-4980</small></p>
+							<p>
+								<small class="text-success">42 Recomendações Positivas</small>
+								<br>
+								<small class="text-danger">13 Recomendações Negativas</small>
+							</p>
+
+							<a href="#" class="pull-right hidden-md hidden-lg"><button type="button" class="btn btn-warning">Editar Informações</button></a>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h3>Serviços</h3>
+						<div class="divider"></div>
+						<!-- <div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+								<div class="service-item service-item-job center-block">
+									<div class="header">
+										<h4>Padeiro</h4>
+									</div>
+									<div class="score-big center-block">
+										<b>10,0</b>
+									</div>
+									<div class="options">
+										<button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+										<button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> Remover</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+								<a href="#">
+									<div class=" service-item service-item-add center-block">
+									</div>
+								</a>
+							</div>
+
+						</div> -->
+						<div class="table-responsive">
+						  <table class="table">
+						    <thead>
+						    	<tr>
+									<th>
+						    			Nome do Serviço
+						    		</th>
+									<th>
+						    			Nota
+						    		</th>
+									<th>
+						    			Opções
+						    		</th>
+
+								</tr>
+						    </thead>
+							<tbody>
+								<tr>
+									<td>
+										Pedreiro
+									</td>
+									<td>
+										10,0
+									</td>
+									<td>
+										<button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Visualizar Anúncio</button>
+										<button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+										<button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> Remover</button>
+									</td>
+
+								</tr>
+								<tr>
+									<td>
+										Pintor
+									</td>
+									<td>
+										7,5
+									</td>
+									<td>
+										<button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Visualizar Anúncio</button>
+										<button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+										<button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> Remover</button>
+									</td>
+
+								</tr>
+							</tbody>
+						  </table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div id="footer">
+		<div class="container">
+			<p>© Copyright 2016 VERSALIUS</p>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+	<script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
+
+	<script src="<?=base_url('assets/js/bootstrap-select.min.js')?>"></script>
+
+
+</body>
+
+</html>
