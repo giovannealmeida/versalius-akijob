@@ -95,7 +95,7 @@ function initMap() {
         var marker = new google.maps.Marker({
             position: location,
             icon: {
-                url: '../../assets/img/marker-default.png',
+                url: '../assets/img/marker-default.png',
                 scaledSize: new google.maps.Size(50, 50)
             },
             map: map
