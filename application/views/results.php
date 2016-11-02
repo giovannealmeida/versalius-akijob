@@ -60,8 +60,8 @@
                         <hr>
                         <div class="list-container">
                             <?php foreach ($services as $key => $service): ?>
-                                <div class="list-group " id="<?= $key ?>">
-                                    <div class="list-group-item ">
+                                <div class="list-group" id="line-<?= $key ?>">
+                                    <div class="list-group-item " id="item-<?= $key ?>">
                                         <div class="row">
                                             <div class="score">
                                                 <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
@@ -117,6 +117,7 @@
             var markers = [];
             var infoWindows = [];
             var all_overlays = [];
+            var id = 0;
 
             function initMap() {
                 var myStyles = [
@@ -220,7 +221,9 @@
                     map: map
                 });
                 setInfo(marker, html);
+                marker.set("id", id);
                 markers.push(marker);
+                id++;
             }
 
             // Sets the map on all markers in the array.
@@ -265,6 +268,7 @@
                 infoWindows.push(infowindow);
 
                 marker.addListener('click', function () {
+                    highlightsDiv(marker.get("id"));
                     for (var i = 0; i < infoWindows.length; i++) {
                         infoWindows[i].close();
                     }
@@ -281,11 +285,15 @@
                             if (all_overlays[j].overlay.getBounds().contains(markers[i].getPosition())) { //verifica se o marcador está dentro do desenho
                                 markers[i].setMap(map);
                                 markers[i].setVisible(true);
+                                $("#line-" + i).show();
+                                $("#item-" + i).show();
                             } else {
                                 // remove the ones that are not within the circle's bounds
                                 if (markers[i].visible && j == 0) {
                                     markers[i].setMap(null);
                                     markers[i].setVisible(false);
+                                    $("#line-" + i).hide();
+                                    $("#item-" + i).hide();
                                 }
                                 //break;
                             }
@@ -296,12 +304,16 @@
                                 //if (markers[i].getVisible() != true) {
                                 markers[i].setMap(map);
                                 markers[i].setVisible(true);
+                                $("#line-" + i).show();
+                                $("#item-" + i).show();
                                 //}
                             } else {
                                 // remove the ones that are not within the circle's bounds
                                 if (markers[i].visible && j == 0) {
                                     markers[i].setMap(null);
                                     markers[i].setVisible(false);
+                                    $("#line-" + i).hide();
+                                    $("#item-" + i).hide();
                                 }
                             }
                         }
@@ -322,6 +334,10 @@
                             "<b>CEP: </b><?= $service->zip_code ?><br>";
                     addMarker(location, htm);
 <?php endforeach; ?>
+            }
+
+            function highlightsDiv(id) {
+                /* Criar função para destacar*/
             }
 
         </script>
