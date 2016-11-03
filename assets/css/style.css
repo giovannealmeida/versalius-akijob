@@ -298,3 +298,7 @@ img.tier {
 .checkbox div.toggle {
     width: 100% !important;
 }
+
+.btn-social{
+    margin-bottom: 10px;
+}

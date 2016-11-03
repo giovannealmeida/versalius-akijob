@@ -30,4 +30,17 @@ class Novo extends CI_Controller {
 
         $this->load->view("foursquare_boot");
     }
+
+    public function cadastro(){
+        $this->load->view("cadastro");
+
+    }
+
+    public function assinatura(){
+        $this->load->view("assinatura");
+    }
+
+    public function senha(){
+        $this->load->view("senha");
+    }
 }
