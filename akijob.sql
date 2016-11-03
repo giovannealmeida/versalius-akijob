@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 26-Out-2016 às 15:18
+-- Generation Time: 03-Nov-2016 às 06:27
 -- Versão do servidor: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -5906,6 +5906,13 @@ CREATE TABLE `tb_plans` (
   `price_per_year` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `tb_plans`
+--
+
+INSERT INTO `tb_plans` (`id`, `name`, `price_per_month`, `price_per_year`) VALUES
+(0, 'Básico', 5, 50);
+
 -- --------------------------------------------------------
 
 --
@@ -5915,28 +5922,37 @@ CREATE TABLE `tb_plans` (
 CREATE TABLE `tb_services` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `address` varchar(256) DEFAULT NULL,
+  `street` varchar(256) DEFAULT NULL,
   `number` int(11) DEFAULT NULL,
   `complement` varchar(256) DEFAULT NULL,
   `neighborhood` varchar(256) DEFAULT NULL,
   `id_city` int(11) DEFAULT NULL,
-  `zip_code` int(11) DEFAULT NULL,
+  `zip_code` varchar(11) DEFAULT NULL,
   `latitude` varchar(30) DEFAULT NULL,
   `longitude` varchar(30) DEFAULT NULL,
-  `qualification` text,
+  `skills` text,
   `id_job` int(11) DEFAULT NULL,
   `availability_fds` int(1) NOT NULL DEFAULT '0',
-  `availability_24h` int(1) NOT NULL DEFAULT '0'
+  `availability_24h` int(1) NOT NULL DEFAULT '0',
+  `note` float(3,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `tb_services`
 --
 
-INSERT INTO `tb_services` (`id`, `id_user`, `address`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `qualification`, `id_job`, `availability_fds`, `availability_24h`) VALUES
-(1, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, 45630000, '-14.67134522684841', '-39.37327802181244', '', 1, 0, 0),
-(2, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.793057151744835', '-39.0488862991333', '', 1, 1, 1),
-(3, 1, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 203, 45630000, '-14.786584164887117', '-39.05697584152222', 'teste', 6, 1, 0);
+INSERT INTO `tb_services` (`id`, `id_user`, `street`, `number`, `complement`, `neighborhood`, `id_city`, `zip_code`, `latitude`, `longitude`, `skills`, `id_job`, `availability_fds`, `availability_24h`, `note`) VALUES
+(13, 2, 'Rua D', 245, '', 'Centro comercial', 379, '45630-000', '-14.791874601253307', '-39.28735077381134', '', 1, 1, 1, 7),
+(14, 2, 'Rua Vila Isabel', 76, '', 'Santo Antônio', 387, '45630-000', '-14.676825279433604', '-39.369147419929504', '', 1, 1, 1, 10),
+(15, 5, 'Praça 7 De Setembro', 84, '', 'centro', 387, '45630000', '-14.679419953417813', '-39.37405586242676', 'Especialista em Alface', 1, 1, 1, 5),
+(16, 5, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, '45630-000', '-14.67223782052776', '-39.37705993652344', '', 1, 0, 0, NULL),
+(17, 5, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, '45630-000', '-14.682367465719281', '-39.378862380981445', '', 1, 0, 0, NULL),
+(18, 5, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, '45630-000', '-14.677427246539862', '-39.389119148254395', '', 1, 0, 0, NULL),
+(19, 5, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, '45630-000', '-14.677593306139725', '-39.36993598937988', '', 1, 0, 0, NULL),
+(20, 5, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, '45630-000', '-14.675060883545099', '-39.37693119049072', '', 1, 0, 0, NULL),
+(21, 5, 'Praça 7 De Setembro', 84, 'Praça 7 De Setembro', 'centro', 387, '45630-000', '-14.673690872217989', '-39.379634857177734', '', 1, 0, 0, NULL),
+(25, 5, 'Rua Osvaldo Cruz', 84, 'Próximo ao Colégio Leolina', 'Centro', 387, '4563-000', '-14.67655543157241', '-39.36920642852783', 'Especialista em gatas', 2, 1, 1, NULL),
+(27, 5, 'Praça 7 De Setembro', 84, 'próximo ao colégio leolina', 'centro', 203, '45630000', '-14.678008454587854', '-39.37053680419922', 'O melhor barbeiro da região', 28, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -6013,17 +6029,20 @@ CREATE TABLE `tb_users` (
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `link_social_media` varchar(255) DEFAULT NULL,
-  `birthday` date DEFAULT NULL
+  `birthday` date DEFAULT NULL,
+  `positive_recommendations` int(11) DEFAULT NULL,
+  `negative_recommendations` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `tb_users`
 --
 
-INSERT INTO `tb_users` (`id`, `id_gender`, `id_city`, `id_facebook`, `id_google`, `name`, `email`, `password`, `link_social_media`, `birthday`) VALUES
-(1, 1, 387, NULL, NULL, 'José Barreto dos Santos Neto', 'jbsneto18@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1993-09-18'),
-(2, 1, 379, NULL, NULL, 'Caíque Martins', 'caique@akijob.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1994-04-07'),
-(3, 1, 366, NULL, NULL, 'Alessandro Barbieri', 'alessandro@akijob.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1990-11-09');
+INSERT INTO `tb_users` (`id`, `id_gender`, `id_city`, `id_facebook`, `id_google`, `name`, `email`, `password`, `link_social_media`, `birthday`, `positive_recommendations`, `negative_recommendations`) VALUES
+(1, 1, 387, NULL, NULL, 'José Barreto dos Santos Neto', 'jbsneto18@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1993-09-18', NULL, NULL),
+(2, 1, 379, NULL, NULL, 'Caíque Martins', 'caique@akijob.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1994-04-07', NULL, NULL),
+(3, 1, 366, NULL, NULL, 'Alessandro Barbieri', 'alessandro@akijob.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, '1990-11-09', NULL, NULL),
+(5, 1, 387, '1117129645038505', NULL, 'José Neto', 'jn18@hotmail.com.br', '6bc73a45324eb4e8184c60f0230a0d03461bc69a', 'https://www.facebook.com/1117129645038505', '1993-09-18', 2051, 6);
 
 --
 -- Indexes for dumped tables
@@ -6115,7 +6134,7 @@ ALTER TABLE `tb_jobs_types`
 -- AUTO_INCREMENT for table `tb_services`
 --
 ALTER TABLE `tb_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `tb_states`
 --
@@ -6125,7 +6144,7 @@ ALTER TABLE `tb_states`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --

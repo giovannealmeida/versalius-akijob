@@ -9,8 +9,8 @@ class Profile extends CI_Controller {
             redirect('login');
         }
     }
-    
-        public function index() {
+
+    public function index() {
         $this->load->model("Subscription_model", "subs");
         $this->load->model("Services_model", "services");
         $this->load->model("Users_model", "user");
@@ -23,6 +23,8 @@ class Profile extends CI_Controller {
 
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
+
+        $data['recommendations'] = $data["user_profile"]->positive_recommendations - $data["user_profile"]->negative_recommendations;
 
         $this->load->view("profile", $data);
     }
@@ -125,23 +127,30 @@ class Profile extends CI_Controller {
         $data["user_profile"] = $this->session->userdata('logged_in');
         $this->load->model("Subscription_model", "subs");
         $data['premium'] = $this->subs->isSubscribed($data["user_profile"]->id);
-        if($data['premium'] == FALSE){
+        if ($data['premium'] == FALSE) {
             $this->load->view('subscribe');
-        }else{
+        } else {
             $data['premium'] = $this->subs->getPlanByUser($data["user_profile"]->id);
             $this->load->view('profile/plan', $data);
         }
     }
 
-    public function deleteService($id) {
-        $this->load->model("Services_model", "services");
-        $delete = $this->services->delete($id);
-        if ($delete) {
-            $this->session->set_flashdata("mensagem", "Serviço excluído com sucesso");
-        } else {
-            $this->session->set_flashdata("erro", "Falha ao excluir! Consulte administrador do sistema");
-        }
-        redirect('profile/services');
+    public function positive_recommendations($idService) {
+        $this->load->model("Users_model", 'user');
+        $data["user_profile"] = $this->session->userdata('logged_in');
+        $form['positive_recommendations'] = $data["user_profile"]->positive_recommendations + 1;
+
+        $this->user->update($data["user_profile"]->id, $form);
+        redirect("service/toView/{$idService}");
+    }
+
+    public function negative_recommendations($idService) {
+        $this->load->model("Users_model", 'user');
+        $data["user_profile"] = $this->session->userdata('logged_in');
+        $form['negative_recommendations'] = $data["user_profile"]->negative_recommendations + 1;
+
+        $this->user->update($data["user_profile"]->id, $form);
+        redirect("service/toView/{$idService}");
     }
 
 }

@@ -29,8 +29,7 @@ class Login extends CI_Controller
             $user = $this->users->getUser($this->input->post('email'), sha1($this->input->post('password')));
             if ($user == null) {
                 $this->session->set_flashdata('account_exists', 1);
-
-                redirect('login/register');
+                $this->session->set_flashdata("login_error", "E-mail ou senha incorretos");
             } else {
 
                 $this->session->set_userdata('logged_in', $user);

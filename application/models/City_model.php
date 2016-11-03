@@ -43,4 +43,20 @@ class City_model extends CI_Model {
         }
     }
 
+    public function getAllWithStateInitials() {
+        $this->db->select('c.id, c.name, s.initials');
+        $this->db->from('tb_city c');
+        $this->db->join('tb_states s', 's.id = c.id_state', "inner");
+
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $city) {
+                $return[$city->id] = $city->name .' - ' . $city->initials;
+            }
+            return $return;
+        } else {
+            return null;
+        }
+    }
+
 }
