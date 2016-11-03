@@ -66,7 +66,7 @@
                 </div>
                 <div class="search-form-container row">
                     <div class="col-lg-8 col-lg-offset-2  ">
-                        <form class="form-inline " id="search-form" action="<?= base_url("novo/results") ?>" method="post">
+                        <form class="form-inline " id="search-form" action="<?= base_url("results") ?>" method="post">
                             <div class="form-group col-xs-12 col-sm-5 col-md-5 col-lg-5 search-element">
                                 <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",), $jobs, set_value('selectJob')); ?>
                             </div>

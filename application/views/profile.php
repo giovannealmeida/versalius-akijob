@@ -43,6 +43,7 @@
                     <div id="navbar" class="navbar-collapse collapse">
 
                         <ul class="nav navbar-nav navbar-right">
+                            <li><a href="<?= base_url("index") ?>">Início</a></li>
                             <li><a href="<?= base_url("profile") ?>">Minha Conta</a></li>
                             <li><a href="<?= base_url("logout") ?>">Logout</a></li>
                         </ul>
