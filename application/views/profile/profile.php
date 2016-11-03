@@ -16,7 +16,7 @@
         <div class="container" id="personal_data">
             <h2>Dados Pessoais</h2>
             <br>
-            <?php echo form_open('profile/index', array('id' => "personalData")); ?>
+            <?php echo form_open('profile/edit', array('id' => "personalData")); ?>
             <?php if (validation_errors()): ?>
                 <div class="alert alert-danger">
                     <strong>Erros no formulário!</strong><br/>

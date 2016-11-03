@@ -57,6 +57,8 @@ class Profile extends CI_Controller {
                 $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
                     $this->session->set_flashdata("mensagem", "Cadastro atualizado com sucesso");
+                    $user = $this->user->getUserById($data["user_profile"]->id);
+                    $this->session->set_userdata('logged_in', $user);
                 } else {
                     $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
                 }
@@ -93,6 +95,8 @@ class Profile extends CI_Controller {
                         $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                         if ($confirmationUpdate) {
                             $this->session->set_flashdata("mensagem", "Senha cadastrada com sucesso");
+                            $user = $this->user->getUserById($data["user_profile"]->id);
+                            $this->session->set_userdata('logged_in', $user);
                         } else {
                             $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
                         }
@@ -141,6 +145,8 @@ class Profile extends CI_Controller {
         $form['positive_recommendations'] = $data["user_profile"]->positive_recommendations + 1;
 
         $this->user->update($data["user_profile"]->id, $form);
+        $user = $this->user->getUserById($data["user_profile"]->id);
+        $this->session->set_userdata('logged_in', $user);
         redirect("service/toView/{$idService}");
     }
 
@@ -148,8 +154,9 @@ class Profile extends CI_Controller {
         $this->load->model("Users_model", 'user');
         $data["user_profile"] = $this->session->userdata('logged_in');
         $form['negative_recommendations'] = $data["user_profile"]->negative_recommendations + 1;
-
         $this->user->update($data["user_profile"]->id, $form);
+        $user = $this->user->getUserById($data["user_profile"]->id);
+        $this->session->set_userdata('logged_in', $user);
         redirect("service/toView/{$idService}");
     }
 

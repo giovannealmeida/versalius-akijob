@@ -18,6 +18,15 @@ class Users_model extends CI_Model {
         return null;
     }
 
+    public function getUserById($id) {
+        $response = $this->db->get_where('tb_users', array('id' => $id));
+
+        if ($response->num_rows() == 1) {
+            return $response->result()[0];
+        }
+        return null;
+    }
+
     // $type pode ser "facebook" ou "google"
     public function getUserExternalAuth($email, $id, $type) {
         $this->db->where('email', $email);
