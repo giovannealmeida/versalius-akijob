@@ -81,7 +81,7 @@
                                 <a class="pull-right hidden-xs hidden-sm btn btn-warning " href="<?= base_url('profile/edit'); ?>">Editar Informações</a>
                                 <p><small class="address"> <span class="glyphicon glyphicon-map-marker"> </span> <?= $city->name . ', ' . $state->initials ?></small></p>
                                 <p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> <?= $user_profile->email ?></small></p>
-                                <p><small class="address"><span class="glyphicon glyphicon-phone"></span> (73) 99121-4980</small></p>
+                                <p><small class="address"><span class="glyphicon glyphicon-phone"></span> <?= $user_profile->phone ?></small></p>
                                 <p>
                                     <small class="text-success"><?= $user_profile->positive_recommendations ?> Recomendações Positivas</small>
                                     <br>

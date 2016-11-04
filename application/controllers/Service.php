@@ -147,6 +147,7 @@ class Service extends CI_Controller {
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
+        $data['portfolios'] = $this->service->getPortfoliosByUser($data["user_profile"]->id);
         $this->load->view("service_view", $data);
     }
 

@@ -83,11 +83,11 @@
                                         <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
                                     <?php endif; ?>
                                     <div class="score-big">
-                                        <?= $dataService->note ?>
+                                        <b><?php echo $dataService->note != NULL ? $dataService->note : '-' ?></b>
                                     </div>
                                     <p><small class="address"> <span class="glyphicon glyphicon-map-marker"> </span> <?= $city->name . ', ' . $state->initials ?></small></p>
                                     <p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> <?= $user_profile->email ?></small></p>
-                                    <p><small class="address"><span class="glyphicon glyphicon-phone"></span> (73) 99121-4980</small></p>
+                                    <p><small class="address"><span class="glyphicon glyphicon-phone"></span> <?= $user_profile->phone ?></small></p>
                                     <p>
                                         <small class="text-success"><?= $user_profile->positive_recommendations ?> Recomendações Positivas</small>
                                         <br>
@@ -143,39 +143,25 @@
                             <h3 class="panel-title">Este são meus últimos trabalhos</h3>
                         </div>
                         <div class="panel-body portfolio-container">
-                            <div class="row">
-                                <div class="col-sm-8 col-sm-offset-2">
-                                    <div class="portfolio-card">
-                                        <div class="portfolio-img">
-                                            <img src="https://wallpaperscraft.com/image/surface_drops_texture_background_lilac_96071_602x339.jpg" alt="" />
-                                        </div>
-                                        <div class="portfolio-text">
-                                            <p>
-                                                Aqui é Body Builder Ipsum PORRA! Que não vai dá rapaiz, não vai dá essa porra. É verão o ano todo vem cumpadi. AHHHHHHHHHHHHHHHHHHHHHH..., porra! Negativa Bambam negativa. Birl! Aqui nóis constrói fibra, não é água com músculo. Bora caralho, você quer
-
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-8 col-sm-offset-2">
-                                    <div class="portfolio-card">
-                                        <div class="portfolio-img">
-                                            <img src="https://wallpaperscraft.com/image/surface_drops_texture_background_lilac_96071_602x339.jpg" alt="" />
-                                        </div>
-                                        <div class="portfolio-text">
-                                            <p>
-                                                Aqui é Body Builder Ipsum PORRA! Que não vai dá rapaiz, não vai dá essa porra. É verão o ano todo vem cumpadi. AHHHHHHHHHHHHHHHHHHHHHH..., porra! Negativa Bambam negativa. Birl! Aqui nóis constrói fibra, não é água com músculo. Bora caralho, você quer
-
-                                            </p>
+                            <?php if (count($portfolios) > 0): ?>
+                                <?php foreach ($portfolios as $portfolio): ?>
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <div class="portfolio-card">
+                                                <div class="portfolio-img">
+                                                    <img alt="images.jpg" 
+                                                         src="data:image/jpeg;base64,<?= $portfolio->image ?>" />
+                                                </div>
+                                                <div class="portfolio-text">
+                                                    <p>
+                                                        <?= $portfolio->description ?>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

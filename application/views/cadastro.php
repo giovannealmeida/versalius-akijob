@@ -138,6 +138,12 @@
                                         <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, isset($user_profile) ? $user_profile->id_city : NULL, set_value('selectCity')); ?>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <?php echo form_label('Telefone', 'phone', array("class" => "col-md-3 control-label")); ?>
+                                    <div class="col-md-9">
+                                        <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile) ? $user_profile->phone : "")); ?>
+                                    </div>
+                                </div>
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Sexo</label>

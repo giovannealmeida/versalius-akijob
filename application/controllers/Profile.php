@@ -54,6 +54,7 @@ class Profile extends CI_Controller {
                 $form['id_city'] = $this->input->post('selectCity');
                 $form['id_gender'] = $this->input->post('gender');
                 $form['birthday'] = $this->input->post('birthDate');
+                $form['phone'] = $this->input->post('phone');
                 $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
                     $this->session->set_flashdata("mensagem", "Cadastro atualizado com sucesso");

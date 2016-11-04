@@ -71,6 +71,15 @@ class Services_model extends CI_Model {
         return NULL;
     }
 
+    public function getPortfoliosByUser($idUser) {
+        $query = $this->db->get_where('tb_portfolios', array('id_user' => $idUser));
+
+        if (count($query->result()) > 0) {
+            return $query->result();
+        }
+        return NULL;
+    }
+
     function insert($data) {
         $this->db->insert('tb_services', $data);
 

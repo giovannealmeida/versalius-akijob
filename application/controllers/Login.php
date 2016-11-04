@@ -88,8 +88,8 @@ class Login extends CI_Controller {
             $this->form_validation->set_rules('password', 'Senha', 'required');
             $this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
-            $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required');
-            $this->form_validation->set_rules('gender', 'Sexo', 'required');
+            $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');
+            $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required|callback_term');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
@@ -102,7 +102,8 @@ class Login extends CI_Controller {
                     "password" => sha1($this->input->post("password")),
                     "birthday" => date('Y-m-d', strtotime($this->input->post("birthDate"))),
                     "id_gender" => $this->input->post("gender"),
-                    "id_city" => $this->input->post('selectCity')
+                    "id_city" => $this->input->post('selectCity'),
+                    "phone" => $this->input->post('phone')
                 );
 
                 $user = $this->users->insert($user_insert);
@@ -113,6 +114,8 @@ class Login extends CI_Controller {
                 }
 
                 $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
+            }else{
+                unset($_POST['termAcceptance']);
             }
         }
 
@@ -150,6 +153,22 @@ class Login extends CI_Controller {
         }
 
         return true;
+    }
+
+    public function gender() {
+        if ($this->input->post('gender') == NULL) {
+            $this->form_validation->set_message('gender', 'Selecione o sexo para continuar');
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    public function term() {
+        if ($this->input->post('termAcceptance') == NULL) {
+            $this->form_validation->set_message('term', 'Para se cadastrar é necessário aceitar o termo de uso');
+            return FALSE;
+        }
+        return TRUE;
     }
 
     public function logout() {
