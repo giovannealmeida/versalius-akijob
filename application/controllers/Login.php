@@ -138,9 +138,6 @@ class Login extends CI_Controller {
         $this->load->view('cadastro', $data);
     }
 
-    public function forgot_password() {
-        $this->load->view('senha');
-    }
 
     public function email_check($str) {
         $this->load->model('Users_model', 'users');
@@ -152,9 +149,7 @@ class Login extends CI_Controller {
         return true;
     }
 
-    public function logout() {
-        session_destroy();
-=======
+
     public function forgot_password($hash = null)
     {
         $data = array("success" => false);
@@ -214,7 +209,6 @@ class Login extends CI_Controller {
 
 
         }
->>>>>>> Stashed changes
 
     }
 
