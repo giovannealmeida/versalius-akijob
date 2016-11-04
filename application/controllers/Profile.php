@@ -38,10 +38,10 @@ class Profile extends CI_Controller {
 
         if ($this->input->post() != NULL) {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('name', 'Nome', 'required');
+            $this->form_validation->set_rules('fullname', 'Nome', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
-            $this->form_validation->set_rules('selectGender', 'Gênero', 'required');
-            $this->form_validation->set_rules('birthday', 'Data de Nascimento', 'required');
+            $this->form_validation->set_rules('gender', 'Gênero', 'required');
+            $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('selectState', 'Estado', 'required');
             $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
 
@@ -49,11 +49,11 @@ class Profile extends CI_Controller {
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
             if ($this->form_validation->run() !== FALSE) {
-                $form['name'] = $this->input->post('name');
+                $form['name'] = $this->input->post('fullname');
                 $form['email'] = $this->input->post('email');
                 $form['id_city'] = $this->input->post('selectCity');
-                $form['id_gender'] = $this->input->post('selectGender');
-                $form['birthday'] = $this->input->post('birthday');
+                $form['id_gender'] = $this->input->post('gender');
+                $form['birthday'] = $this->input->post('birthDate');
                 $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
                     $this->session->set_flashdata("mensagem", "Cadastro atualizado com sucesso");
@@ -66,11 +66,15 @@ class Profile extends CI_Controller {
             }
         }
 
+        $data['action'] = 'profile/edit';
+        $data['title'] = 'Atualizar Dados';
+        $data['titleAction'] = 'Atualizar';
         $data['genders'] = $this->gender->getAll();
         $data['states'] = $this->state->getAll();
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['citys'] = $this->city->getCityByState($data['state']->id);
-        $this->load->view("profile/profile", $data);
+        
+        $this->load->view("cadastro", $data);
     }
 
     public function alterPassword() {

@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <?php echo form_label('Bairro: ', 'neighborhood'); ?>
+                                            <?php echo form_label('Bairro', 'neighborhood'); ?>
                                             <span class="required">*</span>
                                             <?php echo form_input(array('name' => 'neighborhood', 'class' => 'form-control', 'id' => 'neighborhood', 'placeholder' => "Bairro"), set_value('neighborhood', isset($dataService) ? $dataService->neighborhood : "")); ?>
                                         </div>
@@ -128,7 +128,7 @@
 
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <?php echo form_label('Estado: ', 'selectState'); ?>
+                                            <?php echo form_label('Estado', 'selectState'); ?>
                                             <span class="required">*</span>
                                             <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, set_value('selectState', isset($dataService) ? $idState->id : "")); ?>
                                         </div>
@@ -136,7 +136,7 @@
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <?php echo form_label('Cidade: ', 'name'); ?>
+                                            <?php echo form_label('Cidade', 'selectCity'); ?>
                                             <span class="required">*</span>
                                             <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, set_value('selectCity', isset($dataService) ? $dataService->id_city : "")); ?>
                                         </div>
@@ -158,7 +158,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <?php echo form_label('Competências: ', 'skills'); ?>
+                                        <?php echo form_label('Competências', 'skills'); ?>
                                         <textarea class="form-control" name="skills" id="skills" placeholder="Informe aqui sua experiência e capacidade no serviço escolhido"><?php echo set_value('skills', isset($dataService) ? $dataService->skills : ""); ?></textarea>
                                     </div>
                                 </div>

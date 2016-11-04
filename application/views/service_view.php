@@ -215,7 +215,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initMap" async defer></script>
     <script src="<?= base_url('/assets/js/google_maps/mapsRegister.js'); ?>" type="text/javascript"></script>
     <link href="<?= base_url('/assets/css/google_maps/mapsRegister.css'); ?>" rel="stylesheet" type="text/css" />
-    <script> setLatLng(<?= $city->latitude ?>, <?= $city->longitude ?>);</script>
+    <script> setLatLng(<?= $dataService->latitude ?>, <?= $dataService->longitude ?>);</script>
     <?php if (isset($dataService)): ?>
         <script> setMarker({lat:<?= $dataService->latitude ?>, lng:<?= $dataService->longitude ?>});</script>
     <?php endif; ?>

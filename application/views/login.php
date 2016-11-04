@@ -83,7 +83,7 @@
                                     <input class="form-control btn btn-success" type="submit" name="login" value="Login">
                                 </div>
                                 <div class="login-help">
-                                    <a href="<?= base_url("login/register") ?>">Cadastre-se</a> - <a href="#">Esqueceu sua senha?</a>
+                                    <a href="<?= base_url("login/register") ?>">Cadastre-se</a> - <a href="<?= base_url("login/forgot_password") ?>">Esqueceu sua senha?</a>
                                 </div>
                                 <?php form_close(); ?>
                             </div>
