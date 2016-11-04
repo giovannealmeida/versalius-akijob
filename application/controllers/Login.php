@@ -154,8 +154,68 @@ class Login extends CI_Controller {
 
     public function logout() {
         session_destroy();
+=======
+    public function forgot_password($hash = null)
+    {
+        $data = array("success" => false);
+        $this->load->model('Users_model', 'users');
+        if ($hash == null) {
+            if ($this->input->post()) {
+                $email = $this->input->post('email');
+                $exists = $this->users->exists($email);
+                if ($exists) {
+                    $this->load->model('Email_model');
+                    $data['success'] = $this->Email_model->send_forgotten_password($email, $exists);
+                }
 
-        redirect(base_url());
+            }
+
+            $this->load->view('forgot_password', $data);
+        }
+        else {
+            if ($this->input->post()) {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('password', 'password', 'required|min_length[6]');
+                $this->form_validation->set_rules('password2', 'password2', 'required|matches[password]');
+                $this->form_validation->set_message('required', 'Digite todos os campos');
+                $this->form_validation->set_message('matches', 'A senhas devem ser iguais');
+                $this->form_validation->set_message('min_length', 'A senhas deve ter no mínimo 6 caracteres');
+                $this->form_validation->set_error_delimiters('<li>', '</li>');
+
+                if ($this->form_validation->run())
+                {
+
+                    if ($this->session->flashdata("user")) {
+                        $this->db->trans_start();
+
+                        $this->users->update(
+                            $this->session->flashdata("user"),
+                            array("password" => sha1($this->input->post("password")))
+                        );
+                        $this->db->trans_complete();
+
+                        $this->db->where("hash", $hash);
+                        $this->db->delete("tb_forgotten_password_hash");
+                        $data["message"] = "Senha alterada com sucesso";
+                        $this->load->view("message_panel", $data);
+                    }
+                }
+            }
+
+            $id_user = $this->users->forgot_password($hash);
+            if ($id_user) {
+                $this->session->set_flashdata("user", true);
+                $this->load->view('forgot_password_change');
+            } else {
+                $data["message"] = "Este link expirou ou não existe";
+                $this->load->view("message_panel", $data);
+
+            }
+
+
+        }
+>>>>>>> Stashed changes
+
     }
 
 }
