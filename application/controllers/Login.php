@@ -139,35 +139,48 @@ class Login extends CI_Controller {
     }
 
 
-    public function email_check($str) {
-        $this->load->model('Users_model', 'users');
-        if ($this->users->exists($str)) {
-            $this->form_validation->set_message('email_check', 'O email já foi cadastrado');
-            return false;
-        }
-
-        return true;
-    }
-
-
     public function forgot_password($hash = null)
     {
-        $data = array("success" => false);
         $this->load->model('Users_model', 'users');
         if ($hash == null) {
             if ($this->input->post()) {
-                $email = $this->input->post('email');
-                $exists = $this->users->exists($email);
-                if ($exists) {
-                    $this->load->model('Email_model');
-                    $data['success'] = $this->Email_model->send_forgotten_password($email, $exists);
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+                $this->form_validation->set_message('required', 'Digite um endereço de email');
+                $this->form_validation->set_message('valid_email', 'Insira um email válido');
+
+                if ($this->form_validation->run())
+                {
+                    // $this->load->view('forgot_password', $data);
+                    $email = $this->input->post('email');
+                    $exists = $this->users->exists($email);
+                    if ($exists) {
+                        $this->load->model('Email_model');
+                        if ($this->Email_model->send_forgotten_password($email, $exists)) {
+                            $data['message'] = "Enviamos as instruções de recuperação de senha para seu email com sucesso!";
+                        } else{
+                            $data['message'] = "Houve um problema com o envio do email, contate o administrador";
+
+                        }
+                    } else {
+                        $url = base_url("login/forgot_password");
+                        $data['message'] = "Este email não está cadastrado no nosso sistema, <a href=\"{$url}\"> Clique aqui para tentar novamente</a> ";
+
+                    }
+                    $this->load->view("message_panel", $data);
+
+                } else {
+                    $this->load->view('forgot_password');
                 }
+            } else {
+                $this->load->view('forgot_password');
 
             }
 
-            $this->load->view('forgot_password', $data);
         }
         else {
+            $id_user = $this->users->forgot_password($hash);
+
             if ($this->input->post()) {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('password', 'password', 'required|min_length[6]');
@@ -180,36 +193,59 @@ class Login extends CI_Controller {
                 if ($this->form_validation->run())
                 {
 
-                    if ($this->session->flashdata("user")) {
+                    if ($id_user) {
                         $this->db->trans_start();
 
-                        $this->users->update(
-                            $this->session->flashdata("user"),
+                        $result = $this->users->update(
+                            $id_user,
                             array("password" => sha1($this->input->post("password")))
                         );
+
                         $this->db->trans_complete();
 
                         $this->db->where("hash", $hash);
                         $this->db->delete("tb_forgotten_password_hash");
                         $data["message"] = "Senha alterada com sucesso";
                         $this->load->view("message_panel", $data);
+                    } else {
+                        $data["message"] = "Este link expirou ou não existe";
+                        $this->load->view("message_panel", $data);
                     }
+
+                } else {
+                    $this->load->view('forgot_password_change');
+
                 }
-            }
-
-            $id_user = $this->users->forgot_password($hash);
-            if ($id_user) {
-                $this->session->set_flashdata("user", true);
-                $this->load->view('forgot_password_change');
             } else {
-                $data["message"] = "Este link expirou ou não existe";
-                $this->load->view("message_panel", $data);
+                if ($id_user) {
+                    $this->load->view('forgot_password_change');
+                } else {
+                    $data["message"] = "Este link expirou ou não existe";
+                    $this->load->view("message_panel", $data);
+
+                }
 
             }
+
 
 
         }
 
     }
+
+
+
+    public function email_check($str) {
+        $this->load->model('Users_model');
+        if ($this->Users_model->exists($str)) {
+            $this->form_validation->set_message('email_check', 'O email já foi cadastrado');
+            return false;
+        }
+
+        return true;
+    }
+
+
+
 
 }

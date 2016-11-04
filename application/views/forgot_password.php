@@ -60,6 +60,27 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<h4>Insira seu email</h4>
+							<?php if (validation_errors()): ?>
+								<div class="row">
+									<div class="col-xs-12 errors">
+										<ul class=" bg-danger">
+											<?=validation_errors()?>
+										</ul>
+
+									</div>
+								</div>
+
+							<?php endif; ?>
+							<?php if (isset($success) && $success): ?>
+								<div class="row">
+									<div class="col-xs-12 errors">
+										<ul class=" bg-danger">
+											<?=validation_errors()?>
+										</ul>
+									</div>
+								</div>
+							<?php endif; ?>
+
 							<form method="post">
 								<div class="row">
 									<div class="col-xs-12">

@@ -59,7 +59,6 @@ class Users_model extends CI_Model {
     public function update($id_user, $data) {
         $this->db->where('id', $id_user);
         $this->db->update('tb_users', $data);
-
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         }
