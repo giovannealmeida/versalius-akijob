@@ -25,8 +25,15 @@
                                 <?php endif; ?>
                                 <h3 class="text-center"><?= $title ?></h3>
                                 <?php if (isset($user_profile)): ?>
-                                    <div class="bg-info" style="padding:15px; margin-bottom:10px;">
-                                        <p class="text-info">Estamos quase lá! Preencha os dados faltantes</p>
+                                    <?php if ($this->session->flashdata('email_exists')): ?>
+                                        <div class="bg-danger" style="padding:15px; margin-bottom:10px;">
+                                            <p class="text-info">O email já foi cadastrado</p>
+
+                                    <?php else: ?>
+                                        <div class="bg-info" style="padding:15px; margin-bottom:10px;">
+                                            <p class="text-info">Estamos quase lá! Preencha os dados faltantes</p>
+
+                                    <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                                 <?php echo form_open($action, array('id' => "register", "class" => "form-horizontal", "role" => "form")); ?>
