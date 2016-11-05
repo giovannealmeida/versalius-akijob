@@ -102,7 +102,8 @@
                 <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
-                    <!--<link href="<?= base_url('/assets/css/google_maps/mapsSearch.css'); ?>" rel="stylesheet" type="text/css" />-->
+                    <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
+                    <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
                 </div>
