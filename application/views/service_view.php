@@ -15,7 +15,14 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
-                       <img class="img-rounded img-responsive center-block profile-photo" src="<?= $user_profile->avatar ?>" alt="">
+                        <img class="img-rounded img-responsive center-block profile-photo" src="<?php
+                        if ($user_profile->avatar !== null && $user_profile->id_facebook === NULL)
+                            echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
+                        elseif ($user_profile->avatar != NULL && $user_profile->id_facebook !== NULL)
+                            echo $user_profile->avatar;
+                        else
+                            echo base_url('/assets/pages/media/profile/profile_user.png');
+                        ?>" alt="" >
                     </div>
                     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
                         <span class="profile-name"><?= $user_profile->name ?></span>

@@ -50,7 +50,6 @@ class Login extends CI_Controller {
                 $user = null;
             } else { // Realiza cadastro da autenticação externa pelo Facebook
                 // Google não tem todas as informações
-
                 $user_insert = array(
                     'name' => $user_profile['name'],
                     'email' => $user_profile['email'],
@@ -114,6 +113,10 @@ class Login extends CI_Controller {
                     "phone" => $this->input->post('phone')
                 );
 
+                if ($_FILES['avatar']['tmp_name'] !== "") {
+                    $user_insert['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
+                }
+
                 $user = $this->users->insert($user_insert);
 
                 if ($user != null) {
@@ -145,7 +148,10 @@ class Login extends CI_Controller {
         $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email', 'user_photos'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
-        $data['scripts'] = array(base_url("assets/js/changeCity.js"));
+        $data['styles'] = array(base_url("assets/css/style.css"));
+        $data['scripts'] = array(
+            base_url("assets/js/changeCity.js"),
+            base_url("assets/js/funcoes.js"));
         $this->load->view('_inc/header', $data);
         $this->load->view('cadastro');
         $this->load->view('_inc/footer');

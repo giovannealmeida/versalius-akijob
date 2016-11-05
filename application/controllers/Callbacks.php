@@ -65,7 +65,7 @@ class Callbacks extends CI_Controller
                   'link_rede' => "https://www.facebook.com/{$aux->getId()}",
                   'gender' => $aux->getGender(),
                   'birthday' => $aux->getBirthday()->format('d/m/Y'),
-                  'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture',
+                  'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture?width=200',
                   'key' => "id_facebook"
 
               );

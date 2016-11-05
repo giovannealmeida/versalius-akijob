@@ -51,7 +51,7 @@ class Users_model extends CI_Model {
         $query = $this->db->insert("tb_users", $dados);
 
         if ($this->db->affected_rows() == 1) {
-            return ($this->db->get_where("tb_users", $dados)->result()[0]);
+            return ($this->db->get_where("tb_users", array("id" => $this->db->insert_id()))->result()[0]);
         }
 
         return null;
@@ -90,11 +90,12 @@ class Users_model extends CI_Model {
         return null;
     }
 
-    public function forgot_password($hash){
+    public function forgot_password($hash) {
         $query = $this->db->query("SELECT id_user FROM tb_forgotten_password_hash WHERE TIMESTAMPDIFF(MINUTE,time,NOW()) < 80 AND hash = \"{$hash}\"");
         if ($query->num_rows() == 1) {
             return $query->result()[0]->id_user;
         }
         return false;
     }
+
 }

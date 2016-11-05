@@ -12,10 +12,6 @@ class Index extends CI_Controller {
         $data["user_profile"] = $this->session->userdata('logged_in');
         $data['jobs'] = $this->service->getJobsAll();
         $data['citys'] = $this->city->getAllWithStateInitials();
-        // Carregar os styles da página
-        $data["styles"] = array(
-            base_url("assets/css/akijob.css")
-        );
 
         $this->load->view("_inc/header", $data);
         $this->load->view("search");

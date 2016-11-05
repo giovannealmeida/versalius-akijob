@@ -29,8 +29,9 @@ class Subscribe extends CI_Controller
         if ($plan_info == null) {
             show_404();
         }
+        $data['styles'] = array(base_url('assets/css/style.css'));
         $this->subscription->insert($id_user, $id, $period);
-        redirect("profile/plan");
+        redirect("profile/plan", $data);
     }
 
     public function redeem($hash = "")
