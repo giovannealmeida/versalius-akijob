@@ -6,12 +6,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="description" content="" />
-		<title>Akijob</title>
+        <title>Akijob</title>
         <link href="<?= base_url("assets/css/bootstrap.min.css") ?>" rel="stylesheet">
         <link href="<?= base_url("assets/css/style.css") ?>" rel="stylesheet">
         <link href="<?= base_url("assets/css/bootstrap-select.min.css") ?>" rel="stylesheet">
-		<link href="<?= base_url('assets/css/bootstrap-social.css') ?>" rel="stylesheet">
-		<link href="<?= base_url('assets/css/font-awesome.css') ?>" rel="stylesheet">
+        <link href="<?= base_url('assets/css/bootstrap-social.css') ?>" rel="stylesheet">
+        <link href="<?= base_url('assets/css/font-awesome.css') ?>" rel="stylesheet">
+        <link href="<?= base_url('assets/css/akijob.css') ?>" rel="stylesheet">
         <?php if (isset($styles)): ?>
             <?php foreach ($styles as $style): ?>
                 <link href="<?= $style ?>" rel="stylesheet">

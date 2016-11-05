@@ -13,11 +13,6 @@ class Index extends CI_Controller {
         $data['jobs'] = $this->service->getJobsAll();
         $data['citys'] = $this->city->getAllWithStateInitials();
 
-        // Carregar os styles da página
-        $data["styles"] = array(
-            base_url("assets/css/akijob.css")
-        );
-
         $this->load->view("_inc/header", $data);
         $this->load->view("search");
         $this->load->view("_inc/footer");

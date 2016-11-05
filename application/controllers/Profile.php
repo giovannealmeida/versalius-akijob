@@ -28,7 +28,7 @@ class Profile extends CI_Controller {
 
         $this->load->view("_inc/header", $data);
         $this->load->view("profile");
-        $this->load->view("_inc/header");
+        $this->load->view("_inc/footer");
     }
 
     public function edit() {
@@ -76,10 +76,10 @@ class Profile extends CI_Controller {
         $data['states'] = $this->state->getAll();
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['citys'] = $this->city->getCityByState($data['state']->id);
-
+        $data['scripts'] = array(base_url("assets/js/changeCity.js"));
         $this->load->view("_inc/header", $data);
         $this->load->view("cadastro");
-        $this->load->view("_inc/header");
+        $this->load->view("_inc/footer");
 
     }
 

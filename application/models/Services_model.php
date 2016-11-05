@@ -27,7 +27,7 @@ class Services_model extends CI_Model {
         $this->db->where('u.id', $idUser);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
-            return $query->result_array();
+            return $query->result()[0];
         } else {
             return null;
         }

@@ -72,7 +72,6 @@ class Login extends CI_Controller {
         $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
-
         $this->load->view('_inc/header', $data);
         $this->load->view('login');
         $this->load->view('_inc/footer');
@@ -139,7 +138,7 @@ class Login extends CI_Controller {
         $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
-
+        $data['scripts'] = array(base_url("assets/js/changeCity.js"));
         $this->load->view('_inc/header', $data);
         $this->load->view('cadastro');
         $this->load->view('_inc/footer');

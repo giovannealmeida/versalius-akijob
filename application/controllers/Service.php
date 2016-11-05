@@ -69,7 +69,22 @@ class Service extends CI_Controller {
         } else {
             $data['citys'] = $this->city->getCityByState(1);
         }
+        $data['styles'] = array(
+            base_url('assets/css/bootstrap-toggle.min.css'),
+            base_url('/assets/css/google_maps/mapsRegister.css')
+        );
+        $data['scripts'] = array(
+            base_url('assets/js/bootstrap-toggle.min.js'),
+            base_url('assets/js/changeCity.js'),
+            base_url('/assets/js/google_maps/mapsRegister.js')
+        );
+        $data['functions_scripts'] = array(
+            "setLatLng({$data['coordinates']->latitude},{$data['coordinates']->longitude});"
+        );
 
+        if ($this->input->post('latitude')) {
+            array_push($data['functions_scripts'], "setMarker({lat: {$this->input->post('latitude')}, lng:{$this->input->post('longitude')}});");
+        }
         $this->load->view("_inc/header", $data);
         $this->load->view("new_service");
         $this->load->view("_inc/footer");
@@ -135,6 +150,24 @@ class Service extends CI_Controller {
         $data['dataService'] = $this->service->getServicesById($idService);
         $data['idState'] = $this->state->getStateByCity($data['dataService']->id_city);
         $data['citys'] = $this->city->getCityByState($data['idState']->id);
+        $data["styles"] = array(
+            base_url('assets/css/bootstrap-toggle.min.css'),
+            base_url('/assets/css/google_maps/mapsRegister.css')
+        );
+
+        $data['scripts'] = array(
+            base_url('assets/js/bootstrap-toggle.min.js'),
+            base_url('assets/js/changeCity.js'),
+            base_url('/assets/js/google_maps/mapsRegister.js')
+        );
+        $data['functions_scripts'] = array(
+            "setLatLng({$data['dataService']->latitude},{$data['dataService']->longitude});",
+            "setMarker({lat: {$data['dataService']->latitude}, lng:{$data['dataService']->longitude}});"
+        );
+
+        if ($this->input->post('latitude')) {
+            array_push($data['functions_scripts'], "setMarker({lat: {$this->input->post('latitude')}, lng:{$this->input->post('longitude')}});");
+        }
 
         $this->load->view("_inc/header", $data);
         $this->load->view("new_service");
@@ -152,7 +185,17 @@ class Service extends CI_Controller {
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
         $data['portfolios'] = $this->service->getPortfoliosByUser($data["user_profile"]->id);
-        $this->load->view("service_view", $data);
+        $data["styles"] = array(
+            base_url("assets/css/google_maps/mapsRegister.css")
+        );
+
+        $data['scripts'] = array(
+            base_url('/assets/js/google_maps/mapsRegister.js')
+        );
+        $data['functions_scripts'] = array(
+            "setLatLng({$data['dataService']->latitude},{$data['dataService']->longitude});",
+            "setMarker({lat: {$data['dataService']->latitude}, lng:{$data['dataService']->longitude}});"
+        );
         $this->load->view("_inc/header", $data);
         $this->load->view("service_view");
         $this->load->view("_inc/footer");
