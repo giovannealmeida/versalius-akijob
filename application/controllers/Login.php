@@ -37,7 +37,7 @@ class Login extends CI_Controller {
             $user_profile = $this->session->flashdata('user_data')['user_profile'];
 
             if ($this->users->exists($user_profile['email'])) {
-                $user = $this->users->getUserExternalAuth($user_profile['email'], $user_profile['id_auth'], $this->session->flashdata('user_data')['type']);
+                $user = $this->users->getUserExternalAuth($user_profile['email'], $this->session->flashdata('user_data')['type']);
                 if ($user == null) { // Bloquear novo insert
                     $this->session->set_flashdata('email_exists', true);
                     $this->session->set_flashdata('temp_user_data', $user_profile);
@@ -48,17 +48,20 @@ class Login extends CI_Controller {
                 }
 
                 $user = null;
-            } else { // Realiza cadastro da autenticação externa
+            } else { // Realiza cadastro da autenticação externa pelo Facebook
+                // Google não tem todas as informações
 
-                $user_insert = array('name' => $user_profile['name'], 'email' => $user_profile['email'], 'link_social_media' => $user_profile['link_rede'], 'avatar' => $user_profile['picture']);
+                $user_insert = array(
+                    'name' => $user_profile['name'],
+                    'email' => $user_profile['email'],
+                    'link_social_media' => $user_profile['link_rede'],
+                    'avatar' => $user_profile['picture']
+                );
                 $user_insert['id_gender'] = $user_profile['gender'] == 'male' ? 1 : 2;
-                if ($this->session->flashdata('user_data')['type'] == 'facebook') {
-                    $key = 'id_facebook';
-                } else {
-                    $key = 'id_google';
-                }
-                $user_insert[$key] = $user_profile['id_auth'];
-                if (!isset($user_profile['birthday'])) {                            // Verificar campos vazios
+
+
+                $user_insert[$user_profile['key']] = $user_profile['id_auth'];
+                if (!isset($user_profile['birthday'])) {                            // Verificar campos vazios - Google sempre cai aqui
                     $this->session->set_flashdata("temp_user_data", $user_insert);
                     redirect("login/register");
                 }

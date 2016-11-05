@@ -24,7 +24,13 @@
                                     <div class="divider"></div>
                                 <?php endif; ?>
                                 <h3 class="text-center"><?= $title ?></h3>
+                                <?php if (isset($user_profile)): ?>
+                                    <div class="bg-info" style="padding:15px; margin-bottom:10px;">
+                                        <p class="text-info">Estamos quase lá! Preencha os dados faltantes</p>
+                                    </div>
+                                <?php endif; ?>
                                 <?php echo form_open($action, array('id' => "register", "class" => "form-horizontal", "role" => "form")); ?>
+
                                 <?php if (validation_errors()): ?>
                                     <div class="alert alert-danger">
                                         <strong>Erros no formulário!</strong><br/>
@@ -121,7 +127,7 @@
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <div class="col-xs-4 col-xs-offset-4 ">
-                                        <input type="submit" class="btn btn-primary btn-block btn-lg" value="<?= $titleAction ?>" onclick="return confirm('Tem certeza que deseja <?= $titleAction ?>?')">
+                                        <input type="submit" class="btn btn-primary btn-block btn-lg" value="<?= $titleAction ?>">
                                     </div>
                                 </div>
                                 <?php form_close() ?>

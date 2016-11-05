@@ -28,15 +28,15 @@ class Users_model extends CI_Model {
     }
 
     // $type pode ser "facebook" ou "google"
-    public function getUserExternalAuth($email, $id, $type) {
+    public function getUserExternalAuth($email, $type) {
         $this->db->where('email', $email);
-        if ($type == 'facebook') {
-            $this->db->where("id_facebook", $id);
-        } elseif ($type == 'google') {
-            $this->db->where("id_google", $id);
-        } else {
-            return null;
-        }
+        // if ($type == 'facebook') {
+        //     $this->db->where("id_facebook", $id);
+        // } elseif ($type == 'google') {
+        //     $this->db->where("id_google", $id);
+        // } else {
+        //     return null;
+        // }
         $response = $this->db->get('tb_users');
 
         if ($response->num_rows() == 1) {

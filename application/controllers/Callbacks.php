@@ -27,11 +27,11 @@ class Callbacks extends CI_Controller
                 'link_rede' => $aux['link'],
                 'gender' => $aux['gender'],
                 'picture' => $aux['picture'],
+                'key' => "id_google"
             );
             $data["type"] = "google";
 
             $this->session->set_flashdata("user_data", $data);
-
             redirect('login');
         }
     }
@@ -66,6 +66,8 @@ class Callbacks extends CI_Controller
                   'gender' => $aux->getGender(),
                   'birthday' => $aux->getBirthday()->format('d/m/Y'),
                   'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture',
+                  'key' => "id_facebook"
+
               );
                 $location_id = $response->getGraphUser()->getLocation()->getId();
                 array_push($data['user_profile'], $this->facebook->get("/{$location_id}?fields=location")->getDecodedBody()['location']);
