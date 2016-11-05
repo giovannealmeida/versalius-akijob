@@ -21,6 +21,7 @@ class Login extends CI_Controller {
 
     public function index() {
         $this->load->model('Users_model', 'users');
+        $this->load->model('City_model', 'city');
 
         if ($this->input->post()) { // Login email/senha
             $user = $this->users->getUser($this->input->post('email'), sha1($this->input->post('password')));
@@ -48,7 +49,7 @@ class Login extends CI_Controller {
 
                 $user = null;
             } else { // Realiza cadastro da autenticação externa
-                $user_insert = array('name' => $user_profile['name'], 'email' => $user_profile['email'], 'link_social_media' => $user_profile['link_rede']);
+                $user_insert = array('name' => $user_profile['name'], 'email' => $user_profile['email'], 'link_social_media' => $user_profile['link_rede'], 'avatar' => $user_profile['picture']);
                 $user_insert['id_gender'] = $user_profile['gender'] == 'male' ? 1 : 2;
                 if ($this->session->flashdata('user_data')['type'] == 'facebook') {
                     $key = 'id_facebook';
@@ -60,7 +61,9 @@ class Login extends CI_Controller {
                     $this->session->set_flashdata("temp_user_data", $user_insert);
                     redirect("login/register");
                 }
-                $user_insert['birthday'] = date('Y-m-d', strtotime($user_profile['birthday']));
+                $date = strtr($user_profile['birthday'], '/', '-');
+                $user_insert['birthday'] = date('Y/m/d', strtotime($date));
+                $user_insert['id_city'] = $this->city->getIdByNameAndState($user_profile[0]['city'], $user_profile[0]['state']);
                 $user = $this->users->insert($user_insert);
 
                 $this->session->set_userdata('logged_in', $user);
@@ -69,7 +72,7 @@ class Login extends CI_Controller {
         }
 
         $helper = $this->facebook->getRedirectLoginHelper();
-        $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email'];
+        $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email', 'user_photos'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
         $this->load->view('_inc/header', $data);
@@ -135,7 +138,7 @@ class Login extends CI_Controller {
             $data['citys'] = $this->city->getCityByState(1);
         }
         $helper = $this->facebook->getRedirectLoginHelper();
-        $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email'];
+        $permissions = ['public_profile ', 'user_hometown', 'user_birthday', 'email', 'user_photos'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
         $data['scripts'] = array(base_url("assets/js/changeCity.js"));

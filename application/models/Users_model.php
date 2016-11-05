@@ -47,6 +47,7 @@ class Users_model extends CI_Model {
     }
 
     public function insert($dados) {
+        //print_r($dados);die;
         $query = $this->db->insert("tb_users", $dados);
 
         if ($this->db->affected_rows() == 1) {

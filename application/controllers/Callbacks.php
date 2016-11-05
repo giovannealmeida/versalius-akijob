@@ -68,7 +68,7 @@ class Callbacks extends CI_Controller
                   'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture',
               );
                 $location_id = $response->getGraphUser()->getLocation()->getId();
-                $data['user_location'] = $this->facebook->get("/{$location_id}?fields=location")->getDecodedBody()['location'];
+                array_push($data['user_profile'], $this->facebook->get("/{$location_id}?fields=location")->getDecodedBody()['location']);
                 $data["type"] = "facebook";
                 $this->session->set_flashdata("user_data", $data);
                 redirect("login");

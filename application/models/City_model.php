@@ -51,9 +51,24 @@ class City_model extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $city) {
-                $return[$city->id] = $city->name .' - ' . $city->initials;
+                $return[$city->id] = $city->name . ' - ' . $city->initials;
             }
             return $return;
+        } else {
+            return null;
+        }
+    }
+
+    public function getIdByNameAndState($city, $initials) {
+        $this->db->select('c.id');
+        $this->db->from('tb_city c');
+        $this->db->join('tb_states s', 's.id = c.id_state', "inner");
+        $this->db->where('c.name', $city);
+        $this->db->where('s.initials', $initials);
+
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result()[0]->id;
         } else {
             return null;
         }
