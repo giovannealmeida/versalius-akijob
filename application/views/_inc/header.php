@@ -50,7 +50,7 @@
                     <div id="navbar" class="navbar-collapse collapse">
 
                         <ul class="nav navbar-nav navbar-right">
-                            <?php if (isset($user_profile)): ?>
+                            <?php if ($this->session->userdata('logged_in')): ?>
                                 <li><a href="<?= base_url("profile") ?>">Minha Conta</a></li>
                                 <li><a href="<?= base_url("logout") ?>">Logout</a></li>
                             <?php else: ?>

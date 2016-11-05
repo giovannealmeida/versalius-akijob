@@ -138,7 +138,7 @@ class Login extends CI_Controller {
             $data['citys'] = $this->city->getCityByState(1);
         }
         $helper = $this->facebook->getRedirectLoginHelper();
-        $permissions = ['public_profile ', 'user_hometown', 'user_birthday', 'email', 'user_photos'];
+        $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email', 'user_photos'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
         $data['scripts'] = array(base_url("assets/js/changeCity.js"));
