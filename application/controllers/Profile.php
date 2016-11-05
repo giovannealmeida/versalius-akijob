@@ -26,7 +26,9 @@ class Profile extends CI_Controller {
 
         $data['recommendations'] = $data["user_profile"]->positive_recommendations - $data["user_profile"]->negative_recommendations;
 
-        $this->load->view("profile", $data);
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile");
+        $this->load->view("_inc/header");
     }
 
     public function edit() {
@@ -74,8 +76,11 @@ class Profile extends CI_Controller {
         $data['states'] = $this->state->getAll();
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['citys'] = $this->city->getCityByState($data['state']->id);
-        
-        $this->load->view("cadastro", $data);
+
+        $this->load->view("_inc/header", $data);
+        $this->load->view("cadastro");
+        $this->load->view("_inc/header");
+
     }
 
     public function alterPassword() {
@@ -120,7 +125,9 @@ class Profile extends CI_Controller {
                 redirect('profile/alterPassword');
             }
         }
-        $this->load->view("profile/alterPassword", $data);
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/alterPassword");
+        $this->load->view("_inc/footer");
     }
 
     public function services() {
@@ -129,7 +136,11 @@ class Profile extends CI_Controller {
         $data["user_profile"] = $this->session->userdata('logged_in');
         $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
         $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
+
+        $this->load->view("_inc/header", $data);
         $this->load->view("profile/services", $data);
+        $this->load->view("_inc/footer");
+
     }
 
     public function plan() {
@@ -137,10 +148,16 @@ class Profile extends CI_Controller {
         $this->load->model("Subscription_model", "subs");
         $data['premium'] = $this->subs->isSubscribed($data["user_profile"]->id);
         if ($data['premium'] == FALSE) {
+            $this->load->view("_inc/header", $data);
             $this->load->view('subscribe');
+            $this->load->view("_inc/footer");
+
         } else {
             $data['premium'] = $this->subs->getPlanByUser($data["user_profile"]->id);
-            $this->load->view('profile/plan', $data);
+            $this->load->view("_inc/header", $data);
+            $this->load->view('profile/plan');
+            $this->load->view("_inc/footer");
+
         }
     }
 
