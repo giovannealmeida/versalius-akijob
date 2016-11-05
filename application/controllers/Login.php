@@ -49,6 +49,7 @@ class Login extends CI_Controller {
 
                 $user = null;
             } else { // Realiza cadastro da autenticação externa
+
                 $user_insert = array('name' => $user_profile['name'], 'email' => $user_profile['email'], 'link_social_media' => $user_profile['link_rede'], 'avatar' => $user_profile['picture']);
                 $user_insert['id_gender'] = $user_profile['gender'] == 'male' ? 1 : 2;
                 if ($this->session->flashdata('user_data')['type'] == 'facebook') {
@@ -57,7 +58,7 @@ class Login extends CI_Controller {
                     $key = 'id_google';
                 }
                 $user_insert[$key] = $user_profile['id_auth'];
-                if (!isset($user_profile['birthday'])) {
+                if (!isset($user_profile['birthday'])) {                            // Verificar campos vazios
                     $this->session->set_flashdata("temp_user_data", $user_insert);
                     redirect("login/register");
                 }

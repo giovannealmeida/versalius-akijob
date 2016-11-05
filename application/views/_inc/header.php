@@ -12,7 +12,7 @@
         <link href="<?= base_url("assets/css/bootstrap-select.min.css") ?>" rel="stylesheet">
         <link href="<?= base_url('assets/css/bootstrap-social.css') ?>" rel="stylesheet">
         <link href="<?= base_url('assets/css/font-awesome.css') ?>" rel="stylesheet">
-        <link href="<?= base_url('assets/css/akijob.css') ?>" rel="stylesheet">
+        <!-- <link href="<?= base_url('assets/css/akijob.css') ?>" rel="stylesheet"> -->
         <?php if (isset($styles)): ?>
             <?php foreach ($styles as $style): ?>
                 <link href="<?= $style ?>" rel="stylesheet">
