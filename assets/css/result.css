@@ -48,12 +48,12 @@ body{
     width: 300px;
 }
 
-#floating-panel {
-  position: absolute;
-  top: 10%;
-  left: 64.6%;
-  z-index: 5;
-  background-color: #fff;
-  text-align: center;
-  font-family: 'Roboto','sans-serif';
+#delete-all-button {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: el
 }

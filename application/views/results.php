@@ -53,11 +53,9 @@
                 <!--/.nav-collapse -->
             </div>
         </div>
-        <div id="floating-panel">
-            <input id="delete-all-button" type=button value="Limpar">
-        </div>
-        <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
         <div id="map-canvas" class="hidden-xs hidden-sm"></div>
+        <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
+        <input id="delete-all-button" class="controls" type=button value="Limpar">
         <div class="container-fluid" id="main-result">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="left">
@@ -137,13 +135,23 @@
                                                 map = new google.maps.Map(document.getElementById('map-canvas'), {
                                                     zoom: 15,
                                                     center: {lat: <?= $city->latitude ?>, lng: <?= $city->longitude ?>},
-                                                    styles: myStyles
+                                                    styles: myStyles,
+                                                    mapTypeControlOptions: {
+                                                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                                                        position: google.maps.ControlPosition.RIGHT_TOP
+                                                    }
                                                 });
+
+                                                var input = document.getElementById('pac-input');
+                                                var deleteButton = document.getElementById('delete-all-button');
+                                                var searchBox = new google.maps.places.SearchBox(input);
+                                                map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+                                                map.controls[google.maps.ControlPosition.LEFT_TOP].push(deleteButton);
 
                                                 var drawingManager = new google.maps.drawing.DrawingManager({
                                                     drawingControl: true,
                                                     drawingControlOptions: {
-                                                        position: google.maps.ControlPosition.TOP_CENTER,
+                                                        position: google.maps.ControlPosition.LEFT_TOP,
                                                         drawingModes: [
                                                             google.maps.drawing.OverlayType.CIRCLE,
                                                             google.maps.drawing.OverlayType.POLYGON,
@@ -168,9 +176,6 @@
                                                     verifyMakersInDrawn();
                                                 });
                                                 // Create the search box and link it to the UI element.
-                                                var input = document.getElementById('pac-input');
-                                                var searchBox = new google.maps.places.SearchBox(input);
-                                                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
                                                 // Bias the SearchBox results towards current map's viewport.
                                                 map.addListener('bounds_changed', function () {

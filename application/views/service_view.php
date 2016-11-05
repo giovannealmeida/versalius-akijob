@@ -15,8 +15,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
-                        <img class="img-rounded img-responsive center-block profile-photo" src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/12661910_10201263910395842_3825443503449595796_n.jpg?oh=50529b472045cd4aab65d6171f942e67&amp;oe=58A1BAA5" alt="">
-
+                       <img class="img-rounded img-responsive center-block profile-photo" src="<?= $user_profile->avatar ?>" alt="">
                     </div>
                     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
                         <span class="profile-name"><?= $user_profile->name ?></span>

@@ -95,7 +95,7 @@ class Service extends CI_Controller {
             $this->load->view("new_service");
             $this->load->view("_inc/footer");
         }else{
-            redirect('subscribe/plan');
+            redirect('subscribe');
         }
     }
 
