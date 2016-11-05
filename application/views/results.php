@@ -53,7 +53,10 @@
                 <!--/.nav-collapse -->
             </div>
         </div>
-
+        <div id="floating-panel">
+            <input id="delete-all-button" type=button value="Limpar">
+        </div>
+        <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
         <div id="map-canvas" class="hidden-xs hidden-sm"></div>
         <div class="container-fluid" id="main-result">
             <div class="row">
@@ -97,15 +100,9 @@
                         </div>
                 </div>
                 <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
-                    <div id="floating-panel">
-                        <input id="delete-all-button" type=button value="Limpar">
-                    </div>
-                    <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
-                    <div id="map" style="width: 100%; height: 850px; margin-top: 50px"></div>
-                    <link href="<?= base_url('/assets/css/google_maps/mapsSearch.css'); ?>" rel="stylesheet" type="text/css" />
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
-                    <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
+                    <!--<link href="<?= base_url('/assets/css/google_maps/mapsSearch.css'); ?>" rel="stylesheet" type="text/css" />-->
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
                 </div>
@@ -136,7 +133,7 @@
                                                     }
                                                 ];
 
-                                                map = new google.maps.Map(document.getElementById('map'), {
+                                                map = new google.maps.Map(document.getElementById('map-canvas'), {
                                                     zoom: 15,
                                                     center: {lat: <?= $city->latitude ?>, lng: <?= $city->longitude ?>},
                                                     styles: myStyles
@@ -221,9 +218,9 @@
                                                     position: location,
                                                     animation: google.maps.Animation.DROP,
                                                     /*icon: {
-                                                        url: '../assets/img/marker-default.png',
-                                                        scaledSize: new google.maps.Size(50, 50)
-                                                    },*/
+                                                     url: '../assets/img/marker-default.png',
+                                                     scaledSize: new google.maps.Size(50, 50)
+                                                     },*/
                                                     map: map
                                                 });
                                                 setInfo(marker, html);

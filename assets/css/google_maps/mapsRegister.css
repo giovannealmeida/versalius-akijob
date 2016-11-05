@@ -7,11 +7,6 @@ and open the template in the editor.
     Created on : 17/10/2016, 17:30:41
     Author     : jn18
 */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
 
 .controls {
     margin-top: 10px;

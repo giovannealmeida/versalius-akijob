@@ -11,19 +11,15 @@ class Profile extends CI_Controller {
     }
 
     public function index() {
-        $this->load->model("Subscription_model", "subs");
         $this->load->model("Services_model", "services");
         $this->load->model("Users_model", "user");
         $this->load->model("City_model", 'city');
         $this->load->model("State_model", 'state');
 
         $data["user_profile"] = $this->session->userdata('logged_in');
-        $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
         $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
-
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
-
         $data['recommendations'] = $data["user_profile"]->positive_recommendations - $data["user_profile"]->negative_recommendations;
 
         $this->load->view("_inc/header", $data);
@@ -80,7 +76,6 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/header", $data);
         $this->load->view("cadastro");
         $this->load->view("_inc/footer");
-
     }
 
     public function alterPassword() {
@@ -140,25 +135,6 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/services", $data);
         $this->load->view("_inc/footer");
-
-    }
-
-    public function plan() {
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $this->load->model("Subscription_model", "subs");
-        $data['premium'] = $this->subs->isSubscribed($data["user_profile"]->id);
-        if ($data['premium'] == FALSE) {
-            $this->load->view("_inc/header", $data);
-            $this->load->view('subscribe');
-            $this->load->view("_inc/footer");
-
-        } else {
-            $data['premium'] = $this->subs->getPlanByUser($data["user_profile"]->id);
-            $this->load->view("_inc/header", $data);
-            $this->load->view('profile/plan');
-            $this->load->view("_inc/footer");
-
-        }
     }
 
     public function positive_recommendations($idService) {
