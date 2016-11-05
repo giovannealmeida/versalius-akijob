@@ -144,7 +144,7 @@
 
                 <div class="divider"></div>
 
-                <div class="row">
+                <div class="row button-row">
                     <div class="col-xs-12 col-sm-12 col-md-6  col-lg-2 col-lg-offset-8">
                         <a href="<?= base_url('service/cancel'); ?>" type="button" class="btn btn-danger btn-lg btn-block" id="cancel">Cancelar</a>
                     </div>
@@ -158,5 +158,5 @@
 
     </div>
 </div>
+</div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initMap" async defer></script>
-

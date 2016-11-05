@@ -66,6 +66,18 @@ a.navbar-brand img {
     height: 160px;
 }
 
+.search-element{
+    height: 45.6px;
+
+}
+
+.search-element .bootstrap-select{
+    height: 100%;
+}
+
+.search-element .bootstrap-select button{
+    height: 100%;
+}
 /*////////////////////////////////////*/
 
 #main-result, #main-result>.row {
@@ -302,4 +314,12 @@ div.errors{
 div.errors ul{
     padding: 15px;
     list-style: none;
+}
+
+.button-row{
+    margin: 10px 0 ;
+}
+
+.button-row .btn{
+    margin-bottom: 5px;
 }

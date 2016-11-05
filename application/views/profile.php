@@ -1,13 +1,13 @@
 
             <!-- Begin page content -->
             <div class="container">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <img class="app-marker" src="<?= base_url('assets/img/marker.png') ?>" alt="" /> Use nosso aplicativo! <a class="pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -68,6 +68,8 @@
                                     </div>
 
                             </div> -->
+                            <a href="<?=base_url("service/novo")?>"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>  Novo Serviço</button></a>
+
                             <div class="table-responsive">
                                 <?php if ($this->session->flashdata("mensagem_service")) : ?>
                                     <div class="alert alert-success">
