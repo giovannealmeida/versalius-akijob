@@ -302,3 +302,12 @@ img.tier {
 .btn-social{
     margin-bottom: 10px;
 }
+
+div.errors{
+    color: red;
+}
+
+div.errors ul{
+    padding: 15px;
+    list-style: none;
+}

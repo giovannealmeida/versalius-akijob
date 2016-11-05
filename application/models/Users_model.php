@@ -59,7 +59,6 @@ class Users_model extends CI_Model {
     public function update($id_user, $data) {
         $this->db->where('id', $id_user);
         $this->db->update('tb_users', $data);
-
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         }
@@ -84,10 +83,17 @@ class Users_model extends CI_Model {
         $response = $this->db->get_where('tb_users', array('email' => $email));
 
         if ($response->num_rows() == 1) {
-            return true;
+            return $response->result()[0]->id;
         }
 
         return null;
     }
 
+    public function forgot_password($hash){
+        $query = $this->db->query("SELECT id_user FROM tb_forgotten_password_hash WHERE TIMESTAMPDIFF(MINUTE,time,NOW()) < 80 AND hash = \"{$hash}\"");
+        if ($query->num_rows() == 1) {
+            return $query->result()[0]->id_user;
+        }
+        return false;
+    }
 }
