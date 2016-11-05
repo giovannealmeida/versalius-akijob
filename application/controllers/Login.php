@@ -73,7 +73,9 @@ class Login extends CI_Controller {
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
 
-        $this->load->view('login', $data);
+        $this->load->view('_inc/header', $data);
+        $this->load->view('login');
+        $this->load->view('_inc/footer');
     }
 
     public function register() {
@@ -135,12 +137,16 @@ class Login extends CI_Controller {
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
 
-        $this->load->view('cadastro', $data);
+        $this->load->view('_inc/header', $data);
+        $this->load->view('cadastro');
+        $this->load->view('_inc/footer');
     }
 
 
     public function forgot_password($hash = null)
     {
+        $this->load->view('_inc/header');
+
         $this->load->model('Users_model', 'users');
         if ($hash == null) {
             if ($this->input->post()) {
@@ -176,6 +182,7 @@ class Login extends CI_Controller {
                 $this->load->view('forgot_password');
 
             }
+            $this->load->view('_inc/footer');
 
         }
         else {

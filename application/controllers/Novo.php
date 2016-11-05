@@ -37,7 +37,9 @@ class Novo extends CI_Controller {
     }
 
     public function assinatura(){
+        $this->load->view("_inc/header");
         $this->load->view("assinatura");
+        $this->load->view("_inc/footer");
     }
 
     public function senha(){

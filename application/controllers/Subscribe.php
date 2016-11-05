@@ -9,7 +9,9 @@ class Subscribe extends CI_Controller
 
     public function index()
     {
+        $this->load->view('_inc/header');
         $this->load->view('subscribe');
+        $this->load->view('_inc/footer');
     }
 
     public function plan($id, $period)

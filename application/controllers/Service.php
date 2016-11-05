@@ -70,7 +70,9 @@ class Service extends CI_Controller {
             $data['citys'] = $this->city->getCityByState(1);
         }
 
-        $this->load->view("new_service", $data);
+        $this->load->view("_inc/header", $data);
+        $this->load->view("new_service");
+        $this->load->view("_inc/footer");
     }
 
     public function edit($idService) {
@@ -134,7 +136,9 @@ class Service extends CI_Controller {
         $data['idState'] = $this->state->getStateByCity($data['dataService']->id_city);
         $data['citys'] = $this->city->getCityByState($data['idState']->id);
 
-        $this->load->view("new_service", $data);
+        $this->load->view("_inc/header", $data);
+        $this->load->view("new_service");
+        $this->load->view("_inc/footer");
     }
 
     public function toView($idService) {
@@ -147,7 +151,10 @@ class Service extends CI_Controller {
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
-        $this->load->view("service_view", $data);
+        $this->load->view("_inc/header", $data);
+        $this->load->view("service_view");
+        $this->load->view("_inc/footer");
+
     }
 
     public function points_maps() {

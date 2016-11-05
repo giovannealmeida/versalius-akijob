@@ -11,7 +11,8 @@ html, body {
 .no-padding-right {
     padding-right: 0px;
 }
-#wrap {
+
+#main {
     min-height: 100%;
     height: auto !important;
     height: 100%;
@@ -19,8 +20,8 @@ html, body {
     margin: 0 auto -60px;
     /* Pad bottom by footer height */
     padding: 0 0 60px;
+    background-color: #ECF0F1;
 }
-
 /* Set the fixed height of the footer here */
 
 #footer {
@@ -203,16 +204,7 @@ img.tier {
     height: 20px;
     margin-bottom: 8px;
 }
-#main {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    /* Negative indent footer by its height */
-    margin: 0 auto -60px;
-    /* Pad bottom by footer height */
-    padding: 0 0 60px;
-    background-color: #ECF0F1;
-}
+
 .app-marker {
     height: 38px;
     margin-right: 12px;
