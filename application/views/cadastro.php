@@ -62,13 +62,13 @@
                         <div class="form-group">
                             <?php echo form_label('Nome Completo', 'fullname', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'fullname', 'class' => 'form-control', 'id' => 'fullname', 'placeholder' => "Nome Completo", "autofocus"), set_value('fullname', isset($user_profile) ? $user_profile["name"] : "")); ?>
+                                <?php echo form_input(array('name' => 'fullname', 'class' => 'form-control', 'id' => 'fullname', 'placeholder' => "Nome Completo", "autofocus"), set_value('fullname', isset($user_profile->name) ? $user_profile->name : "")); ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <?php echo form_label('Email', 'email', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'email', 'class' => 'form-control', 'id' => 'email', 'placeholder' => "Email", "autofocus", "type" => "email"), set_value('email', isset($user_profile) ? $user_profile["email"] : "")); ?>
+                                <?php echo form_input(array('name' => 'email', 'class' => 'form-control', 'id' => 'email', 'placeholder' => "Email", "autofocus", "type" => "email"), set_value('email', isset($user_profile->email) ? $user_profile->email : "")); ?>
                             </div>
                         </div>
                         <?php if ($action == 'login/register'): ?>
@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <?php echo form_label('Data de Nascimento', 'birthDate', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'birthDate', 'class' => 'form-control', 'id' => 'birthDate', "type" => "date"), set_value('birthDate', isset($user_profile["birthday"]) ? $user_profile["birthday"] : "")); ?>
+                                <?php echo form_input(array('name' => 'birthDate', 'class' => 'form-control', 'id' => 'birthDate', "type" => "date"), set_value('birthDate', isset($user_profile->birthday) ? $user_profile->birthday : "")); ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -106,7 +106,7 @@
                         <div class="form-group">
                             <?php echo form_label('Telefone', 'phone', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile["phone"]) ? $user_profile["phone"] : "")); ?>
+                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile->phone) ? $user_profile->phone : "")); ?>
                             </div>
                         </div>
                         <!-- /.form-group -->
@@ -116,12 +116,12 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label class="radio-inline">
-                                            <?php echo form_radio(array('name' => 'gender', 'value' => 2, 'checked' => (isset($user_profile["id_gender"]) && 2 == $user_profile["id_gender"]) ? TRUE : set_radio('gender', '2'), 'id' => 'male')) ?>Feminino
+                                            <?php echo form_radio(array('name' => 'gender', 'value' => 2, 'checked' => (isset($user_profile->id_gender) && 2 == $user_profile->id_gender) ? TRUE : set_radio('gender', '2'), 'id' => 'male')) ?>Feminino
                                         </label>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="radio-inline">
-                                            <?php echo form_radio(array('name' => 'gender', 'value' => 1, 'checked' => (isset($user_profile["id_gender"]) && 1 == $user_profile["id_gender"]) ? TRUE : set_radio('gender', '1'), 'id' => 'male')) ?>Masculino
+                                            <?php echo form_radio(array('name' => 'gender', 'value' => 1, 'checked' => (isset($user_profile->id_gender) && 1 == $user_profile->id_gender) ? TRUE : set_radio('gender', '1'), 'id' => 'male')) ?>Masculino
                                         </label>
                                     </div>
 
