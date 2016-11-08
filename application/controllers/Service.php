@@ -103,7 +103,7 @@ class Service extends CI_Controller {
         $this->load->model("Services_model", 'service');
         $this->load->model("State_model", 'state');
         $this->load->model("City_model", 'city');
-        $data['dataService'] = $this->service->getServicesById($this->session->userdata('logged_in')->id, $idService);
+        $data['dataService'] = $this->service->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
         if ($data['dataService']) {
             if ($this->input->post() != NULL) {
                 $this->load->library('form_validation');

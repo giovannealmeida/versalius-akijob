@@ -62,7 +62,16 @@ class Services_model extends CI_Model {
         return NULL;
     }
 
-    public function getServicesById($idUser, $idService) {
+    public function getServicesById($idService) {
+        $query = $this->db->get_where('tb_services', array('id' => $idService));
+
+        if (count($query->result()) > 0) {
+            return $query->result()[0];
+        }
+        return NULL;
+    }
+
+    public function getServicesByIdAndUser($idUser, $idService) {
         $query = $this->db->get_where('tb_services', array('id' => $idService, 'id_user' => $idUser));
 
         if (count($query->result()) > 0) {
