@@ -116,6 +116,7 @@
                                         <a  class="btn btn-info btn-sm" href="<?= base_url("service/toView/{$service->id}"); ?>"><span class="glyphicon glyphicon-eye-openn"></span>Visualizar Anúncio</a>
                                         <a  class="btn btn-warning btn-sm" href="<?= base_url("service/edit/{$service->id}"); ?>"><span class="glyphicon glyphicon-pencil"></span>Editar</a>
                                         <a class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')" href="<?= base_url("service/delete/{$service->id}"); ?>"><span class="glyphicon glyphicon-remove"></span> Remover</a>
+                                        <a class="btn btn-primary btn-sm" href="<?= base_url("service/portifolio/{$service->id}"); ?>"><i class="fa fa-camera-retro" aria-hidden="true"></i> Portifolio</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
