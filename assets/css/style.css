@@ -335,3 +335,16 @@ div.errors ul{
     display: table-cell;
     max-width: 220px;
 }
+
+.hint{
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+p.portifolio-description{
+    margin-top: 10px;
+}
+
+div.portifolio-buttons{
+    margin-top: 10px;
+}
