@@ -110,7 +110,9 @@ class Login extends CI_Controller {
                     "birthday" => date('Y-m-d', strtotime($this->input->post("birthDate"))),
                     "id_gender" => $this->input->post("gender"),
                     "id_city" => $this->input->post('selectCity'),
-                    "phone" => $this->input->post('phone')
+                    "phone" => $this->input->post('phone'),
+                    "avatar" => $this->input->post('avatar'),
+                    "id_google" => $this->input->post('id_google')
                 );
 
                 if ($_FILES['avatar']['tmp_name'] !== "") {
@@ -133,11 +135,6 @@ class Login extends CI_Controller {
         if ($this->session->flashdata('temp_user_data')) {
             $data['user_profile'] = $this->session->flashdata('temp_user_data');
         }
-
-        $data['id'] = NULL;
-        $data['action'] = 'login/register';
-        $data['title'] = 'Cadastrar';
-        $data['titleAction'] = 'Cadastre-se';
         $data['states'] = $this->state->getAll();
         if ($this->input->post('selectState') != NULL) {
             $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));

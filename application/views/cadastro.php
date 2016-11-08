@@ -6,24 +6,22 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php if ($action == 'login/register'): ?>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-2">
-                                <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
-                                    <span class="fa fa-google"></span>Cadastre-se com o Gmail
-                                </a>
-
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4">
-                                <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook ">
-                                    <span class="fa fa-facebook"></span> Cadastre-se com Facebook
-                                </a>
-                            </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-2">
+                            <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
+                                <span class="fa fa-google"></span>Cadastre-se com o Gmail
+                            </a>
 
                         </div>
-                        <div class="divider"></div>
-                    <?php endif; ?>
-                    <h3 class="text-center"><?= $title ?></h3>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook ">
+                                <span class="fa fa-facebook"></span> Cadastre-se com Facebook
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="divider"></div>
+                    <h3 class="text-center">Cadastrar</h3>
                     <?php if (isset($user_profile)): ?>
                         <?php if ($this->session->flashdata('email_exists')): ?>
                             <div class="bg-danger" style="padding:15px; margin-bottom:10px;">
@@ -36,8 +34,9 @@
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
-                        <?php echo form_open($action, array('id' => "register", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data")); ?>
-
+                        <?php echo form_open('login/register', array('id' => "register", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data")); ?>
+                        <?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'name', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>
+                        <?php echo form_input(array('name' => 'id_google', 'class' => 'form-control', 'id' => 'id_google', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['id_google'] : NULL)); ?>
                         <?php if (validation_errors()): ?>
                             <div class="alert alert-danger">
                                 <strong>Erros no formulário!</strong><br/>
@@ -53,7 +52,13 @@
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="text-center">
-                                    <img src="//placehold.it/200" class="avatar img-circle" alt="avatar" id="preview_image" style="max-width: 200px; max-height: 200px;">
+                                    <img src="<?php if (isset($user_profile)): ?>
+                                        <?= $user_profile['avatar'] ?>
+                                    <?php elseif ($this->input->post('avatar') != NULL): ?>
+                                        <?= $this->input->post('avatar') ?>
+                                    <?php else: ?>
+                                        <?= '//placehold.it/200' ?>
+                                         <?php endif; ?>" class="avatar img-circle" alt="avatar" id="preview_image" style="max-width: 200px; max-height: 200px;">
                                     <h5><b>Avatar</b></h5>
                                 </div>
                                 <input type="file" accept="image/*" name="avatar" onchange="loadFile(event)">
@@ -71,20 +76,18 @@
                                 <?php echo form_input(array('name' => 'email', 'class' => 'form-control', 'id' => 'email', 'placeholder' => "Email", "autofocus", "type" => "email"), set_value('email', isset($user_profile) ? $user_profile["email"] : "")); ?>
                             </div>
                         </div>
-                        <?php if ($action == 'login/register'): ?>
-                            <div class="form-group">
-                                <?php echo form_label('Senha', 'password', array("class" => "col-md-3 control-label")); ?>
-                                <div class="col-md-9">
-                                    <?php echo form_input(array('name' => 'password', 'class' => 'form-control', 'id' => 'password', 'placeholder' => "Senha", "autofocus", "type" => "password")); ?>
-                                </div>
+                        <div class="form-group">
+                            <?php echo form_label('Senha', 'password', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <?php echo form_input(array('name' => 'password', 'class' => 'form-control', 'id' => 'password', 'placeholder' => "Senha", "autofocus", "type" => "password")); ?>
                             </div>
-                            <div class="form-group">
-                                <?php echo form_label('Digite a Senha Novamente', 'password2', array("class" => "col-md-3 control-label")); ?>
-                                <div class="col-md-9">
-                                    <?php echo form_input(array('name' => 'password2', 'class' => 'form-control', 'id' => 'password2', 'placeholder' => "Digite a Senha Novamente", "autofocus", "type" => "password")); ?>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <?php echo form_label('Digite a Senha Novamente', 'password2', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <?php echo form_input(array('name' => 'password2', 'class' => 'form-control', 'id' => 'password2', 'placeholder' => "Digite a Senha Novamente", "autofocus", "type" => "password")); ?>
                             </div>
-                        <?php endif; ?>
+                        </div>
                         <div class="form-group">
                             <?php echo form_label('Data de Nascimento', 'birthDate', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
@@ -129,21 +132,19 @@
                             </div>
                         </div>
                         <!-- /.form-group -->
-                        <?php if ($action == 'login/register'): ?>
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="termAcceptance" id="termAcceptance">Eu li e concordo com os <a href="#"> Termos e Condições de Uso</a>
-                                        </label>
-                                    </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="termAcceptance" id="termAcceptance">Eu li e concordo com os <a href="#"> Termos e Condições de Uso</a>
+                                    </label>
                                 </div>
                             </div>
-                        <?php endif; ?>
+                        </div>
                         <!-- /.form-group -->
                         <div class="form-group">
                             <div class="col-xs-4 col-xs-offset-4 ">
-                                <input type="submit" class="btn btn-primary btn-block btn-lg" value="<?= $titleAction ?>">
+                                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Cadastre-se">
                             </div>
                         </div>
                         <?php form_close() ?>

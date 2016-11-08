@@ -13,12 +13,12 @@
             <div class="panel-body">
                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
                     <img class="img-rounded img-responsive center-block profile-photo" src="<?php
-                    if ($user_profile->avatar !== null && $user_profile->id_facebook === NULL)
-                        echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
-                    elseif($user_profile->avatar != NULL && $user_profile->id_facebook !== NULL)
+                    if ($user_profile->avatar === null)
+                        echo base_url('/assets/pages/media/profile/profile_user.png');
+                    elseif ($user_profile->id_google != NULL || $user_profile->id_facebook !== NULL)
                         echo $user_profile->avatar;
                     else
-                        echo base_url('/assets/pages/media/profile/profile_user.png');
+                        echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
                     ?>" alt="" style="width: 200px; height: 200px">
                 </div>
                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">

@@ -19,7 +19,6 @@ class Callbacks extends CI_Controller
         if (isset($_GET['code'])) {
             $this->googleplus->getAuthenticate();
             $aux = $this->googleplus->getUserInfo();
-
             $data['user_profile'] = array(
                 'email' => $aux['email'],
                 'name' => $aux['name'],
