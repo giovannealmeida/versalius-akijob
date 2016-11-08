@@ -62,8 +62,8 @@ class Services_model extends CI_Model {
         return NULL;
     }
 
-    public function getServicesById($idService) {
-        $query = $this->db->get_where('tb_services', array('id' => $idService));
+    public function getServicesById($idUser, $idService) {
+        $query = $this->db->get_where('tb_services', array('id' => $idService, 'id_user' => $idUser));
 
         if (count($query->result()) > 0) {
             return $query->result()[0];
@@ -80,7 +80,7 @@ class Services_model extends CI_Model {
         return NULL;
     }
 
-    function insert($data) {
+    public function insert($data) {
         $this->db->insert('tb_services', $data);
 
         if ($this->db->affected_rows() > 0) {
@@ -102,8 +102,8 @@ class Services_model extends CI_Model {
         return FALSE;
     }
 
-    public function delete($idService) {
-        $this->db->delete('tb_services', array('id' => $idService));
+    public function delete($idUser, $idService) {
+        $this->db->delete('tb_services', array('id' => $idService, 'id_user' => $idUser));
 
         if ($this->db->affected_rows() > 0) {
             return TRUE;

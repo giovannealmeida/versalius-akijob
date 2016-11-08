@@ -15,7 +15,7 @@
                     <img class="img-rounded img-responsive center-block profile-photo" src="<?php
                     if ($user_profile->avatar === null)
                         echo base_url('/assets/pages/media/profile/profile_user.png');
-                    elseif ($user_profile->id_google != NULL || $user_profile->id_facebook !== NULL)
+                    elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar))))
                         echo $user_profile->avatar;
                     else
                         echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
@@ -84,7 +84,7 @@
                         </div>
                     <?php endif; ?>
                     <?php if ($this->session->flashdata("erro_service")) : ?>
-                        <div class="alert alert-success">
+                        <div class="alert alert-danger">
                             <strong><?php echo $this->session->flashdata("erro_service"); ?></strong><br/>
                         </div>
                     <?php endif; ?>

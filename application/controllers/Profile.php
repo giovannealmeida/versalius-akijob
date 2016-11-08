@@ -53,6 +53,9 @@ class Profile extends CI_Controller {
                 $form['id_gender'] = $this->input->post('gender');
                 $form['birthday'] = $this->input->post('birthDate');
                 $form['phone'] = $this->input->post('phone');
+                if ($_FILES['avatar']['tmp_name'] !== "") {
+                    $form['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
+                }
                 $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
                     $this->session->set_flashdata("mensagem", "Cadastro atualizado com sucesso");
@@ -65,16 +68,15 @@ class Profile extends CI_Controller {
             }
         }
 
-        $data['action'] = 'profile/edit';
-        $data['title'] = 'Atualizar Dados';
-        $data['titleAction'] = 'Atualizar';
         $data['genders'] = $this->gender->getAll();
         $data['states'] = $this->state->getAll();
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['citys'] = $this->city->getCityByState($data['state']->id);
-        $data['scripts'] = array(base_url("assets/js/changeCity.js"));
+        $data['scripts'] = array(
+            base_url("assets/js/changeCity.js"),
+            base_url("assets/js/funcoes.js"));
         $this->load->view("_inc/header", $data);
-        $this->load->view("cadastro");
+        $this->load->view("edit_user");
         $this->load->view("_inc/footer");
     }
 
