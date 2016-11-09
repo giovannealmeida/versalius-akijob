@@ -181,22 +181,27 @@ class Service extends CI_Controller {
             $this->load->view("_inc/header", $data);
             $this->load->view("new_service");
             $this->load->view("_inc/footer");
-        }else{
-            
+        } else {
+            show_404();
         }
     }
 
     public function toView($idService) {
+        $this->load->model("Users_model", 'user');
         $this->load->model("Services_model", 'service');
         $this->load->model("State_model", 'state');
         $this->load->model("City_model", 'city');
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $data['recommendations'] = $data["user_profile"]->positive_recommendations - $data["user_profile"]->negative_recommendations;
+        $this->load->model("Recommendation_model", 'recommendation');
+        $user_service = $this->user->getUserByService($idService);
+        $data["user_profile"] = $this->user->getUserById($user_service);
+        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($user_service);
+        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($user_service);
+        $data['recommendations'] = $this->recommendation->getRecommendationByUser($user_service);
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
-        $data['portfolios'] = $this->service->getPortfoliosByUser($data["user_profile"]->id);
+        $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
         $data["styles"] = array(
             base_url("assets/css/google_maps/mapsRegister.css")
         );
@@ -230,7 +235,7 @@ class Service extends CI_Controller {
         if ($delete) {
             $this->session->set_flashdata("mensagem_service", "Serviço excluído com sucesso");
         } else {
-            $this->session->set_flashdata("erro_service", "Falha ao excluir! Consulte administrador do sistema");
+            show_404();
         }
         redirect('profile');
     }

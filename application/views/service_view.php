@@ -42,9 +42,9 @@
                         <p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> <?= $user_profile->email ?></small></p>
                         <p><small class="address"><span class="glyphicon glyphicon-phone"></span> <?= $user_profile->phone ?></small></p>
                         <p>
-                            <small class="text-success"><?= $user_profile->positive_recommendations ?> Recomendações Positivas</small>
+                            <small class="text-success"><?= $recommendations_positive ?> Recomendações Positivas</small>
                             <br>
-                            <small class="text-danger"><?= $user_profile->negative_recommendations ?> Recomendações Negativas</small>
+                            <small class="text-danger"><?= $recommendations_negative ?> Recomendações Negativas</small>
                         </p>
 
 
@@ -83,8 +83,8 @@
             <div class="panel-footer">
                 <div class="text-right recomendations-survey">
                     <span>Você recomendaria este profissional?</span>
-                    <a class="btn btn-success btn-sm" href="<?= base_url("profile/positive_recommendations/{$id}") ?>"><span class="glyphicon glyphicon-thumbs-up"></span> Sim!</a>
-                    <a class="btn btn-danger btn-sm" href="<?= base_url("profile/negative_recommendations//{$id}") ?>"><span class="glyphicon glyphicon-hand-right"></span> Não!</a>
+                    <a class="btn btn-success btn-sm" href="<?= base_url("profile/recommendations/{$id}/1") ?>"><span class="glyphicon glyphicon-thumbs-up"></span> Sim!</a>
+                    <a class="btn btn-danger btn-sm" href="<?= base_url("profile/recommendations//{$id}/-1") ?>"><span class="glyphicon glyphicon-hand-right"></span> Não!</a>
                 </div>
             </div>
         </div>

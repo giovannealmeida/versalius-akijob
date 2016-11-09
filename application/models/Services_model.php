@@ -34,7 +34,7 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesByIdByCity($idJob, $idCity) {
-        $this->db->select('u.name, u.email, u.positive_recommendations, u.negative_recommendations, s.street, s.number, s.neighborhood, s.complement, s.zip_code, s.latitude, s.longitude, s.note, j.name as job');
+        /*$this->db->select('u.name, u.email, s.street, s.number, s.neighborhood, s.complement, s.zip_code, s.latitude, s.longitude, s.note, j.name as job');
         $this->db->from('tb_users u');
         $this->db->join('tb_services s', 'u.id = s.id_user', "inner");
         $this->db->join('tb_jobs j', 'j.id = s.id_job', "inner");
@@ -45,7 +45,9 @@ class Services_model extends CI_Model {
             return $query->result();
         } else {
             return null;
-        }
+        }*/
+        //Query de results aqui
+        
     }
 
     public function getServicesByUser($idUser) {

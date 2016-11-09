@@ -139,24 +139,20 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
-    public function positive_recommendations($idService) {
+    public function recommendations($idService, $id_recommendation) {
         $this->load->model("Users_model", 'user');
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $form['positive_recommendations'] = $data["user_profile"]->positive_recommendations + 1;
-
-        $this->user->update($data["user_profile"]->id, $form);
-        $user = $this->user->getUserById($data["user_profile"]->id);
-        $this->session->set_userdata('logged_in', $user);
-        redirect("service/toView/{$idService}");
-    }
-
-    public function negative_recommendations($idService) {
-        $this->load->model("Users_model", 'user');
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $form['negative_recommendations'] = $data["user_profile"]->negative_recommendations + 1;
-        $this->user->update($data["user_profile"]->id, $form);
-        $user = $this->user->getUserById($data["user_profile"]->id);
-        $this->session->set_userdata('logged_in', $user);
+        $this->load->model("Recommendation_model", 'recommendation');
+        $user_service = $this->user->getUserByService($idService);
+        $form = array('id_user' => $this->session->userdata('logged_in')->id, 'id_user_receiver' => $user_service, 'id_type_recommendation' => $id_recommendation);
+        $recommendation = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
+        if ($recommendation) {
+            if ($recommendation->id_type_recommendation == $id_recommendation)
+                $this->recommendation->delete_recommendation($form);
+            else
+                $this->recommendation->update_recommendation($form);
+        } else {
+            $this->recommendation->insert_recommendation($form);
+        }
         redirect("service/toView/{$idService}");
     }
 
