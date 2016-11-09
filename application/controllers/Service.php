@@ -194,6 +194,7 @@ class Service extends CI_Controller {
         $this->load->model("Recommendation_model", 'recommendation');
         $user_service = $this->user->getUserByService($idService);
         $data["user_profile"] = $this->user->getUserById($user_service);
+        $data["user_session"] = $this->session->userdata('logged_in');
         $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($user_service);
         $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($user_service);
         $data['recommendations'] = $this->recommendation->getRecommendationByUser($user_service);

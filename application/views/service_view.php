@@ -80,13 +80,15 @@
 
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="text-right recomendations-survey">
-                    <span>Você recomendaria este profissional?</span>
-                    <a class="btn btn-success btn-sm" href="<?= base_url("profile/recommendations/{$id}/1") ?>"><span class="glyphicon glyphicon-thumbs-up"></span> Sim!</a>
-                    <a class="btn btn-danger btn-sm" href="<?= base_url("profile/recommendations//{$id}/-1") ?>"><span class="glyphicon glyphicon-hand-right"></span> Não!</a>
+            <?php if ($user_profile->id != $user_session->id) : ?>
+                <div class="panel-footer">
+                    <div class="text-right recomendations-survey">
+                        <span>Você recomendaria este profissional?</span>
+                        <a class="btn btn-success btn-sm" href="<?= base_url("profile/recommendations/{$id}/1") ?>"><span class="glyphicon glyphicon-thumbs-up"></span> Sim!</a>
+                        <a class="btn btn-danger btn-sm" href="<?= base_url("profile/recommendations//{$id}/-1") ?>"><span class="glyphicon glyphicon-hand-right"></span> Não!</a>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 
