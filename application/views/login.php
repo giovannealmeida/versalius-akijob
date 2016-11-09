@@ -2,15 +2,24 @@
             <!-- Begin page content -->
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3  col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                    <div class="col-sm-6 col-sm-offset-3  col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
-                                    <span class="fa fa-google"></span>Login com o Gmail
-                                </a>
-                                <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook">
-                                    <span class="fa fa-facebook"></span> Login com Facebook
-                                </a>
+                                <div class="row">
+                                    <div class="col-xs-12 col-lg-6">
+                                        <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
+                                            <span class="fa fa-google"></span>Login com o Gmail
+                                        </a>
+
+                                    </div>
+                                    <div class="col-xs-12 col-lg-6">
+                                        <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook">
+                                            <span class="fa fa-facebook"></span> Login com Facebook
+                                        </a>
+
+                                    </div>
+
+                                </div>
                                 <div class="divider"></div>
                                 <h3 class="text-center">Acesse a sua conta</h3>
                                 <?php echo form_open('login'); ?>

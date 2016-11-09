@@ -348,3 +348,8 @@ p.portifolio-description{
 div.portifolio-buttons{
     margin-top: 10px;
 }
+
+div.status{
+    padding: 10px;
+    color: black;
+}

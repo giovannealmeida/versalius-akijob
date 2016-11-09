@@ -10,11 +10,11 @@
         <div class="col-lg-8 col-lg-offset-2  ">
             <form class="form-inline " id="search-form" action="<?= base_url("results") ?>" method="post">
                 <div class="form-group col-xs-12 col-sm-5 col-md-5 col-lg-5 search-element">
-                    <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",), $jobs, set_value('selectJob')); ?>
+                    <?php echo form_dropdown(array('class' => "selectpicker with-ajax", "data-abs-log" => "false", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob")); ?>
                 </div>
                 <div class="form-group col-xs-12 col-sm-5 col-md-5 col-lg-5 search-element">
                     <label class="sr-only" for="city_select ">Cidade</label>
-                    <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, set_value('selectCity')); ?>
+                    <?php echo form_dropdown(array('class' => "selectpicker with-ajax", "data-abs-log" => "false", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity", "title" => "Cidade")); ?>
                 </div>
                 <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 search-element">
                     <button type="submit" class="btn btn-primary btn-lg search-button">Buscar</button>
