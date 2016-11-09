@@ -33,11 +33,11 @@
                     <form class="navbar-form navbar-left" action="<?= base_url("results") ?>" method="post">
                         <div class="form-group search-navbar">
                             <label class="sr-only" for="selectJob">Serviços</label>
-                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",), $jobs, set_value('selectJob')); ?>
+                            <?php echo form_dropdown(array('class' => "selectpicker with-ajax", "data-abs-log" => "false", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",)); ?>
                         </div>
                         <div class="form-group search-navbar">
                             <label class="sr-only" for="selectCity ">Cidade</label>
-                            <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, set_value('selectCity')); ?>
+                            <?php echo form_dropdown(array('class' => "selectpicker with-ajax", "data-abs-log" => "false", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",)); ?>
                         </div>
                         <button type="submit" class="btn btn-primary search-button">Buscar</button>
                     </form>
@@ -73,7 +73,7 @@
                                                     <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
                                                 </div>
                                                 <div class="details">
-                                                    <a href="#"><span class="list-group-item-heading"><?= $service->name ?></span></a> 
+                                                    <a href="#"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                     <?php if (($service->positive_recommendations - $service->negative_recommendations) >= 100 && ($service->positive_recommendations - $service->negative_recommendations) <= 1000): ?>
                                                         <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
                                                     <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 1000 && ($service->positive_recommendations - $service->negative_recommendations) <= 5000): ?>
@@ -101,7 +101,9 @@
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
-                    <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
+                    <script src="<?= base_url("assets/js/ajax-bootstrap-select.min.js") ?>"></script>
+                    <script src="<?= base_url("assets/js/search.js") ?>"></script>
+
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
                 </div>
@@ -311,7 +313,7 @@
                                                         } else {
                                                             var coordinates = all_overlays[j].overlay.getPath().getArray();
                                                             if (google.maps.geometry.poly.containsLocation(markers[i].getPosition(), new google.maps.Polygon({paths: coordinates}))) {
-                                                                // only do setMap if the marker wasn't already visible 
+                                                                // only do setMap if the marker wasn't already visible
                                                                 //if (markers[i].getVisible() != true) {
                                                                 markers[i].setMap(map);
                                                                 markers[i].setVisible(true);
