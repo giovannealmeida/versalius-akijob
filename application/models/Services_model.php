@@ -34,20 +34,19 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesByIdByCity($idJob, $idCity) {
-        /*$this->db->select('u.name, u.email, s.street, s.number, s.neighborhood, s.complement, s.zip_code, s.latitude, s.longitude, s.note, j.name as job');
-        $this->db->from('tb_users u');
-        $this->db->join('tb_services s', 'u.id = s.id_user', "inner");
-        $this->db->join('tb_jobs j', 'j.id = s.id_job', "inner");
-        $this->db->where('s.id_job', $idJob);
-        $this->db->where('s.id_city', $idCity);
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
+        $query = $this->db->query("
+            SELECT u.name as name, u.email, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, s.note, j.name as job, IFNULL(SUM(r.`value`),0) as saldo
+            FROM tb_services s
+            LEFT JOIN tb_recommendation r ON r.id_user_receiver = s.id_user
+            INNER JOIN tb_jobs j ON j.id = s.id_job
+            INNER JOIN tb_users u ON u.id = s.id_user
+            WHERE s.id_job = {$idJob} AND s.id_city = {$idCity}
+            GROUP BY s.id");
+
+        if (count($query->result()) > 0) {
             return $query->result();
-        } else {
-            return null;
-        }*/
-        //Query de results aqui
-        
+        }
+        return NULL;
     }
 
     public function getServicesByUser($idUser) {

@@ -9,6 +9,7 @@ class Results extends CI_Controller {
     public function index() {
         $this->load->model("Services_model", 'service');
         $this->load->model("City_model", 'city');
+        $this->load->model("Recommendation_model", 'recommendation');
         $data["user_profile"] = $this->session->userdata('logged_in');
         // $data['jobs'] = $this->service->getJobsAll();
         // $data['citys'] = $this->city->getAllWithStateInitials();
@@ -20,4 +21,5 @@ class Results extends CI_Controller {
         }
         $this->load->view("results", $data);
     }
+
 }

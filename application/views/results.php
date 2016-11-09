@@ -73,20 +73,20 @@
                                                     <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
                                                 </div>
                                                 <div class="details">
-                                                    <a href="#"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                    <?php if (($service->positive_recommendations - $service->negative_recommendations) >= 100 && ($service->positive_recommendations - $service->negative_recommendations) <= 1000): ?>
+                                                    <a href="<?= base_url("service/toView/{$service->id}")?>"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                    <?php if ($service->saldo >= 100 && $service->saldo <= 1000): ?>
                                                         <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 1000 && ($service->positive_recommendations - $service->negative_recommendations) <= 5000): ?>
+                                                    <?php elseif ($service->saldo > 1000 && $service->saldo <= 5000): ?>
                                                         <img src="<?= base_url("assets/img/crown-silver.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 5000 && ($service->positive_recommendations - $service->negative_recommendations) < 10000): ?>
+                                                    <?php elseif ($service->saldo > 5000 && $service->saldo < 10000): ?>
                                                         <img src="<?= base_url("assets/img/crown-gold.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif (($service->positive_recommendations - $service->negative_recommendations) > 10000): ?>
+                                                    <?php elseif ($service->saldo > 10000): ?>
                                                         <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
                                                     <?php endif; ?>
                                                     <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
                                                     <span class="job "><?= $service->job ?></span>
                                                     <span class="recomendations hidden-xs">
-                                                        <?= $service->positive_recommendations - $service->negative_recommendations ?> Recomendações
+                                                        <?= $service->saldo ?> Recomendações
                                                     </span>
                                                 </div>
                                             </div>

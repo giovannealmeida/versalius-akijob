@@ -60,9 +60,11 @@ class Recommendation_model extends CI_Model {
     }
 
     public function getRecommendationByUser($idUserReceiver) {
-        $positive = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => 1));
-        $negative = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => -1));
-        return count($positive->result_array()) - count($negative->result_array());
+        $query = $this->db->query("SELECT IFNULL(SUM(r.`value`),0) as saldo FROM tb_recommendation r where id_user_receiver ={$idUserReceiver}");
+        if (count($query->result()) > 0) {
+            return $query->result()[0]->saldo;
+        }
+        return NULL;
     }
 
 }
