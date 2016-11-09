@@ -44,7 +44,7 @@ class Recommendation_model extends CI_Model {
     }
 
     public function getRecommendationPositiveByUser($idUserReceiver) {
-        $response = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'id_type_recommendation' => 1));
+        $response = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => 1));
         if ($response->num_rows() == 1) {
             return count($response->result_array());
         }
@@ -52,7 +52,7 @@ class Recommendation_model extends CI_Model {
     }
 
     public function getRecommendationNegativeByUser($idUserReceiver) {
-        $response = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'id_type_recommendation' => -1));
+        $response = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => -1));
         if ($response->num_rows() == 1) {
             return count($response->result_array());
         }
@@ -60,8 +60,8 @@ class Recommendation_model extends CI_Model {
     }
 
     public function getRecommendationByUser($idUserReceiver) {
-        $positive = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'id_type_recommendation' => 1));
-        $negative = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'id_type_recommendation' => -1));
+        $positive = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => 1));
+        $negative = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => -1));
         return count($positive->result_array()) - count($negative->result_array());
     }
 

@@ -143,10 +143,10 @@ class Profile extends CI_Controller {
         $this->load->model("Users_model", 'user');
         $this->load->model("Recommendation_model", 'recommendation');
         $user_service = $this->user->getUserByService($idService);
-        $form = array('id_user' => $this->session->userdata('logged_in')->id, 'id_user_receiver' => $user_service, 'id_type_recommendation' => $id_recommendation);
+        $form = array('id_user' => $this->session->userdata('logged_in')->id, 'id_user_receiver' => $user_service, 'value' => $id_recommendation);
         $recommendation = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
         if ($recommendation) {
-            if ($recommendation->id_type_recommendation == $id_recommendation)
+            if ($recommendation->value == $id_recommendation)
                 $this->recommendation->delete_recommendation($form);
             else
                 $this->recommendation->update_recommendation($form);
