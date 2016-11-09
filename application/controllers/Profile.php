@@ -15,12 +15,15 @@ class Profile extends CI_Controller {
         $this->load->model("Users_model", "user");
         $this->load->model("City_model", 'city');
         $this->load->model("State_model", 'state');
+        $this->load->model("Recommendation_model", 'recommendation');
 
         $data["user_profile"] = $this->session->userdata('logged_in');
         $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
-        $data['recommendations'] = $data["user_profile"]->positive_recommendations - $data["user_profile"]->negative_recommendations;
+        $data['recommendations'] = $this->recommendation->getRecommendationByUser($data["user_profile"]->id);
+        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($data["user_profile"]->id);
+        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($data["user_profile"]->id);
 
         $this->load->view("_inc/header", $data);
         $this->load->view("profile");

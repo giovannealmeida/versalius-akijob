@@ -37,9 +37,9 @@
                     <p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> <?= $user_profile->email ?></small></p>
                     <p><small class="address"><span class="glyphicon glyphicon-phone"></span> <?= $user_profile->phone ?></small></p>
                     <p>
-                        <small class="text-success"><?= $user_profile->positive_recommendations ?> Recomendações Positivas</small>
+                        <small class="text-success"><?= $recommendations_positive ?> Recomendações Positivas</small>
                         <br>
-                        <small class="text-danger"><?= $user_profile->negative_recommendations ?> Recomendações Negativas</small>
+                        <small class="text-danger"><?= $recommendations_negative ?> Recomendações Negativas</small>
                     </p>
 
                 </div>
