@@ -147,5 +147,43 @@
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Comentários</h3>
+            </div>
+            <div class="panel-body">
+
+                <form action="<?= base_url("Service/toView/".$id) ?>" method="post">                    
+                    <legend>Deixe seu comentário:</legend>                    
+                    <textarea name="comment" class="form-control" rows="3" required></textarea>
+                    <input type="hidden" name="id_service" value="<?= $id ?>">
+                    <input type="hidden" name="id_user" value="<?= $user_profile->id ?>">
+                    <div class="clear"></div><br>
+                    <input type="submit" class="btn btn-success" value="Enviar">                    
+                </form>
+                <br>
+                <?php
+                if ($comments != NULL):
+                    foreach ($comments as $value):
+                        ?>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><?= $value->user_name ?></div>
+                            <div class="panel-body">
+                                <?= $value->comment ?>
+                            </div>
+                        </div>
+                        <?php
+                    endforeach;
+                endif;
+                ?>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initMap" async defer></script>

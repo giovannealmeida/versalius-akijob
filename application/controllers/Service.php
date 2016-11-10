@@ -197,6 +197,29 @@ class Service extends CI_Controller {
         $this->load->model("City_model", 'city');
         $this->load->model("Recommendation_model", 'recommendation');
         $this->load->model("Rating_model", 'rating');
+        $this->load->model("Comments_model", 'comments');
+        
+        //Validando a parte do comenário
+        if ($this->input->post() != NULL) {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('comment', 'Nome', 'required');
+            $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+            $form['id_service'] = $this->input->post('id_service');
+            $form['id_user'] = $this->input->post('id_user');
+            if ($this->form_validation->run() !== FALSE) {
+                $form['comment'] = $this->input->post('comment');
+                $confirmationInsertComment = $this->comments->insert($form);
+                    if ($confirmationInsertComment) {
+                        $this->session->set_flashdata("mensagem_service", "Comentário inserido com sucesso");
+                    } else {
+                        $this->session->set_flashdata("erro_service", "Falha ao enviar comentário! Consulte administrador do sistema");
+                    }
+                    redirect('service/toView/'.$idService);
+            }
+        }
+        
+        ////////////////////////////////////////////////
+        
         $user_service = $this->user->getUserByService($idService);
         $data["user_profile"] = $this->user->getUserById($user_service);
         $data["user_session"] = $this->session->userdata('logged_in');
@@ -208,6 +231,8 @@ class Service extends CI_Controller {
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
         $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
+        $data['comments'] = $this->comments->getCommentsByIdServices($idService);
+        
         if (isset($this->session->userdata('logged_in')->id))
             $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
         $data["styles"] = array(
