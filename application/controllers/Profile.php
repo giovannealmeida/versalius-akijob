@@ -2,30 +2,41 @@
 
 class Profile extends CI_Controller {
 
+    private $user_info;
+
     public function __construct() {
         parent::__construct();
 
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
         }
+        else{
+            $this->user_info["user_profile"] = $this->session->userdata('logged_in');
+            if ($this->user_info["user_profile"]->avatar === null)
+            $this->user_info["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
+            elseif ($this->user_info["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($this->user_info["user_profile"]->avatar))))
+            $this->user_info["scr_photo"] = $this->user_info["user_profile"]->avatar;
+            else
+            $this->user_info["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($this->user_info["user_profile"]->avatar));
+
+            $this->load->model("Recommendation_model", 'recommendation');
+            $this->load->model("Users_model", "users");
+            $this->load->model("Subscription_model", "subs");
+
+            $this->user_info['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($this->user_info["user_profile"]->id);
+            $this->user_info['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($this->user_info["user_profile"]->id);
+            $tier_balance = $this->user_info['recommendations_positive'] - $this->user_info['recommendations_negative'];
+            $this->user_info["tier_img"] = $this->users->getTierImage($this->user_info["user_profile"]->id, $tier_balance);
+            $this->user_info["premium_data"]["isPremium"] = $this->subs->isSubscribed($this->user_info["user_profile"]->id);
+            $this->user_info["scripts"] = array(base_url("assets/js/page-highlight.js"));
+        }
+
+
     }
 
     public function index(){
-        $this->load->model("Recommendation_model", 'recommendation');
-        $this->load->model("Subscription_model", "subs");
 
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        if ($data["user_profile"]->avatar === null)
-            $data["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
-        elseif ($data["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($data["user_profile"]->avatar))))
-            $data["scr_photo"] = $data["user_profile"]->avatar;
-        else
-            $data["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($data["user_profile"]->avatar));
-
-        $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
-        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($data["user_profile"]->id);
-        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($data["user_profile"]->id);
-        $data["scripts"] = array(base_url("assets/js/page-highlight.js"));
+        $data = $this->user_info;
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
         $this->load->view("profile/overview");
@@ -33,22 +44,20 @@ class Profile extends CI_Controller {
     }
 
     public function config(){
-        $this->load->model("Recommendation_model", 'recommendation');
+        $data = $this->user_info;
 
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        if ($data["user_profile"]->avatar === null)
-            $data["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
-        elseif ($data["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($data["user_profile"]->avatar))))
-            $data["scr_photo"] = $data["user_profile"]->avatar;
-        else
-            $data["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($data["user_profile"]->avatar));
-
-        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($data["user_profile"]->id);
-        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($data["user_profile"]->id);
-        $data["scripts"] = array(base_url("assets/js/page-highlight.js"), base_url("assets/js/profile-config.js"));
+        $data["scripts"][] = base_url("assets/js/profile-config.js");
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
         $this->load->view("profile/config");
+        $this->load->view("_inc/footer");
+    }
+
+    public function plan(){
+        $data = $this->user_info;
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/subscription");
         $this->load->view("_inc/footer");
     }
 
@@ -173,21 +182,10 @@ class Profile extends CI_Controller {
     }
 
     public function services() {
-        $this->load->model("Subscription_model", "subs");
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        if ($data["user_profile"]->avatar === null){
-            $data["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
-        }
-        elseif ($data["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($data["user_profile"]->avatar)))){
-            $data["scr_photo"] = $data["user_profile"]->avatar;
-        }
-        else{
-            $data["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($data["user_profile"]->avatar));
-        }
-        $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
+        $data = $this->user_info;
+
         $this->load->model("Services_model", "services");
         $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
-        $data["scripts"] = array(base_url("assets/js/page-highlight.js"));
 
 
         $this->load->view("_inc/header", $data);

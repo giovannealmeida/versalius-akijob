@@ -4,7 +4,7 @@
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-tier">
-					<img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="center-block tier-big" />
+					<a href="#"><img src="<?=$tier_img?>" alt="tier" class="center-block tier-big" title="Clique para saber mais sobre os rankings"/></a>
 				</div>
 				<div class="profile-userpic">
 					<img src="<?=$scr_photo?>" class="img-responsive" alt="">
@@ -19,7 +19,7 @@
 					</div>
 					<div class="profile-usertitle-paid">
 						<?php if ($premium_data["isPremium"]): ?>
-							<span class="label label-success">Conta Grátis</span>
+							<span class="label label-success">Conta Premium</span>
 
 						<?php else: ?>
 							<span class="label label-default">Conta Grátis</span>
@@ -47,18 +47,19 @@
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="javascript:void(0)">
 								<i class="fa fa-line-chart" aria-hidden="true"></i> Estatísticas
+								<span class="label label-warning">Em Breve!</span>
 							</a>
 						</li>
 
 						<li>
-							<a href="#">
+							<a href="javascript:void(0)">
 								<i class="glyphicon glyphicon-flag"></i> Ajuda
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="<?=base_url("profile/plan")?>">
 								<i class="fa fa-diamond" aria-hidden="true"></i> Assinatura
 							</a>
 						</li>

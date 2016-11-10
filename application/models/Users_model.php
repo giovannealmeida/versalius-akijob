@@ -26,7 +26,7 @@ class Users_model extends CI_Model {
         }
         return null;
     }
-    
+
     public function getUserByService($idService) {
         $response = $this->db->get_where('tb_services', array('id' => $idService));
 
@@ -107,4 +107,21 @@ class Users_model extends CI_Model {
         return false;
     }
 
+    public function getTierImage($id, $recommendations){
+        if ($recommendations < 100) {
+            return base_url("assets/img/crown-nothing.png");
+        }
+        if ($recommendations >= 100 && $recommendations <= 1000){
+            return base_url("assets/img/crown-bronze.png");
+        } elseif ($recommendations > 1000 && $recommendations <= 5000){
+            return base_url("assets/img/crown-bronze.png");
+
+        } elseif ($recommendations > 5000 && $recommendations < 10000){
+            return base_url("assets/img/crown-bronze.png");
+
+        } elseif ($recommendations > 10000){
+            return base_url("assets/img/crown-bronze.png");
+
+        }
+    }
 }

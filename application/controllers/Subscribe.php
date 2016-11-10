@@ -16,24 +16,13 @@ class Subscribe extends CI_Controller
         $this->load->view('_inc/footer');
     }
 
-    public function plan($id, $period)
+    public function confirm()
     {
-        if ($id != 1) {
-            redirect('subscribe');
-        } elseif (!$this->session->userdata('logged_in')) {
-            redirect('register');
-        } else {
-            $id_user = $this->session->userdata('logged_in')->id;
-        }
+
         $this->load->model('Plans_model', 'plans');
-        $this->load->model('Subscription_model', 'subscription');
-        $plan_info = $this->plans->getById($id);
-        if ($plan_info == null) {
-            show_404();
-        }
-        $data['styles'] = array(base_url('assets/css/style.css'));
-        $this->subscription->insert($id_user, $id, $period);
-        redirect("profile/plan", $data);
+        $this->load->model('Subscription_model', 'subscription');        
+        $this->subscription->insert($this->session->userdata('logged_in')->id);
+        redirect("profile/plan");
     }
 
     public function redeem($hash = "")

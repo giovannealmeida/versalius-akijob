@@ -129,7 +129,7 @@
 							<?php endif; ?>
 					</td>
 					<td>
-						<a href="#">
+						<a href="<?=base_url("subscribe/confirm")?>">
 							<button type="button" name="button" class="btn btn-success btn-lg">Contrate!</button>
 						</a>
 					</td>

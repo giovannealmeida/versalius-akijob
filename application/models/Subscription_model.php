@@ -25,17 +25,19 @@ class Subscription_model extends CI_Model
         return false;
     }
 
-    public function insert($id_user, $id_plan, $period)
+    public function insert($id_user)
     {
+        date_default_timezone_set('America/Sao_Paulo');
+        
         $start = $this->getEndSubscription($id_user);
         if ($start == null) {
             $start = date('Y-m-d');
         }
-        $period = $period == 1 ? 'month' : 'year';
+        $period = 'month';
 
         $end = date('Y-m-d', strtotime("+1 {$period}", strtotime($start)));
 
-        $insert = array('id_user' => $id_user, 'id_plan' => $id_plan, 'start' => $start, 'end' => $end);
+        $insert = array('id_user' => $id_user, 'id_plan' => 1, 'start' => $start, 'end' => $end);
         $this->db->insert('tb_subscriptions', $insert);
     }
 
@@ -50,7 +52,7 @@ class Subscription_model extends CI_Model
 
         return null;
     }
-    
+
     public function getPlanByUser($idUser)
     {
         $this->db->select('p.name, p.price_per_month, p.price_per_year, s.start, s.end');
