@@ -207,8 +207,9 @@ class Service extends CI_Controller {
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
-        $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
         $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
+        if (isset($this->session->userdata('logged_in')->id))
+            $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
         $data["styles"] = array(
             base_url("assets/css/google_maps/mapsRegister.css"),
             base_url("assets/css/star-rating.css")

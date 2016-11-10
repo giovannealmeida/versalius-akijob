@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <?php if ($user_profile->id != $user_session->id) : ?>
+            <?php if (isset($user_session) && $user_profile->id != $user_session->id) : ?>
                 <div class="panel-footer">
                     <div class="text-right recomendations-survey">
                         <span>Você recomendaria este profissional?</span>
