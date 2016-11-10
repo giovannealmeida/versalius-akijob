@@ -116,9 +116,17 @@
 				<tr>
 					<td style="border-bottom: none;border-left: none;"></td>
 					<td>
-						<a href="#">
-							<button type="button" name="button" class="btn btn-primary btn-lg">Cadastre-se</button>
-						</a>
+							<?php if ($this->session->userdata('logged_in')): ?>
+								<a href="#">
+									<button type="button" name="button" class="btn btn-primary btn-lg btn-block" disabled="disabled">Cadastre-se</button>
+								</a>
+								<small>Você já possui esse plano</small>
+							<?php else: ?>
+								<a href="#">
+									<button type="button" name="button" class="btn btn-primary btn-lg btn-block">Cadastre-se</button>
+								</a>
+
+							<?php endif; ?>
 					</td>
 					<td>
 						<a href="#">
@@ -130,4 +138,5 @@
 		</table>
 
 	</div>
+</div>
 </div>

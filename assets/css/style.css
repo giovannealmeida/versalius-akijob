@@ -433,3 +433,7 @@ div.status {
 form#edit_user > div.row{
     margin-top: 10px;
 }
+
+form#alterPassword > div.row{
+    margin-top: 10px;
+}

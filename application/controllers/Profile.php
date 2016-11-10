@@ -10,7 +10,49 @@ class Profile extends CI_Controller {
         }
     }
 
-    public function index() {
+    public function index(){
+        $this->load->model("Recommendation_model", 'recommendation');
+        $this->load->model("Subscription_model", "subs");
+
+        $data["user_profile"] = $this->session->userdata('logged_in');
+        if ($data["user_profile"]->avatar === null)
+            $data["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
+        elseif ($data["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($data["user_profile"]->avatar))))
+            $data["scr_photo"] = $data["user_profile"]->avatar;
+        else
+            $data["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($data["user_profile"]->avatar));
+
+        $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
+        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($data["user_profile"]->id);
+        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($data["user_profile"]->id);
+        $data["scripts"] = array(base_url("assets/js/page-highlight.js"));
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/overview");
+        $this->load->view("_inc/footer");
+    }
+
+    public function config(){
+        $this->load->model("Recommendation_model", 'recommendation');
+
+        $data["user_profile"] = $this->session->userdata('logged_in');
+        if ($data["user_profile"]->avatar === null)
+            $data["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
+        elseif ($data["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($data["user_profile"]->avatar))))
+            $data["scr_photo"] = $data["user_profile"]->avatar;
+        else
+            $data["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($data["user_profile"]->avatar));
+
+        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($data["user_profile"]->id);
+        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($data["user_profile"]->id);
+        $data["scripts"] = array(base_url("assets/js/page-highlight.js"), base_url("assets/js/profile-config.js"));
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/config");
+        $this->load->view("_inc/footer");
+    }
+
+    public function old() {
         $this->load->model("Services_model", "services");
         $this->load->model("Users_model", "user");
         $this->load->model("City_model", 'city');
@@ -132,14 +174,27 @@ class Profile extends CI_Controller {
 
     public function services() {
         $this->load->model("Subscription_model", "subs");
-        $this->load->model("Services_model", "services");
         $data["user_profile"] = $this->session->userdata('logged_in');
+        if ($data["user_profile"]->avatar === null){
+            $data["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
+        }
+        elseif ($data["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($data["user_profile"]->avatar)))){
+            $data["scr_photo"] = $data["user_profile"]->avatar;
+        }
+        else{
+            $data["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($data["user_profile"]->avatar));
+        }
         $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($data["user_profile"]->id);
+        $this->load->model("Services_model", "services");
         $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
+        $data["scripts"] = array(base_url("assets/js/page-highlight.js"));
+
 
         $this->load->view("_inc/header", $data);
-        $this->load->view("profile/services", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/services");
         $this->load->view("_inc/footer");
+
     }
 
     public function recommendations($idService, $id_recommendation) {

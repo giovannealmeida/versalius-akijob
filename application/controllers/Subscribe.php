@@ -9,7 +9,9 @@ class Subscribe extends CI_Controller
 
     public function index()
     {
-        $this->load->view('_inc/header');
+        $data['styles'] = array(base_url('assets/css/price-table.css'));
+
+        $this->load->view('_inc/header', $data);
         $this->load->view('subscribe');
         $this->load->view('_inc/footer');
     }
