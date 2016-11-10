@@ -45,18 +45,12 @@ class Recommendation_model extends CI_Model {
 
     public function getRecommendationPositiveByUser($idUserReceiver) {
         $response = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => 1));
-        if ($response->num_rows() == 1) {
-            return count($response->result_array());
-        }
-        return 0;
+        return count($response->result_array());
     }
 
     public function getRecommendationNegativeByUser($idUserReceiver) {
         $response = $this->db->get_where('tb_recommendation', array('id_user_receiver' => $idUserReceiver, 'value' => -1));
-        if ($response->num_rows() == 1) {
-            return count($response->result_array());
-        }
-        return 0;
+        return count($response->result_array());
     }
 
     public function getRecommendationByUser($idUserReceiver) {

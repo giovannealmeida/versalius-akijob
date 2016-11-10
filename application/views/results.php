@@ -69,9 +69,9 @@
                                     <div class="list-group" id="line-<?= $key ?>">
                                         <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
                                             <div class="row">
-                                                <div class="score">
-                                                    <b><?php echo $service->note != NULL ? $service->note : '-' ?></b>
-                                                </div>
+                                                <!--<div class="score">-->
+                                                    <input disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
+                                                <!--</div>-->
                                                 <div class="details">
                                                     <a href="<?= base_url("service/toView/{$service->id}")?>"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                     <?php if ($service->saldo >= 100 && $service->saldo <= 1000): ?>
@@ -106,6 +106,12 @@
 
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
+                    
+                    <!-- default styles -->
+                    <link href="<?= base_url("assets/css/star-rating.css") ?>" media="all" rel="stylesheet" type="text/css" />
+
+                    <!-- important mandatory libraries -->
+                    <script src="<?= base_url("assets/js/star-rating.js") ?>" type="text/javascript"></script>
                 </div>
 
             </div>
