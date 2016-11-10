@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
                         <span class="profile-name"><?= $dataService->job ?></span>
-                        <input disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($dataService->saldo) ? $dataService->saldo : 0 ?>" >
+                        <input disabled="true" type="text" class="rating" data-size="xs" value="<?= isset($dataService->saldo) ? $dataService->saldo : 0 ?>" >
                         <p><small class="address"> </span> <?= $dataService->city . ' - ' . $dataService->state ?></small></p>
                         <p><small class="address"> </span> <?= $dataService->street . ', ' . $dataService->number . ', ' . $dataService->neighborhood ?></small></p>
                     </div>

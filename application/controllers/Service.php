@@ -255,7 +255,7 @@ class Service extends CI_Controller {
         }
     }
 
-    public function updateStars($idService, $value) {
+    public function updateRating($idService, $value) {
         $this->load->model("Users_model", 'user');
         $this->load->model("Rating_model", 'rating');
         $user_service = $this->user->getUserByService($idService);

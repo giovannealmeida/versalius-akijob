@@ -70,7 +70,7 @@ class Services_model extends CI_Model {
         $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
         $this->db->join('tb_city c', 's.id_city = c.id', "inner");
         $this->db->join('tb_states st', 'c.id_state = st.id', "inner");
-         $this->db->join('tb_rating r', 'r.id_service = s.id', "inner");
+         $this->db->join('tb_rating r', 'r.id_service = s.id', "left");
         $this->db->where('s.id', $idService);
         $query = $this->db->get();
 
