@@ -1,22 +1,30 @@
 				<h2 class="profile-page-title"><strong>Gerenciamento de Assinatura</strong></h2>
 				<div class="divider"></div>
+				<?php if ($this->session->flashdata("code_redeem") === "success" ): ?>
+					<p class="hint bg-success text-success"><i class="fa fa-check" aria-hidden="true"></i> <strong>Parabéns!</strong> Sua assinatura foi atualizada!</p>
+				<?php elseif($this->session->flashdata("code_redeem") === "fail" ): ?>
+					<p class="hint bg-danger text-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <strong>Erro!</strong> O código informado não existe ou já foi ultilizado</p>
+				<?php endif; ?>
 
 				<p>
-					Seu plano atual: <strong class="text-success">PREMIUM</strong>
+					Seu plano atual: <strong class="text-<?=$plan_class?>"><?=$plan?></strong>
 				</p>
 
-				<p>
-					Sua assinatura expira em: <strong class="text-danger">10/11/2016</strong>
-				</p>
+				<?php if ($premium_data["isPremium"]): ?>
+					<p>
+						Sua assinatura expira em: <strong class="text-danger"><?=$date_end?></strong>
+					</p>
+
+				<?php endif; ?>
 				<br>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-4">
-						<form>
+						<form action="<?=base_url("subscribe/redeem")?>" method="post">
 							<div class="row">
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label for="code">Insira o Código Promocional</label>
-										<input type="input" class="form-control" id="code" placeholder="Código Promocional">
+										<input type="input" class="form-control" id="code" placeholder="Código Promocional" name="code">
 									</div>
 
 								</div>

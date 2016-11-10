@@ -11,6 +11,10 @@ class Profile extends CI_Controller {
             redirect('login');
         }
         else{
+            $this->load->model("Recommendation_model", 'recommendation');
+            $this->load->model("Users_model", "users");
+            $this->load->model("Subscription_model", "subs");
+
             $this->user_info["user_profile"] = $this->session->userdata('logged_in');
             if ($this->user_info["user_profile"]->avatar === null)
             $this->user_info["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
@@ -19,9 +23,6 @@ class Profile extends CI_Controller {
             else
             $this->user_info["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($this->user_info["user_profile"]->avatar));
 
-            $this->load->model("Recommendation_model", 'recommendation');
-            $this->load->model("Users_model", "users");
-            $this->load->model("Subscription_model", "subs");
 
             $this->user_info['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($this->user_info["user_profile"]->id);
             $this->user_info['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($this->user_info["user_profile"]->id);
@@ -55,6 +56,15 @@ class Profile extends CI_Controller {
 
     public function plan(){
         $data = $this->user_info;
+        if ($data["premium_data"]["isPremium"]) {
+            $data["plan"] = "PREMIUM";
+            $data["plan_class"] = "success";
+            $data["date_end"] = date('d/m/Y', strtotime($this->subs->getEndSubscription($data["user_profile"]->id)));
+        } else{
+            $data["plan"] = "FREE";
+            $data["plan_class"] = "default";
+        }
+
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
         $this->load->view("profile/subscription");

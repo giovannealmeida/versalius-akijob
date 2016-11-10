@@ -20,7 +20,7 @@ class Subscribe extends CI_Controller
     {
 
         $this->load->model('Plans_model', 'plans');
-        $this->load->model('Subscription_model', 'subscription');        
+        $this->load->model('Subscription_model', 'subscription');
         $this->subscription->insert($this->session->userdata('logged_in')->id);
         redirect("profile/plan");
     }
@@ -31,7 +31,7 @@ class Subscribe extends CI_Controller
             if ($this->input->post()) {
                 $hash = $this->input->post('code');
             } else {
-                redirect('subscribe');
+                // redirect('subscribe');
             }
         }
 
@@ -43,17 +43,12 @@ class Subscribe extends CI_Controller
 
         $this->load->model('Subscription_model', 'subscription');
         if ($this->subscription->redeem_code($hash, $id_user) != null) {
-            // $this->session->set_flashdata("code_redeem", "sucess");
-            die("TA SHOW");
+            $this->session->set_flashdata("code_redeem", "success");
         } else {
-            // $this->session->set_flashdata("code_redeem", "fail");
-
-            die("Deu ruim");
-
+            $this->session->set_flashdata("code_redeem", "fail");
         }
 
-
-
+        redirect("profile/plan");
 
     }
 
