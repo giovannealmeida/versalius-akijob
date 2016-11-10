@@ -11,7 +11,6 @@ html, body {
 .no-padding-right {
     padding-right: 0px;
 }
-
 #main {
     min-height: 100%;
     height: auto !important;
@@ -22,6 +21,7 @@ html, body {
     padding: 0 0 60px;
     background-color: #ECF0F1;
 }
+
 /* Set the fixed height of the footer here */
 
 #footer {
@@ -65,19 +65,16 @@ a.navbar-brand img {
 .logo {
     height: 160px;
 }
-
-.search-element{
+.search-element {
     height: 45.6px;
-
 }
-
-.search-element .bootstrap-select{
+.search-element .bootstrap-select {
+    height: 100%;
+}
+.search-element .bootstrap-select button {
     height: 100%;
 }
 
-.search-element .bootstrap-select button{
-    height: 100%;
-}
 /*////////////////////////////////////*/
 
 #main-result, #main-result>.row {
@@ -209,14 +206,12 @@ span.job {
     height: 2px;
     margin-top: 5px;
     margin-bottom: 5px;
-
     border-bottom: 1px solid lightgrey;
 }
 img.tier {
     height: 20px;
     margin-bottom: 8px;
 }
-
 .app-marker {
     height: 38px;
     margin-right: 12px;
@@ -286,45 +281,36 @@ img.tier {
 .portfolio-text {
     padding: 15px;
 }
-.portfolio-container{
+.portfolio-container {
     overflow: scroll;
     height: 300px;
 }
-
 .portfolio-text p {
     word-wrap: break-word;
 }
-
-.checkbox label{
+.checkbox label {
     /*width: 100%;*/
 }
-
 .checkbox div.toggle {
     width: 100% !important;
 }
-
-.btn-social{
+.btn-social {
     margin-bottom: 10px;
 }
-
-div.errors{
+div.errors {
     color: red;
 }
-
-div.errors ul{
+div.errors ul {
     padding: 15px;
     list-style: none;
 }
-
-.button-row{
-    margin: 10px 0 ;
+.button-row {
+    margin: 10px 0;
 }
-
-.button-row .btn{
+.button-row .btn {
     margin-bottom: 5px;
 }
-
-.kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
+.kv-avatar .file-preview-frame, .kv-avatar .file-preview-frame:hover {
     margin: 0;
     padding: 0;
     border: none;
@@ -335,21 +321,115 @@ div.errors ul{
     display: table-cell;
     max-width: 220px;
 }
-
-.hint{
+.hint {
     padding: 15px;
     font-size: 1.2em;
 }
-
-p.portifolio-description{
+p.portifolio-description {
     margin-top: 10px;
 }
-
-div.portifolio-buttons{
+div.portifolio-buttons {
     margin-top: 10px;
 }
-
-div.status{
+div.status {
     padding: 10px;
     color: black;
+}
+.profile {
+    margin: 20px 0;
+}
+
+/* Profile sidebar */
+
+.profile-sidebar {
+    border: 1px solid #ddd;
+    padding: 20px 0 10px 0;
+    background: #fff;
+}
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+.profile-usertitle-name {
+    color: #5a7391;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+.profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+.profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+}
+.profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+}
+.profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+}
+.profile-usermenu {
+    margin-top: 30px;
+}
+.profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+}
+.profile-usermenu ul li:last-child {
+    border-bottom: none;
+}
+.profile-usermenu ul li a {
+    color: #55606b;
+    font-size: 14px;
+    font-weight: 400;
+}
+.profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+.profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #3b87d4;
+}
+.profile-usermenu ul li.active {
+    border-bottom: none;
+}
+.profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+}
+
+/* Profile Content */
+
+.profile-content {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background: #fff;
+    min-height: 485px;
+}
+.profile-page-title {
+    color: #337ab7;
+}
+
+form#edit_user > div.row{
+    margin-top: 10px;
 }

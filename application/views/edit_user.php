@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3 class="text-center">Editar Informações</h3>
-                    <?php echo form_open('profile/edit', array('id' => "eit_user", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data")); ?>
+                    <?php echo form_open('profile/edit', array('id' => "edit_user", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data")); ?>
                     <?php if (validation_errors()): ?>
                         <div class="alert alert-danger">
                             <strong>Erros no formulário!</strong><br/>
