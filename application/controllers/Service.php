@@ -198,7 +198,7 @@ class Service extends CI_Controller {
         $this->load->model("Recommendation_model", 'recommendation');
         $this->load->model("Rating_model", 'rating');
         $this->load->model("Comments_model", 'comments');
-        
+
         //Validando a parte do comenário
         if ($this->input->post() != NULL) {
             $this->load->library('form_validation');
@@ -209,17 +209,17 @@ class Service extends CI_Controller {
             if ($this->form_validation->run() !== FALSE) {
                 $form['comment'] = $this->input->post('comment');
                 $confirmationInsertComment = $this->comments->insert($form);
-                    if ($confirmationInsertComment) {
-                        $this->session->set_flashdata("mensagem_service", "Comentário inserido com sucesso");
-                    } else {
-                        $this->session->set_flashdata("erro_service", "Falha ao enviar comentário! Consulte administrador do sistema");
-                    }
-                    redirect('service/toView/'.$idService);
+                if ($confirmationInsertComment) {
+                    $this->session->set_flashdata("mensagem_service", "Comentário inserido com sucesso");
+                } else {
+                    $this->session->set_flashdata("erro_service", "Falha ao enviar comentário! Consulte administrador do sistema");
+                }
+                redirect('service/toView/' . $idService);
             }
         }
-        
+
         ////////////////////////////////////////////////
-        
+
         $user_service = $this->user->getUserByService($idService);
         $data["user_profile"] = $this->user->getUserById($user_service);
         $data["user_session"] = $this->session->userdata('logged_in');
@@ -232,7 +232,7 @@ class Service extends CI_Controller {
         $data['dataService'] = $this->service->getServicesById($idService);
         $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
         $data['comments'] = $this->comments->getCommentsByIdServices($idService);
-        
+
         if (isset($this->session->userdata('logged_in')->id))
             $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
         $data["styles"] = array(
@@ -252,6 +252,103 @@ class Service extends CI_Controller {
         $this->load->view("_inc/header", $data);
         $this->load->view("service_view");
         $this->load->view("_inc/footer");
+    }
+
+    public function portifolio($idService) {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else {
+            $this->load->model("Services_model", 'services');
+            $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
+            $data['portfolios'] = $this->services->getPortfoliosByUser($this->session->userdata('logged_in')->id);
+            $this->load->view("_inc/header", $data);
+            $this->load->view("portifolio_list");
+            $this->load->view("_inc/footer");
+        }
+    }
+
+    public function portifolioNovo() {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else {
+            $this->load->model("Services_model", 'services');
+            if ($this->input->post() != NULL) {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('description', 'Descrição', 'required');
+                if (empty($_FILES['inputFile']['name'])) {
+                    $this->form_validation->set_rules('inputFile', 'Imagem', 'required');
+                }
+
+                $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+                if ($this->form_validation->run() !== FALSE) {
+                    $form['id_user'] = $this->session->userdata('logged_in')->id;
+                    $form['description'] = $this->input->post('description');
+                    $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
+
+                    $confirmation = $this->services->insertPortfolio($form);
+                    if ($confirmation)
+                        redirect('profile/services');
+                    else
+                        $this->session->set_flashdata("erro", "Falha ao enviar comentário! Consulte administrador do sistema");
+                }
+            }
+            $data['scripts'] = array(base_url("assets/js/funcoes.js"));
+            $this->load->view("_inc/header", $data);
+            $this->load->view("portifolio_form");
+            $this->load->view("_inc/footer");
+        }
+    }
+
+    public function editPortfolio($idPortfolio) {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else {
+            $this->load->model("Services_model", 'services');
+            if ($this->input->post() != NULL) {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('description', 'Descrição', 'required');
+                if (empty($_FILES['inputFile']['name'])) {
+                    $this->form_validation->set_rules('inputFile', 'Imagem', 'required');
+                }
+
+                $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+                if ($this->form_validation->run() !== FALSE) {
+                    $form['id_user'] = $this->session->userdata('logged_in')->id;
+                    $form['description'] = $this->input->post('description');
+                    $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
+
+                    $confirmation = $this->services->updatePortfolio($idPortfolio, $form);
+                    if ($confirmation)
+                        redirect('profile/services');
+                    else
+                        $this->session->set_flashdata("erro", "Falha ao enviar comentário! Consulte administrador do sistema");
+                }
+            }
+            $data['portfolio'] = $this->services->getPortfolioById($idPortfolio);
+            $data['scripts'] = array(base_url("assets/js/funcoes.js"));
+            $this->load->view("_inc/header", $data);
+            $this->load->view("portifolio_edit");
+            $this->load->view("_inc/footer");
+        }
+    }
+
+    public function deletePortfolio($idPortfolio) {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else {
+            $this->load->model("Services_model", "services");
+            $delete = $this->services->deletePortfolio($idPortfolio);
+            if ($delete) {
+                $this->session->set_flashdata("mensagem", "Portfolio excluído com sucesso");
+            } else {
+                show_404();
+            }
+            redirect('profile/services');
+        }
     }
 
     public function points_maps() {

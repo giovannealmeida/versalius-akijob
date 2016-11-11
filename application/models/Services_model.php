@@ -65,12 +65,12 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesById($idService) {
-         $this->db->select('s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
+        $this->db->select('s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
         $this->db->from('tb_services s');
         $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
         $this->db->join('tb_city c', 's.id_city = c.id', "inner");
         $this->db->join('tb_states st', 'c.id_state = st.id', "inner");
-         $this->db->join('tb_rating r', 'r.id_service = s.id', "left");
+        $this->db->join('tb_rating r', 'r.id_service = s.id', "left");
         $this->db->where('s.id', $idService);
         $query = $this->db->get();
 
@@ -81,7 +81,12 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesByIdAndUser($idUser, $idService) {
-        $query = $this->db->get_where('tb_services', array('id' => $idService, 'id_user' => $idUser));
+        $this->db->select('s.*, j.name as job');
+        $this->db->from('tb_services s');
+        $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
+        $this->db->where('s.id', $idService);
+        $this->db->where('s.id_user', $idUser);
+        $query = $this->db->get();
 
         if (count($query->result()) > 0) {
             return $query->result()[0];
@@ -96,6 +101,46 @@ class Services_model extends CI_Model {
             return $query->result();
         }
         return NULL;
+    }
+
+    public function getPortfolioById($idPortfolio) {
+        $query = $this->db->get_where('tb_portfolios', array('id' => $idPortfolio));
+
+        if (count($query->result()) > 0) {
+            return $query->result()[0];
+        }
+        return NULL;
+    }
+
+    public function insertPortfolio($data) {
+        $this->db->insert('tb_portfolios', $data);
+
+        if ($this->db->affected_rows() > 0) {
+
+            return true; // to the controller
+        }
+
+        return false;
+    }
+
+    public function updatePortfolio($idPortfolio, $data) {
+        $this->db->where('id', $idPortfolio);
+        $this->db->update('tb_portfolios', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    public function deletePortfolio($idPortfolio) {
+        $this->db->delete('tb_portfolios', array('id' => $idPortfolio));
+
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     public function insert($data) {

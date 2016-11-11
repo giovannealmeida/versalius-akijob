@@ -118,7 +118,7 @@
                                 <div class="portfolio-card">
                                     <div class="portfolio-img">
                                         <img alt="images.jpg"
-                                             src="data:image/jpeg;base64,<?= $portfolio->image ?>" />
+                                             src=" <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($portfolio->image)) ?>" />
                                     </div>
                                     <div class="portfolio-text">
                                         <p>

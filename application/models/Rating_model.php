@@ -27,6 +27,8 @@ class Rating_model extends CI_Model {
     }
 
     public function update_rating($data) {
+        $this->db->where('id_user', $data['id_user']);
+        $this->db->where('id_user_receiver', $data['id_user_receiver']);
         $this->db->update('tb_rating', $data);
         if ($this->db->affected_rows() > 0) {
             return TRUE;

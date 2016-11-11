@@ -72,7 +72,7 @@
                                                 <!--<div class="score">
                                                 </div>-->
                                                 <div class="details">
-                                                    <a href="<?= base_url("service/toView/{$service->id}")?>"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                     <input disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
                                                     <?php if ($service->saldo >= 100 && $service->saldo <= 1000): ?>
                                                         <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
@@ -106,7 +106,7 @@
 
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
-                    
+
                     <!-- default styles -->
                     <link href="<?= base_url("assets/css/star-rating.css") ?>" media="all" rel="stylesheet" type="text/css" />
 

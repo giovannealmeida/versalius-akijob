@@ -102,26 +102,6 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
-    public function old() {
-        $this->load->model("Services_model", "services");
-        $this->load->model("Users_model", "user");
-        $this->load->model("City_model", 'city');
-        $this->load->model("State_model", 'state');
-        $this->load->model("Recommendation_model", 'recommendation');
-
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
-        $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
-        $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
-        $data['recommendations'] = $this->recommendation->getRecommendationByUser($data["user_profile"]->id);
-        $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($data["user_profile"]->id);
-        $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($data["user_profile"]->id);
-
-        $this->load->view("_inc/header", $data);
-        $this->load->view("profile");
-        $this->load->view("_inc/footer");
-    }
-
     public function alterPassword() {
         $data = $this->user_info;
         if ($this->input->post() != NULL) {
@@ -136,12 +116,12 @@ class Profile extends CI_Controller {
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             if ($this->form_validation->run() !== FALSE) {
                 if ($data["user_profile"]->password !== NULL) {
-                    if ($this->user->validatePassword($data["user_profile"]->id, sha1($this->input->post('oldPassword')))) {
+                    if ($this->users->validatePassword($data["user_profile"]->id, sha1($this->input->post('oldPassword')))) {
                         $form['password'] = sha1($this->input->post('password'));
-                        $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
+                        $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                         if ($confirmationUpdate) {
                             $this->session->set_flashdata("mensagem_password", "Senha cadastrada com sucesso");
-                            $user = $this->user->getUserById($data["user_profile"]->id);
+                            $user = $this->users->getUserById($data["user_profile"]->id);
                             $this->session->set_userdata('logged_in', $user);
                         } else {
                             $this->session->set_flashdata("erro_password", "Falha ao atualizar! Consulte administrador do sistema");
@@ -151,10 +131,10 @@ class Profile extends CI_Controller {
                     }
                 } else {
                     $form['password'] = sha1($this->input->post('password'));
-                    $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
+                    $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                     if ($confirmationUpdate) {
                         $this->session->set_flashdata("mensagem_password", "Senha cadastrada com sucesso");
-                        $user = $this->user->getUserById($data["user_profile"]->id);
+                        $user = $this->users->getUserById($data["user_profile"]->id);
                         $this->session->set_userdata('logged_in', $user);
                     } else {
                         $this->session->set_flashdata("erro_password", "Falha ao atualizar! Consulte administrador do sistema");
@@ -184,7 +164,7 @@ class Profile extends CI_Controller {
     public function recommendations($idService, $id_recommendation) {
         $this->load->model("Users_model", 'user');
         $this->load->model("Recommendation_model", 'recommendation');
-        $user_service = $this->user->getUserByService($idService);
+        $user_service = $this->users->getUserByService($idService);
         $form = array('id_user' => $this->session->userdata('logged_in')->id, 'id_user_receiver' => $user_service, 'value' => $id_recommendation);
         $recommendation = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
         if ($recommendation) {
