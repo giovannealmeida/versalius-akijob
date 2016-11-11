@@ -111,7 +111,7 @@ class Login extends CI_Controller {
                     "id_gender" => $this->input->post("gender"),
                     "id_city" => $this->input->post('selectCity'),
                     "phone" => $this->input->post('phone'),
-                    "avatar" => $this->input->post('avatar'),
+                    "avatar" => $this->input->post('avatar') != NULL ? $this->input->post('avatar') : NULL,
                     "id_google" => $this->input->post('id_google')
                 );
 

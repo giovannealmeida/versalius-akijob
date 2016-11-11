@@ -9,21 +9,14 @@ class Profile extends CI_Controller {
 
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        }
-        else{
+        } else {
             $this->load->model("Recommendation_model", 'recommendation');
             $this->load->model("Users_model", "users");
             $this->load->model("Subscription_model", "subs");
+            $this->load->model("City_model", "city");
+            $this->load->model("State_model", "state");
 
             $this->user_info["user_profile"] = $this->session->userdata('logged_in');
-            if ($this->user_info["user_profile"]->avatar === null)
-            $this->user_info["scr_photo"] = base_url('/assets/pages/media/profile/profile_user.png');
-            elseif ($this->user_info["user_profile"]->avatar == base64_decode(base64_encode(stripslashes($this->user_info["user_profile"]->avatar))))
-            $this->user_info["scr_photo"] = $this->user_info["user_profile"]->avatar;
-            else
-            $this->user_info["scr_photo"] = 'data:image/jpeg;base64,' . base64_encode(stripslashes($this->user_info["user_profile"]->avatar));
-
-
             $this->user_info['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($this->user_info["user_profile"]->id);
             $this->user_info['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($this->user_info["user_profile"]->id);
             $tier_balance = $this->user_info['recommendations_positive'] - $this->user_info['recommendations_negative'];
@@ -31,11 +24,9 @@ class Profile extends CI_Controller {
             $this->user_info["premium_data"]["isPremium"] = $this->subs->isSubscribed($this->user_info["user_profile"]->id);
             $this->user_info["scripts"] = array(base_url("assets/js/page-highlight.js"));
         }
-
-
     }
 
-    public function index(){
+    public function index() {
 
         $data = $this->user_info;
         $this->load->view("_inc/header", $data);
@@ -44,9 +35,49 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
-    public function config(){
+    public function config() {
         $data = $this->user_info;
 
+        if ($this->input->post() != NULL) {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('fullname', 'Nome', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required');
+            $this->form_validation->set_rules('gender', 'Gênero', 'required');
+            $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
+            $this->form_validation->set_rules('selectState', 'Estado', 'required');
+            $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
+
+            $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+            $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+            if ($this->form_validation->run() !== FALSE) {
+                $form['name'] = $this->input->post('fullname');
+                $form['email'] = $this->input->post('email');
+                $form['id_city'] = $this->input->post('selectCity');
+                $form['id_gender'] = $this->input->post('gender');
+                $form['birthday'] = $this->input->post('birthDate');
+                $form['phone'] = $this->input->post('phone');
+                if ($_FILES['upload_avatar']['tmp_name'] !== "") {
+                    $form['avatar'] = addslashes(file_get_contents($_FILES['upload_avatar']['tmp_name']));
+                }
+                $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
+                if ($confirmationUpdate) {
+                    $this->session->set_flashdata("mensagem_profile", "Cadastro atualizado com sucesso");
+                    $user = $this->users->getUserById($data["user_profile"]->id);
+                    $this->session->set_userdata('logged_in', $user);
+                } else {
+                    $this->session->set_flashdata("erro_profile", "Falha ao atualizar! Consulte administrador do sistema");
+                }
+                redirect('profile/config');
+            } else {
+                $this->session->set_flashdata("erro_validation_profile", validation_errors());
+            }
+        }
+
+        $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
+        $data['states'] = $this->state->getAll();
+        $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
+        $data['citys'] = $this->city->getCityByState($data['state']->id);
         $data["scripts"][] = base_url("assets/js/profile-config.js");
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
@@ -54,13 +85,13 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
-    public function plan(){
+    public function plan() {
         $data = $this->user_info;
         if ($data["premium_data"]["isPremium"]) {
             $data["plan"] = "PREMIUM";
             $data["plan_class"] = "success";
             $data["date_end"] = date('d/m/Y', strtotime($this->subs->getEndSubscription($data["user_profile"]->id)));
-        } else{
+        } else {
             $data["plan"] = "FREE";
             $data["plan_class"] = "default";
         }
@@ -91,73 +122,17 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
-    public function edit() {
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $this->load->model("Gender_model", "gender");
-        $this->load->model("State_model", "state");
-        $this->load->model("City_model", "city");
-        $this->load->model("Users_model", "user");
-
-        if ($this->input->post() != NULL) {
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('fullname', 'Nome', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required');
-            $this->form_validation->set_rules('gender', 'Gênero', 'required');
-            $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
-            $this->form_validation->set_rules('selectState', 'Estado', 'required');
-            $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
-
-            $this->form_validation->set_message('required', 'O campo %s é obrigatório');
-            $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-
-            if ($this->form_validation->run() !== FALSE) {
-                $form['name'] = $this->input->post('fullname');
-                $form['email'] = $this->input->post('email');
-                $form['id_city'] = $this->input->post('selectCity');
-                $form['id_gender'] = $this->input->post('gender');
-                $form['birthday'] = $this->input->post('birthDate');
-                $form['phone'] = $this->input->post('phone');
-                if ($_FILES['avatar']['tmp_name'] !== "") {
-                    $form['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
-                }
-                $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
-                if ($confirmationUpdate) {
-                    $this->session->set_flashdata("mensagem", "Cadastro atualizado com sucesso");
-                    $user = $this->user->getUserById($data["user_profile"]->id);
-                    $this->session->set_userdata('logged_in', $user);
-                } else {
-                    $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
-                }
-                redirect('profile');
-            }
-        }
-
-        $data['genders'] = $this->gender->getAll();
-        $data['states'] = $this->state->getAll();
-        $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
-        $data['citys'] = $this->city->getCityByState($data['state']->id);
-        $data['scripts'] = array(
-            base_url("assets/js/changeCity.js"),
-            base_url("assets/js/funcoes.js"));
-        $this->load->view("_inc/header", $data);
-        $this->load->view("edit_user");
-        $this->load->view("_inc/footer");
-    }
-
     public function alterPassword() {
-        $data["user_profile"] = $this->session->userdata('logged_in');
-        $this->load->model("Users_model", "user");
+        $data = $this->user_info;
         if ($this->input->post() != NULL) {
             $this->load->library('form_validation');
             if ($data["user_profile"]->password !== NULL)
                 $this->form_validation->set_rules('oldPassword', 'Senha antiga', 'trim|required');
-            $this->form_validation->set_rules('password', 'Senha', 'trim|required|min_length[8]|max_length[22]');
-            $this->form_validation->set_rules('ConfirmPassword', 'Confirmação da senha', 'required|matches[password]|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('password', 'Senha', 'trim|required');
+            $this->form_validation->set_rules('ConfirmPassword', 'Confirmação da senha', 'required|matches[password]');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
-            $this->form_validation->set_message('min_length', 'A %s tem que ter no mínimo 8 caracteres');
-            $this->form_validation->set_message('max_length', 'A %s tem que ter no máximo 22 caracteres');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             if ($this->form_validation->run() !== FALSE) {
                 if ($data["user_profile"]->password !== NULL) {
@@ -165,30 +140,32 @@ class Profile extends CI_Controller {
                         $form['password'] = sha1($this->input->post('password'));
                         $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                         if ($confirmationUpdate) {
-                            $this->session->set_flashdata("mensagem", "Senha cadastrada com sucesso");
+                            $this->session->set_flashdata("mensagem_password", "Senha cadastrada com sucesso");
                             $user = $this->user->getUserById($data["user_profile"]->id);
                             $this->session->set_userdata('logged_in', $user);
                         } else {
-                            $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
+                            $this->session->set_flashdata("erro_password", "Falha ao atualizar! Consulte administrador do sistema");
                         }
                     } else {
-                        $this->session->set_flashdata("erro", "Senha antiga incorreta");
+                        $this->session->set_flashdata("erro_password", "Senha antiga incorreta");
                     }
                 } else {
                     $form['password'] = sha1($this->input->post('password'));
                     $confirmationUpdate = $this->user->update($data["user_profile"]->id, $form);
                     if ($confirmationUpdate) {
-                        $this->session->set_flashdata("mensagem", "Senha cadastrada com sucesso");
+                        $this->session->set_flashdata("mensagem_password", "Senha cadastrada com sucesso");
+                        $user = $this->user->getUserById($data["user_profile"]->id);
+                        $this->session->set_userdata('logged_in', $user);
                     } else {
-                        $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
+                        $this->session->set_flashdata("erro_password", "Falha ao atualizar! Consulte administrador do sistema");
                     }
                 }
-                redirect('profile/alterPassword');
+                redirect('profile/config#alter_pass');
+            } else {
+                $this->session->set_flashdata("erro_validation_password", validation_errors());
             }
         }
-        $this->load->view("_inc/header", $data);
-        $this->load->view("profile/alterPassword");
-        $this->load->view("_inc/footer");
+        redirect('profile/config#alter_pass');
     }
 
     public function services() {
@@ -202,7 +179,6 @@ class Profile extends CI_Controller {
         $this->load->view("profile/menu");
         $this->load->view("profile/services");
         $this->load->view("_inc/footer");
-
     }
 
     public function recommendations($idService, $id_recommendation) {

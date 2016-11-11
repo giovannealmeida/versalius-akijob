@@ -59,7 +59,7 @@ class Service extends CI_Controller {
                         } else {
                             $this->session->set_flashdata("erro_service", "Falha ao cadastrar! Consulte administrador do sistema");
                         }
-                        redirect('profile');
+                        redirect('profile/services');
                     }
                 }
                 $data['id'] = NULL;
@@ -150,7 +150,7 @@ class Service extends CI_Controller {
                         } else {
                             $this->session->set_flashdata("erro_service", "Falha ao atualizar! Consulte administrador do sistema");
                         }
-                        redirect('profile');
+                        redirect('profile/services');
                     }
                 }
                 $data['id'] = $idService;
@@ -276,7 +276,7 @@ class Service extends CI_Controller {
             } else {
                 show_404();
             }
-            redirect('profile');
+            redirect('profile/services');
         }
     }
 
