@@ -267,7 +267,7 @@ class Service extends CI_Controller {
         }
     }
 
-    public function portifolioNovo() {
+    public function portfolioNovo() {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
         } else {
