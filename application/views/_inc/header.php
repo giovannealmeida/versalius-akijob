@@ -51,9 +51,9 @@
                         <ul class="nav navbar-nav navbar-right">
                             <?php if ($this->session->userdata('logged_in')): ?>
                                 <li><a href="<?= base_url("profile") ?>">Minha Conta</a></li>
-                                <li><a href="<?= base_url("logout") ?>">Logout</a></li>
+                                <li><a href="<?= base_url("logout") ?>">Sair</a></li>
                             <?php else: ?>
-                                <li><a href="<?= base_url('login') ?>">Login</a></li>
+                                <li><a href="<?= base_url('login') ?>">Entrar</a></li>
                             <?php endif; ?>
                         </ul>
                     </div>

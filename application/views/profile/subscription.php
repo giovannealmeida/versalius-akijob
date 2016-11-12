@@ -23,7 +23,7 @@
 							<div class="row">
 								<div class="col-xs-12">
 									<div class="form-group">
-										<label for="code">Insira o Código Promocional</label>
+										<label for="code">Insira o código promocional</label>
 										<input type="input" class="form-control" id="code" placeholder="Código Promocional" name="code">
 									</div>
 

@@ -111,7 +111,8 @@
                 self.$element.trigger('change').trigger('rating.change', [self.$element.val(), self._getCaption()]);
                 self.starClicked = true;
             });
-            window.location = "../../service/updateRating/" + $('#id_service').val() + "/" + $('#input-id').val();
+            if(self.$element[0].id == 'input-id')
+                window.location = "../../service/updateRating/" + $('#id_service').val() + "/" + $('#input-id').val();
         },
         _starMouseMove: function (e) {
             var self = this, pos, out;

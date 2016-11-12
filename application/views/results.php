@@ -44,9 +44,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <?php if ($user_profile): ?>
                             <li><a href="<?= base_url("profile") ?>">Minha Conta</a></li>
-                            <li><a href="<?= base_url("logout") ?>">Logout</a></li>
+                            <li><a href="<?= base_url("logout") ?>">Sair</a></li>
                         <?php else: ?>
-                            <li><a href="<?= base_url('login') ?>">Login</a></li>
+                            <li><a href="<?= base_url('login') ?>">Entrar</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div id="map-canvas" class="hidden-xs hidden-sm"></div>
-        <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
+        <input id="pac-input" class="controls" type="text" placeholder="Digite um endereço">
         <input id="delete-all-button" class="controls" type=button value="Limpar">
         <div class="container-fluid" id="main-result">
             <div class="row">
@@ -72,8 +72,8 @@
                                                 <!--<div class="score">
                                                 </div>-->
                                                 <div class="details">
-                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                    <input disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
+                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                    <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
                                                     <?php if ($service->saldo >= 100 && $service->saldo <= 1000): ?>
                                                         <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
                                                     <?php elseif ($service->saldo > 1000 && $service->saldo <= 5000): ?>

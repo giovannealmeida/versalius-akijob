@@ -149,7 +149,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo form_label('Senha Antiga: ', 'oldPassword'); ?>
+                                <?php echo form_label('Senha Atual', 'oldPassword'); ?>
                                 <span class="required">*</span>
                                 <?php if ($user_profile->password == NULL): ?>
                                     <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga", 'disabled' => 'true'); ?>
@@ -163,7 +163,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo form_label('Senha: ', 'password'); ?>
+                                <?php echo form_label('Nova Senha', 'password'); ?>
                                 <span class="required">*</span>
                                 <?php echo form_password(array("name" => "password", "id" => "password", 'class' => 'form-control', 'placeholder' => "Senha")); ?>
                             </div>
@@ -172,7 +172,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo form_label('Confirme a senha: ', 'ConfirmPassword'); ?>
+                                <?php echo form_label('Confirmar Nova Senha', 'ConfirmPassword'); ?>
                                 <span class="required">*</span>
                                 <?php echo form_password(array("name" => "ConfirmPassword", "id" => "ConfirmPassword", 'class' => 'form-control', 'placeholder' => "Confirme a senha")); ?>
                             </div>

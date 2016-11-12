@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aac4a111264972de9abdf3bb2e8d99c4",
+    "hash": "8746d2ba49b63f178f7b0ed3f9b0cda5",
     "content-hash": "85d0156123854b9f315d3a450e8ebec5",
     "packages": [
         {
             "name": "facebook/php-sdk-v4",
-            "version": "5.4.0",
+            "version": "5.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/php-graph-sdk.git",
-                "reference": "c69c3c0bb304ec1fe9400b4bc47ab641c9002eee"
+                "reference": "a5a6b6cc493d8dc417f588c7c0bdfc6396198350"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/c69c3c0bb304ec1fe9400b4bc47ab641c9002eee",
-                "reference": "c69c3c0bb304ec1fe9400b4bc47ab641c9002eee",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/a5a6b6cc493d8dc417f588c7c0bdfc6396198350",
+                "reference": "a5a6b6cc493d8dc417f588c7c0bdfc6396198350",
                 "shasum": ""
             },
             "require": {
@@ -63,7 +63,7 @@
                 "sdk"
             ],
             "abandoned": "facebook/graph-sdk",
-            "time": "2016-10-12 18:53:27"
+            "time": "2016-10-18 19:19:03"
         }
     ],
     "packages-dev": [

@@ -92,7 +92,7 @@ class Profile extends CI_Controller {
             $data["plan_class"] = "success";
             $data["date_end"] = date('d/m/Y', strtotime($this->subs->getEndSubscription($data["user_profile"]->id)));
         } else {
-            $data["plan"] = "FREE";
+            $data["plan"] = "Grátis";
             $data["plan_class"] = "default";
         }
 
@@ -107,9 +107,9 @@ class Profile extends CI_Controller {
         if ($this->input->post() != NULL) {
             $this->load->library('form_validation');
             if ($data["user_profile"]->password !== NULL)
-                $this->form_validation->set_rules('oldPassword', 'Senha antiga', 'trim|required');
-            $this->form_validation->set_rules('password', 'Senha', 'trim|required');
-            $this->form_validation->set_rules('ConfirmPassword', 'Confirmação da senha', 'required|matches[password]');
+                $this->form_validation->set_rules('oldPassword', 'Senha Atual', 'trim|required');
+            $this->form_validation->set_rules('password', 'Nova Senha', 'trim|required');
+            $this->form_validation->set_rules('ConfirmPassword', 'Confirmar Nova Senha', 'required|matches[password]');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');

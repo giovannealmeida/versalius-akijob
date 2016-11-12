@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
                         <span class="profile-name"><?= $dataService->job ?></span>
-                        <input disabled="true" type="text" class="rating" data-size="xs" value="<?= isset($dataService->saldo) ? $dataService->saldo : 0 ?>" >
+                        <input id="display_stars" disabled="true" onclick="disabled" type="text" class="rating" data-size="xs" value="<?= isset($dataService->saldo) ? $dataService->saldo : 0 ?>" >
                         <p><small class="address"> </span> <?= $dataService->city . ' - ' . $dataService->state ?></small></p>
                         <p><small class="address"> </span> <?= $dataService->street . ', ' . $dataService->number . ', ' . $dataService->neighborhood ?></small></p>
                     </div>
@@ -143,7 +143,6 @@
             </div>
             <div class="panel-body">
                 <div id="map" style="width:100%;height: 500px; margin-left: 0px"></div>
-                <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
             </div>
         </div>
     </div>
