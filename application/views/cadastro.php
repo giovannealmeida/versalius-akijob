@@ -109,7 +109,7 @@
                         <div class="form-group">
                             <?php echo form_label('Telefone', 'phone', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile["phone"]) ? $user_profile["phone"] : "")); ?>
+                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control phone', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile["phone"]) ? $user_profile["phone"] : "")); ?>
                             </div>
                         </div>
                         <!-- /.form-group -->

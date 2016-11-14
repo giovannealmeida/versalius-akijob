@@ -93,7 +93,7 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Telefone', 'phone'); ?>
-                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile->phone) ? $user_profile->phone : "")); ?>
+                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control phone', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile->phone) ? $user_profile->phone : "")); ?>
                             </div>
                         </div>
                     </div>

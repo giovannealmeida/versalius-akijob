@@ -90,16 +90,19 @@ class Login extends CI_Controller {
             $this->load->model('Users_model', 'users');
             $this->load->library('form_validation');
 
-            $this->form_validation->set_rules('fullname', 'Nome Completo', 'required');
+            $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
-            $this->form_validation->set_rules('password', 'Senha', 'required');
-            $this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]');
+            $this->form_validation->set_rules('password', 'Senha', 'required|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]|min_length[8]|max_length[22]');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');
             $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required|callback_term');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
+            $this->form_validation->set_message('validate_name', 'O nome só pode conter letras');
+            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 8 a 22 caracteres');
+            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 8 a 22 caracteres');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
             if ($this->form_validation->run() == true) {
@@ -148,7 +151,9 @@ class Login extends CI_Controller {
         $data['styles'] = array(base_url("assets/css/style.css"));
         $data['scripts'] = array(
             base_url("assets/js/changeCity.js"),
-            base_url("assets/js/funcoes.js"));
+            base_url("assets/js/funcoes.js"),
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
+            base_url("assets/js/mask.js"));
         $this->load->view('_inc/header', $data);
         $this->load->view('cadastro');
         $this->load->view('_inc/footer');
@@ -260,6 +265,15 @@ class Login extends CI_Controller {
 
     public function logout() {
         session_destroy();
+    }
+
+    public function validate_name() {
+        if ($this->input->post('fullname') != NULL) {
+            if (!preg_match('/^[a-zA-ZáàâãéèêíìóòôõúüùûñÁÀÂÃÉÈÊÍÌÓÒÔÕÚÜÛÑ ]+$/', $this->input->post('fullname'))) {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
 }

@@ -14,7 +14,7 @@
                         echo $user_profile->avatar;
                     else
                         echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
-                    ?>" alt="" style="width: 200px; height: 200px">
+                    ?>" alt="">
 
                 </div>
                 <!-- END SIDEBAR USERPIC -->
@@ -53,13 +53,14 @@
                                 <i class="fa fa-briefcase" aria-hidden="true"></i> Serviços
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-line-chart" aria-hidden="true"></i> Estatísticas
-                                <span class="label label-warning">Em Breve!</span>
-                            </a>
-                        </li>
-
+                        <?php if ($premium_data["isPremium"]): ?>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-line-chart" aria-hidden="true"></i> Estatísticas
+                                    <span class="label label-warning">Em Breve!</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
                         <li>
                             <a href="javascript:void(0)">
                                 <i class="glyphicon glyphicon-flag"></i> Ajuda

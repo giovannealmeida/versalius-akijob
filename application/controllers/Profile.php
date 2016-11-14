@@ -40,7 +40,7 @@ class Profile extends CI_Controller {
 
         if ($this->input->post() != NULL) {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('fullname', 'Nome', 'required');
+            $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('gender', 'Gênero', 'required');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
@@ -48,6 +48,7 @@ class Profile extends CI_Controller {
             $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+            $this->form_validation->set_message('validate_name', 'O nome só pode conter letras');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
             if ($this->form_validation->run() !== FALSE) {
@@ -78,7 +79,11 @@ class Profile extends CI_Controller {
         $data['states'] = $this->state->getAll();
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['citys'] = $this->city->getCityByState($data['state']->id);
-        $data["scripts"][] = base_url("assets/js/profile-config.js");
+        $data["scripts"] = array(
+            base_url("assets/js/profile-config.js"),
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
+            base_url("assets/js/mask.js")
+        );
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
         $this->load->view("profile/config");
@@ -108,11 +113,13 @@ class Profile extends CI_Controller {
             $this->load->library('form_validation');
             if ($data["user_profile"]->password !== NULL)
                 $this->form_validation->set_rules('oldPassword', 'Senha Atual', 'trim|required');
-            $this->form_validation->set_rules('password', 'Nova Senha', 'trim|required');
-            $this->form_validation->set_rules('ConfirmPassword', 'Confirmar Nova Senha', 'required|matches[password]');
+            $this->form_validation->set_rules('password', 'Nova Senha', 'trim|required|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('ConfirmPassword', 'Confirmar Nova Senha', 'required|matches[password]|min_length[8]|max_length[22]');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
+            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 8 a 22 caracteres');
+            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 8 a 22 caracteres');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             if ($this->form_validation->run() !== FALSE) {
                 if ($data["user_profile"]->password !== NULL) {
@@ -176,6 +183,15 @@ class Profile extends CI_Controller {
             $this->recommendation->insert_recommendation($form);
         }
         redirect("service/toView/{$idService}");
+    }
+
+    public function validate_name() {
+        if ($this->input->post('fullname') != NULL) {
+            if (!preg_match('/^[a-zA-ZáàâãéèêíìóòôõúüùûñÁÀÂÃÉÈÊÍÌÓÒÔÕÚÜÛÑ ]+$/', $this->input->post('fullname'))) {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 
 }

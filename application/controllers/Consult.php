@@ -28,6 +28,16 @@ class consult extends CI_Controller {
 
         print_r(json_encode($array));
     }
+    
+    public function getCityById($idCity){
+        $this->db->select('*');
+        $this->db->from('tb_city');
+        $this->db->where('id', $idCity);
+        $query = $this->db->get();
+        $array = array('lat' => $query->result()[0]->latitude, 'lng' => $query->result()[0]->longitude);
+
+        print_r(json_encode($array));
+    }
 
     public function getJobsByName(){
         if ($this->input->post()) {

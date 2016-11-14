@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <?php echo form_label('CEP', 'zipCode'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control zipCode', 'id' => 'zipCode', 'pattern' => ".{8,}"), set_value('zipCode', isset($dataService) ? $dataService->zip_code : "")); ?>
+                                <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control cep', 'id' => 'zipCode', 'pattern' => ".{8,}"), set_value('zipCode', isset($dataService) ? $dataService->zip_code : "")); ?>
                             </div>
                         </div>
                         <div class="col-lg-3">

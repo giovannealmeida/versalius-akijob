@@ -81,10 +81,9 @@ class Service extends CI_Controller {
                 $data['scripts'] = array(
                     base_url('assets/js/bootstrap-toggle.min.js'),
                     base_url('assets/js/changeCity.js'),
-                    base_url('/assets/js/google_maps/mapsRegister.js')
-                );
-                $data['functions_scripts'] = array(
-                    "setLatLng({$data['coordinates']->latitude},{$data['coordinates']->longitude});"
+                    base_url('/assets/js/google_maps/mapsRegister.js'),
+                    "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
+                    base_url("assets/js/mask.js")
                 );
 
                 if ($this->input->post('latitude')) {
@@ -170,7 +169,9 @@ class Service extends CI_Controller {
                 $data['scripts'] = array(
                     base_url('assets/js/bootstrap-toggle.min.js'),
                     base_url('assets/js/changeCity.js'),
-                    base_url('/assets/js/google_maps/mapsRegister.js')
+                    base_url('/assets/js/google_maps/mapsRegister.js'),
+                    "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
+                    base_url("assets/js/mask.js")
                 );
                 $data['functions_scripts'] = array(
                     "setLatLng({$data['dataService']->latitude},{$data['dataService']->longitude});",
@@ -309,9 +310,6 @@ class Service extends CI_Controller {
             if ($this->input->post() != NULL) {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('description', 'Descrição', 'required');
-                if (empty($_FILES['inputFile']['name'])) {
-                    $this->form_validation->set_rules('inputFile', 'Imagem', 'required');
-                }
 
                 $this->form_validation->set_message('required', 'O campo %s é obrigatório');
                 $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
@@ -319,7 +317,10 @@ class Service extends CI_Controller {
                 if ($this->form_validation->run() !== FALSE) {
                     $form['id_user'] = $this->session->userdata('logged_in')->id;
                     $form['description'] = $this->input->post('description');
-                    $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
+                    if (!empty($_FILES['inputFile']['name'])) {
+                        $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
+                    }
+
 
                     $confirmation = $this->services->updatePortfolio($idPortfolio, $form);
                     if ($confirmation)
