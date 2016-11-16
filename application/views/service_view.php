@@ -181,8 +181,8 @@
                 </div>
             </div>
         </div>
-    <?php endif; ?>
     <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
+    <?php endif; ?>    
 </div>
 
 
