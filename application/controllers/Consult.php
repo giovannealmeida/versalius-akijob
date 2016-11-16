@@ -52,4 +52,12 @@ class consult extends CI_Controller {
 
         print_r(json_encode($array));
     }
+    public function getComments($idService, $x){
+        $this->load->model('Comments_model');
+        //Definindo variaveis de inicio e fim para serem usadas como "limit" na consulta do mysql
+        $offset = $x * 5;
+        $this->load->model('City_model');
+        $result = $this->Comments_model->getCommentsByIdServices($idService, $offset);        
+        echo json_encode($result);
+    }
 }

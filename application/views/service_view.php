@@ -153,13 +153,13 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Comentários</h3>
                 </div>
-                <div class="panel-body">
-
+                <div id="comments" class="panel-body">
                     <form action="<?= base_url("Service/toView/" . $id) ?>" method="post">                    
                         <legend>Deixe seu comentário:</legend>                    
                         <textarea name="comment" class="form-control" rows="3" required></textarea>
-                        <input type="hidden" name="id_service" value="<?= $id ?>">
+                        <input id="id_service" type="hidden" name="id_service" value="<?= $id ?>">
                         <input type="hidden" name="id_user" value="<?= $user_profile->id ?>">
+                        <input id="offset" type="hidden" name="offset" value="1">
                         <div class="clear"></div><br>
                         <input type="submit" class="btn btn-success" value="Enviar">                    
                     </form>
@@ -182,6 +182,7 @@
             </div>
         </div>
     <?php endif; ?>
+    <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
 </div>
 
 

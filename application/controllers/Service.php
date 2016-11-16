@@ -232,7 +232,7 @@ class Service extends CI_Controller {
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
         $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
-        $data['comments'] = $this->comments->getCommentsByIdServices($idService);
+        $data['comments'] = $this->comments->getCommentsByIdServices($idService, 0);
 
         if (isset($this->session->userdata('logged_in')->id))
             $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
@@ -244,7 +244,7 @@ class Service extends CI_Controller {
         $data['scripts'] = array(
             base_url('/assets/js/google_maps/mapsServiceView.js'),
             base_url("assets/js/star-rating.js"),
-            "//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"
+            base_url('assets/js/funcoes.js'),
         );
         $data['functions_scripts'] = array(
             "setLatLng({$data['dataService']->latitude},{$data['dataService']->longitude});",

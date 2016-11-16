@@ -7,12 +7,12 @@ class Comments_model extends CI_Model {
         parent::__construct();
     }
     
-    function getCommentsByIdServices($idService) {
+    function getCommentsByIdServices($idService, $offset) {
         $this->db->select('u.`name` as `user_name`, c.`comment` as `comment`');
-        $this->db->from('tb_comments as c');
         $this->db->join('tb_users as u', 'c.id_user = u.id', "inner");
         $this->db->where('c.id_service', $idService);
-        $query = $this->db->get();
+        if($offset == 0){ $query = $this->db->get('tb_comments as c', 5);}
+        else{ $query = $this->db->get('tb_comments as c', 5, $offset);}
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
