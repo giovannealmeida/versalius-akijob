@@ -11,7 +11,7 @@ var loadFile = function (event) {
 
 $('#ButtonLoadMoreComments').on('click', function () {
     var $btn = $(this).button('loading');
-    var x = $("#offset").val();
+    var x = parseInt($("#offset").val());
     $("#offset").val(x + 1);
     var idService = $("#id_service").val();
     urlConsulta = base_url.url + "index.php/consult/getComments/" + idService + "/" + x;
@@ -24,8 +24,15 @@ $('#ButtonLoadMoreComments').on('click', function () {
                     $('#comments').append("<div class=\"panel panel-default\">\
                                 <div class=\"panel-heading\">" + comment.user_name + "</div>\
                                 <div class=\"panel-body\">\
-                                   " + comment.comment + " \
-                                </div> \
+                                <div class=\"row\">\
+                                        <div class=\"col-xs-12 col-sm-2 col-md-2 col-lg-1\">\
+                                            <img class=\"img-circle img-responsive center-block profile-photo\" src=" + comment.avatar + " alt=\"\" >\
+                                        </div>\
+                                        <div class=\"col-xs-12 col-sm-10 col-md-10 col-lg-11\">\
+                                            <p class=\"text-justify\">" + comment.comment + "</p> \
+                                        </div>\
+                                    </div>\
+                                </div>\
                             </div>");
                 });
             },

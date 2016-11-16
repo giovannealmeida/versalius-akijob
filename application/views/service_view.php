@@ -158,7 +158,7 @@
                         <legend>Deixe seu comentário:</legend>                    
                         <textarea name="comment" class="form-control" rows="3" required></textarea>
                         <input id="id_service" type="hidden" name="id_service" value="<?= $id ?>">
-                        <input type="hidden" name="id_user" value="<?= $user_profile->id ?>">
+                        <input type="hidden" name="id_user" value="<?= $user_session->id ?>">
                         <input id="offset" type="hidden" name="offset" value="1">
                         <div class="clear"></div><br>
                         <input type="submit" class="btn btn-success" value="Enviar">                    
@@ -171,7 +171,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><?= $value->user_name ?></div>
                                 <div class="panel-body">
-                                    <?= $value->comment ?>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1">
+                                            <img class="img-circle img-responsive center-block profile-photo" src="<?=$value->avatar?>" alt="" >
+                                        </div>
+                                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
+                                            <p class="text-justify"><?= $value->comment ?></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <?php
@@ -181,7 +188,7 @@
                 </div>
             </div>
         </div>
-    <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
+        <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
     <?php endif; ?>    
 </div>
 
