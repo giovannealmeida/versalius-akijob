@@ -9,10 +9,11 @@ var loadFile = function (event) {
     output.src = URL.createObjectURL(event.target.files[0]);
 };
 
+var offset = 1;//Variável auxiliar utilizada para gerar os comentários dinâmicos de 5 em 5
 $('#ButtonLoadMoreComments').on('click', function () {
     var $btn = $(this).button('loading');
-    var x = parseInt($("#offset").val());
-    $("#offset").val(x + 1);
+    var x = offset;
+    offset++;
     var idService = $("#id_service").val();
     urlConsulta = base_url.url + "index.php/consult/getComments/" + idService + "/" + x;
         $.ajax({url: urlConsulta,
