@@ -158,8 +158,7 @@
                         <legend>Deixe seu comentário:</legend>                    
                         <textarea name="comment" class="form-control" rows="3" required></textarea>
                         <input id="id_service" type="hidden" name="id_service" value="<?= $id ?>">
-                        <input type="hidden" name="id_user" value="<?= $user_session->id ?>">
-                        <input id="offset" type="hidden" name="offset" value="1">
+                        <input type="hidden" name="id_user" value="<?= $user_session->id ?>">                        
                         <div class="clear"></div><br>
                         <input type="submit" class="btn btn-success" value="Enviar">                    
                     </form>
