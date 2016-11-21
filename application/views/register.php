@@ -35,8 +35,7 @@
                             </div>
                         <?php endif; ?>
                         <?php echo form_open('login/register', array('id' => "register", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data")); ?>
-                        <?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'name', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>
-                        <?php echo form_input(array('name' => 'id_google', 'class' => 'form-control', 'id' => 'id_google', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['id_google'] : NULL)); ?>
+                        <?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'avatar', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>
                         <?php if (validation_errors()): ?>
                             <div class="alert alert-danger">
                                 <strong>Erros no formulário!</strong><br/>

@@ -7,6 +7,7 @@
 var loadFile = function (event) {
     var output = document.getElementById('preview_image');
     output.src = URL.createObjectURL(event.target.files[0]);
+    $('#avatar').val(($('#preview_image')[0].src));
 };
 
 var offset = 1;//Variável auxiliar utilizada para gerar os comentários dinâmicos de 5 em 5
@@ -16,13 +17,13 @@ $('#ButtonLoadMoreComments').on('click', function () {
     offset++;
     var idService = $("#id_service").val();
     urlConsulta = base_url.url + "index.php/consult/getComments/" + idService + "/" + x;
-        $.ajax({url: urlConsulta,
-            success: function (result) {
-                if(result === "null"){
-                    alert("Não existem mais comentários a serem exibidos.");
-                }
-                $.each(JSON.parse(result), function (i, comment) {
-                    $('#comments').append("<div class=\"panel panel-default\">\
+    $.ajax({url: urlConsulta,
+        success: function (result) {
+            if (result === "null") {
+                alert("Não existem mais comentários a serem exibidos.");
+            }
+            $.each(JSON.parse(result), function (i, comment) {
+                $('#comments').append("<div class=\"panel panel-default\">\
                                 <div class=\"panel-heading\">" + comment.user_name + "</div>\
                                 <div class=\"panel-body\">\
                                 <div class=\"row\">\
@@ -35,11 +36,11 @@ $('#ButtonLoadMoreComments').on('click', function () {
                                     </div>\
                                 </div>\
                             </div>");
-                });
-            },
-            error: function (error) {
-                alert("Falha ao consultar Comentário!");
-            }
-        });
+            });
+        },
+        error: function (error) {
+            alert("Falha ao consultar Comentário!");
+        }
+    });
     $btn.button('reset');
 });

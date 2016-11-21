@@ -19,7 +19,7 @@ class Login extends CI_Controller {
         $this->load->library('googleplus');
     }
 
-    public function index(){
+    public function index() {
         $data = array();
         $data["scripts"] = array(
             base_url("assets/js/facebook-login.js"),
@@ -32,70 +32,6 @@ class Login extends CI_Controller {
             // VALIDAÇAO
         }
 
-        $this->load->view('_inc/header', $data);
-        $this->load->view('login');
-        $this->load->view('_inc/footer');
-    }
-
-    public function old_index() {
-        $this->load->model('Users_model', 'users');
-        $this->load->model('City_model', 'city');
-
-        if ($this->input->post()) { // Login email/senha
-            $user = $this->users->getUser($this->input->post('email'), sha1($this->input->post('password')));
-            if ($user == null) {
-                $this->session->set_flashdata('account_exists', 1);
-                $this->session->set_flashdata("login_error", "E-mail ou senha incorretos");
-            } else {
-
-                $this->session->set_userdata('logged_in', $user);
-                redirect('index');
-            }
-        } elseif ($this->session->flashdata('user_data')) { // Autenticação externa
-            $user_profile = $this->session->flashdata('user_data')['user_profile'];
-
-            if ($this->users->exists($user_profile['email'])) {
-                $user = $this->users->getUserExternalAuth($user_profile['email'], $this->session->flashdata('user_data')['type']);
-                if ($user == null) { // Bloquear novo insert
-                    $this->session->set_flashdata('email_exists', true);
-                    $this->session->set_flashdata('temp_user_data', $user_profile);
-                    redirect('login/register');
-                } else { // Realizar login com o email da autenticação externa
-                    $this->session->set_userdata('logged_in', $user);
-                    redirect('index');
-                }
-
-                $user = null;
-            } else { // Realiza cadastro da autenticação externa pelo Facebook
-                // Google não tem todas as informações
-                $user_insert = array(
-                    'name' => $user_profile['name'],
-                    'email' => $user_profile['email'],
-                    'link_social_media' => $user_profile['link_rede'],
-                    'avatar' => $user_profile['picture']
-                );
-                $user_insert['id_gender'] = $user_profile['gender'] == 'male' ? 1 : 2;
-
-
-                $user_insert[$user_profile['key']] = $user_profile['id_auth'];
-                if (!isset($user_profile['birthday'])) {                            // Verificar campos vazios - Google sempre cai aqui
-                    $this->session->set_flashdata("temp_user_data", $user_insert);
-                    redirect("login/register");
-                }
-                $date = strtr($user_profile['birthday'], '/', '-');
-                $user_insert['birthday'] = date('Y/m/d', strtotime($date));
-                $user_insert['id_city'] = $this->city->getIdByNameAndState($user_profile[0]['city'], $user_profile[0]['state']);
-                $user = $this->users->insert($user_insert);
-
-                $this->session->set_userdata('logged_in', $user);
-                redirect('index');
-            }
-        }
-
-        $helper = $this->facebook->getRedirectLoginHelper();
-        $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email', 'user_photos'];
-        $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
-        $data['login_url_google'] = $this->googleplus->loginURL();
         $this->load->view('_inc/header', $data);
         $this->load->view('login');
         $this->load->view('_inc/footer');
@@ -132,8 +68,7 @@ class Login extends CI_Controller {
                     "id_gender" => $this->input->post("gender"),
                     "id_city" => $this->input->post('selectCity'),
                     "phone" => $this->input->post('phone'),
-                    "avatar" => $this->input->post('avatar') != NULL ? $this->input->post('avatar') : NULL,
-                    "id_google" => $this->input->post('id_google')
+                    "avatar" => $this->input->post('picture') != NULL ? $this->input->post('picture') : NULL
                 );
 
                 if ($_FILES['avatar']['tmp_name'] !== "") {
@@ -300,21 +235,21 @@ class Login extends CI_Controller {
         return TRUE;
     }
 
-    public function callback_facebook(){
+    public function callback_facebook() {
         $jsHelper = $this->facebook->getJavaScriptHelper();
         $facebookClient = $this->facebook->getClient();
         try {
             $accessToken = $jsHelper->getAccessToken($facebookClient);
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-                // When Graph returns an error
-                echo 'Graph returned an error: ' . $e->getMessage();
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-                // When validation fails or other local issues
-                echo 'Facebook SDK returned an error: ' . $e->getMessage();
+        } catch (Facebook\Exceptions\FacebookResponseException $e) {
+            // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+        } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
         }
 
         if (isset($accessToken)) {
-            $accessToken= (string) $accessToken;
+            $accessToken = (string) $accessToken;
 
             $this->facebook->setDefaultAccessToken($accessToken);
 
@@ -323,15 +258,14 @@ class Login extends CI_Controller {
 
                 $aux = $response->getGraphUser();
                 $data = array(
-                  'name' => $aux->getName(),
-                  'email' => $aux->getEmail(),
-                  'id_auth' => $aux->getId(),
-                  'gender' => $aux->getGender() == "female" ? 2 : 1,
-                  'link_rede' => "https://www.facebook.com/{$aux->getId()}",
-                //   'birthday' => $aux->getBirthday()->format('d/m/Y'),
-                  'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture?width=200'
-
-              );
+                    'name' => $aux->getName(),
+                    'email' => $aux->getEmail(),
+                    'id_auth' => $aux->getId(),
+                    'gender' => $aux->getGender() == "female" ? 2 : 1,
+                    'link_rede' => "https://www.facebook.com/{$aux->getId()}",
+                    //   'birthday' => $aux->getBirthday()->format('d/m/Y'),
+                    'picture' => 'https://graph.facebook.com/' . $aux->getId() . '/picture?width=200'
+                );
                 $this->load->model('Users_model', 'users');
 
                 // Check user exists
@@ -342,25 +276,24 @@ class Login extends CI_Controller {
 
                 $this->session->set_flashdata("user_data", $data);
                 redirect("login/complete_register");
-
             } catch (Facebook\Exceptions\FacebookResponseException $e) {
-                echo 'Graph returned an error: '.$e->getMessage();
+                echo 'Graph returned an error: ' . $e->getMessage();
                 exit;
             } catch (Facebook\Exceptions\FacebookSDKException $e) {
-                echo 'Facebook SDK returned an error: '.$e->getMessage();
+                echo 'Facebook SDK returned an error: ' . $e->getMessage();
                 exit;
             }
         }
     }
 
-    public function callback_google($token = ""){
+    public function callback_google($token = "") {
         $url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={$token}";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL,$url);
-        $result=curl_exec($ch);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $result = curl_exec($ch);
         curl_close($ch);
 
         $response = json_decode($result, true);
@@ -385,29 +318,54 @@ class Login extends CI_Controller {
 
         $this->session->set_flashdata("user_data", $data);
         redirect("login/complete_register");
-
     }
 
-    public function complete_register(){
+    public function complete_register() {
         if ($this->input->post()) {
             $this->load->model('Users_model', 'users');
-            $insert_user = array(
-                "id_social" => $this->input->post("id_auth"),
-                "id_gender" => $this->input->post("gender"),
-                "id_city" => $this->input->post("selectCity"),
-                "name" => $this->input->post("fullname"),
-                "email" => $this->input->post("email"),
-                "birthday" => $this->input->post("birthDate"),
-                "phone" => $this->input->post("phone")
-            );
-            $user = $this->users->insert($insert_user);
-            $this->session->set_userdata("logged_in", $user);
+            $this->load->library('form_validation');
 
-            redirect("index");
+            $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
+            //$this->form_validation->set_rules('password', 'Senha', 'required|min_length[8]|max_length[22]');
+            //$this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
+            $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');
+            $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required|callback_term');
 
-        } else {
-            if (!$this->session->flashdata("user_data")) {
-                redirect("login/register");
+            $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+            $this->form_validation->set_message('matches', 'As senhas não conferem');
+            $this->form_validation->set_message('validate_name', 'O nome só pode conter letras');
+            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 8 a 22 caracteres');
+            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 8 a 22 caracteres');
+            $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+            if ($this->form_validation->run() == true) {
+                $user_insert = array(
+                    "name" => $this->input->post("fullname"),
+                    "email" => $this->input->post("email"),
+                    "id_social" => $this->input->post("id_auth"),
+                    "birthday" => date('Y-m-d', strtotime($this->input->post("birthDate"))),
+                    "id_gender" => $this->input->post("gender"),
+                    "id_city" => $this->input->post('selectCity'),
+                    "phone" => $this->input->post('phone'),
+                    "avatar" => $this->input->post('avatar') != NULL ? $this->input->post('avatar') : NULL
+                );
+
+                if ($_FILES['avatar']['tmp_name'] !== "") {
+                    $user_insert['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
+                }
+
+                $user = $this->users->insert($user_insert);
+
+                if ($user != null) {
+                    $this->session->set_userdata("logged_in", $user);
+                    redirect("index");
+                }
+
+                $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
+            } else {
+                unset($_POST['termAcceptance']);
             }
         }
 
@@ -418,11 +376,21 @@ class Login extends CI_Controller {
 
         $data = array("user_profile" => $user_profile);
         $data['states'] = $this->state->getAll();
-        $data['citys'] = $this->city->getCityByState(1);
+        if ($this->input->post('selectState'))
+            $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
+        else
+            $data['citys'] = $this->city->getCityByState(1);
+        $data['scripts'] = array(
+            base_url("assets/js/changeCity.js"),
+            base_url("assets/js/funcoes.js"),
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
+            base_url("assets/js/mask.js")
+        );
 
 
         $this->load->view('_inc/header', $data);
         $this->load->view('complete_register');
         $this->load->view('_inc/footer');
     }
+
 }
