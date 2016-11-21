@@ -7,18 +7,18 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-2">
-                            <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
+                        <div class="col-xs-12 col-lg-6">
+                            <button class="btn btn-block btn-social btn-google" id="google_login">
                                 <span class="fa fa-google"></span>Cadastre-se com o Gmail
-                            </a>
+                            </button>
 
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook ">
+                        <div class="col-xs-12 col-lg-6">
+                            <button onclick="fb_login()" class="btn btn-block btn-social btn-facebook" id="facebook_login">
                                 <span class="fa fa-facebook"></span> Cadastre-se com Facebook
-                            </a>
-                        </div>
+                            </button>
 
+                        </div>
                     </div>
                     <div class="divider"></div>
                     <h3 class="text-center">Cadastrar</h3>

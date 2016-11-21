@@ -324,6 +324,7 @@ div.errors ul {
 .hint {
     padding: 15px;
     font-size: 1.2em;
+    margin-bottom: 10px;
 }
 p.portifolio-description {
     margin-top: 10px;

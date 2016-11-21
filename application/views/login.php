@@ -7,15 +7,15 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-xs-12 col-lg-6">
-                                        <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
+                                        <button class="btn btn-block btn-social btn-google" id="google_login">
                                             <span class="fa fa-google"></span>Login com o Gmail
-                                        </a>
+                                        </button>
 
                                     </div>
                                     <div class="col-xs-12 col-lg-6">
-                                        <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook">
+                                        <button onclick="fb_login()" class="btn btn-block btn-social btn-facebook" id="facebook_login">
                                             <span class="fa fa-facebook"></span> Login com Facebook
-                                        </a>
+                                        </button>
 
                                     </div>
 

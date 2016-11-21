@@ -19,7 +19,25 @@ class Login extends CI_Controller {
         $this->load->library('googleplus');
     }
 
-    public function index() {
+    public function index(){
+        $data = array();
+        $data["scripts"] = array(
+            base_url("assets/js/facebook-login.js"),
+            "https://apis.google.com/js/api:client.js",
+            base_url("assets/js/google-login.js")
+        );
+        $this->load->model('Users_model', 'users');
+
+        if ($this->input->post()) {
+            // VALIDAÇAO
+        }
+
+        $this->load->view('_inc/header', $data);
+        $this->load->view('login');
+        $this->load->view('_inc/footer');
+    }
+
+    public function old_index() {
         $this->load->model('Users_model', 'users');
         $this->load->model('City_model', 'city');
 
@@ -153,9 +171,15 @@ class Login extends CI_Controller {
             base_url("assets/js/changeCity.js"),
             base_url("assets/js/funcoes.js"),
             "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
-            base_url("assets/js/mask.js"));
+            base_url("assets/js/mask.js"),
+            base_url("assets/js/facebook-login.js"),
+            "https://apis.google.com/js/api:client.js",
+            base_url("assets/js/google-login.js")
+        );
+
+
         $this->load->view('_inc/header', $data);
-        $this->load->view('cadastro');
+        $this->load->view('register');
         $this->load->view('_inc/footer');
     }
 
@@ -276,4 +300,129 @@ class Login extends CI_Controller {
         return TRUE;
     }
 
+    public function callback_facebook(){
+        $jsHelper = $this->facebook->getJavaScriptHelper();
+        $facebookClient = $this->facebook->getClient();
+        try {
+            $accessToken = $jsHelper->getAccessToken($facebookClient);
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+                // When Graph returns an error
+                echo 'Graph returned an error: ' . $e->getMessage();
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                // When validation fails or other local issues
+                echo 'Facebook SDK returned an error: ' . $e->getMessage();
+        }
+
+        if (isset($accessToken)) {
+            $accessToken= (string) $accessToken;
+
+            $this->facebook->setDefaultAccessToken($accessToken);
+
+            try {
+                $response = $this->facebook->get('/me?fields=name,email');
+
+                $aux = $response->getGraphUser();
+                $data = array(
+                  'name' => $aux->getName(),
+                  'email' => $aux->getEmail(),
+                  'id_auth' => $aux->getId(),
+                  'gender' => $aux->getGender() == "female" ? 2 : 1,
+                  'link_rede' => "https://www.facebook.com/{$aux->getId()}",
+                //   'birthday' => $aux->getBirthday()->format('d/m/Y'),
+                  'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture?width=200'
+
+              );
+                $this->load->model('Users_model', 'users');
+
+                // Check user exists
+                if ($user = $this->users->getUserExternalAuth($data["email"], $data["id_auth"])) {
+                    $this->session->set_userdata("logged_in", $user);
+                    redirect("index");
+                }
+
+                $this->session->set_flashdata("user_data", $data);
+                redirect("login/complete_register");
+
+            } catch (Facebook\Exceptions\FacebookResponseException $e) {
+                echo 'Graph returned an error: '.$e->getMessage();
+                exit;
+            } catch (Facebook\Exceptions\FacebookSDKException $e) {
+                echo 'Facebook SDK returned an error: '.$e->getMessage();
+                exit;
+            }
+        }
+    }
+
+    public function callback_google($token = ""){
+        $url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={$token}";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL,$url);
+        $result=curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($result, true);
+
+        $data = array(
+            "name" => $response["name"],
+            'email' => $response["email"],
+            'id_auth' => $response["sub"],
+            'gender' => 1,
+            'link_rede' => "https://plus.google.com/{$response["sub"]}",
+            'picture' => $response["picture"]
+        );
+
+        $this->load->model('Users_model', 'users');
+
+        // Check user exists
+        if ($user = $this->users->getUserExternalAuth($data["email"], $data["id_auth"])) {
+            $this->session->set_userdata("logged_in", $user);
+            redirect("index");
+        }
+
+
+        $this->session->set_flashdata("user_data", $data);
+        redirect("login/complete_register");
+
+    }
+
+    public function complete_register(){
+        if ($this->input->post()) {
+            $this->load->model('Users_model', 'users');
+            $insert_user = array(
+                "id_social" => $this->input->post("id_auth"),
+                "id_gender" => $this->input->post("gender"),
+                "id_city" => $this->input->post("selectCity"),
+                "name" => $this->input->post("fullname"),
+                "email" => $this->input->post("email"),
+                "birthday" => $this->input->post("birthDate"),
+                "phone" => $this->input->post("phone")
+            );
+            $user = $this->users->insert($insert_user);
+            $this->session->set_userdata("logged_in", $user);
+
+            redirect("index");
+
+        } else {
+            if (!$this->session->flashdata("user_data")) {
+                redirect("login/register");
+            }
+        }
+
+        $this->load->model("State_model", 'state');
+        $this->load->model("City_model", 'city');
+
+        $user_profile = $this->session->flashdata("user_data");
+
+        $data = array("user_profile" => $user_profile);
+        $data['states'] = $this->state->getAll();
+        $data['citys'] = $this->city->getCityByState(1);
+
+
+        $this->load->view('_inc/header', $data);
+        $this->load->view('complete_register');
+        $this->load->view('_inc/footer');
+    }
 }
