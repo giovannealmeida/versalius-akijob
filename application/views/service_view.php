@@ -15,7 +15,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
-                        <img class="img-rounded img-responsive center-block profile-photo" src="                                
+                        <img class="img-rounded img-responsive center-block profile-photo" src="
                         <?php if ($user_profile->avatar === NULL): ?>
                             <?= '//placehold.it/200' ?>
                         <?php elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar)))): ?>
@@ -154,13 +154,13 @@
                     <h3 class="panel-title">Comentários</h3>
                 </div>
                 <div id="comments" class="panel-body">
-                    <form action="<?= base_url("Service/toView/" . $id) ?>" method="post">                    
-                        <legend>Deixe seu comentário:</legend>                    
+                    <form action="<?= base_url("Service/toView/" . $id) ?>" method="post">
+                        <legend>Deixe seu comentário:</legend>
                         <textarea name="comment" class="form-control" rows="3" required></textarea>
                         <input id="id_service" type="hidden" name="id_service" value="<?= $id ?>">
-                        <input type="hidden" name="id_user" value="<?= $user_session->id ?>">                        
+                        <input type="hidden" name="id_user" value="<?= $user_session->id ?>">
                         <div class="clear"></div><br>
-                        <input type="submit" class="btn btn-success" value="Enviar">                    
+                        <input type="submit" class="btn btn-success" value="Enviar">
                     </form>
                     <br>
                     <?php
@@ -188,8 +188,8 @@
             </div>
         </div>
         <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
-    <?php endif; ?>    
+    <?php endif; ?>
 </div>
-
+</div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&libraries=places&callback=initMap" async defer></script>
