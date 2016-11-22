@@ -45,7 +45,7 @@
                         </li>
                         <li>
                             <a href="<?= base_url("profile/config") ?>">
-                                <i class="glyphicon glyphicon-user"></i> Configurações
+                                <i class="fa fa-cog" aria-hidden="true"></i> Configurações
                             </a>
                         </li>
                         <li>
