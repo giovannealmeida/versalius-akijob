@@ -22,16 +22,17 @@ $('#ButtonLoadMoreComments').on('click', function () {
             if (result === "null") {
                 alert("Não existem mais comentários a serem exibidos.");
             }
-            $.each(JSON.parse(result), function (i, comment) {
+            $.each(JSON.parse(result), function (i, data) {
                 $('#comments').append("<div class=\"panel panel-default\">\
-                                <div class=\"panel-heading\">" + comment.user_name + "</div>\
+                                <div class=\"panel-heading\">" + data.user_name + "</div>\
                                 <div class=\"panel-body\">\
                                 <div class=\"row\">\
                                         <div class=\"col-xs-12 col-sm-2 col-md-2 col-lg-1\">\
-                                            <img class=\"img-circle img-responsive center-block profile-photo\" src=" + comment.avatar + " alt=\"\" >\
+                                            <img class=\"img-circle img-responsive center-block profile-photo\" src=" + data.avatar + " alt=\"\" >\
                                         </div>\
                                         <div class=\"col-xs-12 col-sm-10 col-md-10 col-lg-11\">\
-                                            <p class=\"text-justify\">" + comment.comment + "</p> \
+                                            <p><small class=\"address\"> </span> Postado" + data.current_date + "</small></p>\
+                                            <p class=\"text-justify\">" + data.comment + "</p> \
                                         </div>\
                                     </div>\
                                 </div>\

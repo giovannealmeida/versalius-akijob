@@ -175,6 +175,7 @@
                                             <img class="img-circle img-responsive center-block profile-photo" src="<?=$value->avatar?>" alt="" >
                                         </div>
                                         <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
+                                            <p><small class="address"> </span> Postado<?= $value->current_date; ?></small></p>
                                             <p class="text-justify"><?= $value->comment ?></p>
                                         </div>
                                     </div>

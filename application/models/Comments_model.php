@@ -9,9 +9,10 @@ class Comments_model extends CI_Model {
     }
 
     function getCommentsByIdServices($idService, $offset) {
-        $this->db->select('u.avatar as avatar, u.name as user_name, c.comment as comment');
+        $this->db->select('u.avatar as avatar, u.name as user_name, c.comment as comment, c.current_date as current_date');
         $this->db->join('tb_users as u', 'c.id_user = u.id', "inner");
         $this->db->where('c.id_service', $idService);
+        $this->db->order_by("current_date", "desc"); 
         if ($offset == 0) {
             $query = $this->db->get('tb_comments as c', 5);
         } else {
@@ -21,6 +22,7 @@ class Comments_model extends CI_Model {
         if ($query->num_rows() > 0) {
             $query = $query->result();
             for ((int) $i = 0; $i < count($query); $i++) {
+                $query[$i]->current_date = date(' d/m/Y - H:i',strtotime($query[$i]->current_date));
                 if ($query[$i]->avatar === NULL):
                     $query[$i]->avatar = '//placehold.it/200';
                 elseif (!($query[$i]->avatar == base64_decode(base64_encode(stripslashes($query[$i]->avatar))))):
