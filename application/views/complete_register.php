@@ -103,7 +103,7 @@
                         <div class="col-xs-12 col-md-offset-2">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="termAcceptance" id="termAcceptance">Eu li e concordo com os <a href="#"> Termos e Condições de Uso</a>
+                                    <input type="checkbox" name="termAcceptance" id="termAcceptance">Eu li e concordo com os <a href="<?=base_url("about/terms")?>"> Termos e Condições de Uso</a>
                                 </label>
                             </div>
                         </div>
