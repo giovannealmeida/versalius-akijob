@@ -1,8 +1,9 @@
 <?php
 
-class Login extends CI_Controller {
-
-    public function __construct() {
+class Login extends CI_Controller
+{
+    public function __construct()
+    {
         parent::__construct();
 
         if ($this->session->userdata('logged_in')) {
@@ -19,12 +20,13 @@ class Login extends CI_Controller {
         $this->load->library('googleplus');
     }
 
-    public function index() {
+    public function index()
+    {
         $data = array();
-        $data["scripts"] = array(
-            base_url("assets/js/facebook-login.js"),
-            "https://apis.google.com/js/api:client.js",
-            base_url("assets/js/google-login.js")
+        $data['scripts'] = array(
+            base_url('assets/js/facebook-login.js'),
+            'https://apis.google.com/js/api:client.js',
+            base_url('assets/js/google-login.js'),
         );
         $this->load->model('Users_model', 'users');
 
@@ -37,9 +39,10 @@ class Login extends CI_Controller {
         $this->load->view('_inc/footer');
     }
 
-    public function register() {
-        $this->load->model("State_model", 'state');
-        $this->load->model("City_model", 'city');
+    public function register()
+    {
+        $this->load->model('State_model', 'state');
+        $this->load->model('City_model', 'city');
         if ($this->input->post()) {
             $this->load->model('Users_model', 'users');
             $this->load->library('form_validation');
@@ -61,28 +64,28 @@ class Login extends CI_Controller {
 
             if ($this->form_validation->run() == true) {
                 $user_insert = array(
-                    "name" => $this->input->post("fullname"),
-                    "email" => $this->input->post("email"),
-                    "password" => sha1($this->input->post("password")),
-                    "birthday" => date('Y-m-d', strtotime($this->input->post("birthDate"))),
-                    "id_gender" => $this->input->post("gender"),
-                    "id_city" => $this->input->post('selectCity'),
-                    "phone" => $this->input->post('phone'),
-                    "avatar" => $this->input->post('picture') != NULL ? $this->input->post('picture') : NULL
+                    'name' => $this->input->post('fullname'),
+                    'email' => $this->input->post('email'),
+                    'password' => sha1($this->input->post('password')),
+                    'birthday' => date('Y-m-d', strtotime($this->input->post('birthDate'))),
+                    'id_gender' => $this->input->post('gender'),
+                    'id_city' => $this->input->post('selectCity'),
+                    'phone' => $this->input->post('phone'),
+                    'avatar' => $this->input->post('picture') != null ? $this->input->post('picture') : null,
                 );
 
-                if ($_FILES['avatar']['tmp_name'] !== "") {
+                if ($_FILES['avatar']['tmp_name'] !== '') {
                     $user_insert['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
                 }
 
                 $user = $this->users->insert($user_insert);
 
                 if ($user != null) {
-                    $this->session->set_userdata("logged_in", $user);
-                    redirect("index");
+                    $this->session->set_userdata('logged_in', $user);
+                    redirect('index');
                 }
 
-                $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
+                $this->session->set_flashdata('erro', 'Falha ao atualizar! Consulte administrador do sistema');
             } else {
                 unset($_POST['termAcceptance']);
             }
@@ -92,7 +95,7 @@ class Login extends CI_Controller {
             $data['user_profile'] = $this->session->flashdata('temp_user_data');
         }
         $data['states'] = $this->state->getAll();
-        if ($this->input->post('selectState') != NULL) {
+        if ($this->input->post('selectState') != null) {
             $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
         } else {
             $data['citys'] = $this->city->getCityByState(1);
@@ -101,24 +104,24 @@ class Login extends CI_Controller {
         $permissions = ['public_profile ', 'user_location', 'user_birthday', 'email', 'user_photos'];
         $data['login_url_facebook'] = $helper->getLoginUrl('http://localhost/akijob/callbacks/callback_facebook', $permissions);
         $data['login_url_google'] = $this->googleplus->loginURL();
-        $data['styles'] = array(base_url("assets/css/style.css"));
+        $data['styles'] = array(base_url('assets/css/style.css'));
         $data['scripts'] = array(
-            base_url("assets/js/changeCity.js"),
-            base_url("assets/js/funcoes.js"),
-            "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
-            base_url("assets/js/mask.js"),
-            base_url("assets/js/facebook-login.js"),
-            "https://apis.google.com/js/api:client.js",
-            base_url("assets/js/google-login.js")
+            base_url('assets/js/changeCity.js'),
+            base_url('assets/js/funcoes.js'),
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js',
+            base_url('assets/js/mask.js'),
+            base_url('assets/js/facebook-login.js'),
+            'https://apis.google.com/js/api:client.js',
+            base_url('assets/js/google-login.js'),
         );
-
 
         $this->load->view('_inc/header', $data);
         $this->load->view('register');
         $this->load->view('_inc/footer');
     }
 
-    public function forgot_password($hash = null) {
+    public function forgot_password($hash = null)
+    {
         $this->load->view('_inc/header');
         $this->load->model('Users_model', 'users');
         if ($hash == null) {
@@ -135,15 +138,15 @@ class Login extends CI_Controller {
                     if ($exists) {
                         $this->load->model('Email_model');
                         if ($this->Email_model->send_forgotten_password($email, $exists)) {
-                            $data['message'] = "Enviamos as instruções de recuperação de senha para seu email com sucesso!";
+                            $data['message'] = 'Enviamos as instruções de recuperação de senha para seu email com sucesso!';
                         } else {
-                            $data['message'] = "Houve um problema com o envio do email, contate o administrador";
+                            $data['message'] = 'Houve um problema com o envio do email, contate o administrador';
                         }
                     } else {
-                        $url = base_url("login/forgot_password");
+                        $url = base_url('login/forgot_password');
                         $data['message'] = "Este email não está cadastrado no nosso sistema, <a href=\"{$url}\"> Clique aqui para tentar novamente</a> ";
                     }
-                    $this->load->view("message_panel", $data);
+                    $this->load->view('message_panel', $data);
                 } else {
                     $this->load->view('forgot_password');
                 }
@@ -164,23 +167,22 @@ class Login extends CI_Controller {
                 $this->form_validation->set_error_delimiters('<li>', '</li>');
 
                 if ($this->form_validation->run()) {
-
                     if ($id_user) {
                         $this->db->trans_start();
 
                         $result = $this->users->update(
-                                $id_user, array("password" => sha1($this->input->post("password")))
+                                $id_user, array('password' => sha1($this->input->post('password')))
                         );
 
                         $this->db->trans_complete();
 
-                        $this->db->where("hash", $hash);
-                        $this->db->delete("tb_forgotten_password_hash");
-                        $data["message"] = "Senha alterada com sucesso";
-                        $this->load->view("message_panel", $data);
+                        $this->db->where('hash', $hash);
+                        $this->db->delete('tb_forgotten_password_hash');
+                        $data['message'] = 'Senha alterada com sucesso';
+                        $this->load->view('message_panel', $data);
                     } else {
-                        $data["message"] = "Este link expirou ou não existe";
-                        $this->load->view("message_panel", $data);
+                        $data['message'] = 'Este link expirou ou não existe';
+                        $this->load->view('message_panel', $data);
                     }
                 } else {
                     $this->load->view('forgot_password_change');
@@ -189,63 +191,75 @@ class Login extends CI_Controller {
                 if ($id_user) {
                     $this->load->view('forgot_password_change');
                 } else {
-                    $data["message"] = "Este link expirou ou não existe";
-                    $this->load->view("message_panel", $data);
+                    $data['message'] = 'Este link expirou ou não existe';
+                    $this->load->view('message_panel', $data);
                 }
             }
         }
     }
 
-    public function email_check($str) {
+    public function email_check($str)
+    {
         $this->load->model('Users_model');
         if ($this->Users_model->exists($str)) {
             $this->form_validation->set_message('email_check', 'O email já foi cadastrado');
+
             return false;
         }
 
         return true;
     }
 
-    public function gender() {
-        if ($this->input->post('gender') == NULL) {
+    public function gender()
+    {
+        if ($this->input->post('gender') == null) {
             $this->form_validation->set_message('gender', 'Selecione o sexo para continuar');
-            return FALSE;
+
+            return false;
         }
-        return TRUE;
+
+        return true;
     }
 
-    public function term() {
-        if ($this->input->post('termAcceptance') == NULL) {
+    public function term()
+    {
+        if ($this->input->post('termAcceptance') == null) {
             $this->form_validation->set_message('term', 'Para se cadastrar é necessário aceitar o termo de uso');
-            return FALSE;
+
+            return false;
         }
-        return TRUE;
+
+        return true;
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
     }
 
-    public function validate_name() {
-        if ($this->input->post('fullname') != NULL) {
+    public function validate_name()
+    {
+        if ($this->input->post('fullname') != null) {
             if (!preg_match('/^[a-zA-ZáàâãéèêíìóòôõúüùûñÁÀÂÃÉÈÊÍÌÓÒÔÕÚÜÛÑ ]+$/', $this->input->post('fullname'))) {
-                return FALSE;
+                return false;
             }
         }
-        return TRUE;
+
+        return true;
     }
 
-    public function callback_facebook() {
+    public function callback_facebook()
+    {
         $jsHelper = $this->facebook->getJavaScriptHelper();
         $facebookClient = $this->facebook->getClient();
         try {
             $accessToken = $jsHelper->getAccessToken($facebookClient);
         } catch (Facebook\Exceptions\FacebookResponseException $e) {
             // When Graph returns an error
-            echo 'Graph returned an error: ' . $e->getMessage();
+            echo 'Graph returned an error: '.$e->getMessage();
         } catch (Facebook\Exceptions\FacebookSDKException $e) {
             // When validation fails or other local issues
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            echo 'Facebook SDK returned an error: '.$e->getMessage();
         }
 
         if (isset($accessToken)) {
@@ -261,32 +275,47 @@ class Login extends CI_Controller {
                     'name' => $aux->getName(),
                     'email' => $aux->getEmail(),
                     'id_auth' => $aux->getId(),
-                    'gender' => $aux->getGender() == "female" ? 2 : 1,
+                    'gender' => $aux->getGender() == 'female' ? 2 : 1,
                     'link_rede' => "https://www.facebook.com/{$aux->getId()}",
                     //   'birthday' => $aux->getBirthday()->format('d/m/Y'),
-                    'picture' => 'https://graph.facebook.com/' . $aux->getId() . '/picture?width=200'
+                    'picture' => 'https://graph.facebook.com/'.$aux->getId().'/picture?width=200',
                 );
                 $this->load->model('Users_model', 'users');
 
                 // Check user exists
-                if ($user = $this->users->getUserExternalAuth($data["email"], $data["id_auth"])) {
-                    $this->session->set_userdata("logged_in", $user);
-                    redirect("index");
+                if ($user = $this->users->getUserExternalAuth($data['email'], $data['id_auth'])) {
+                    $this->session->set_userdata('logged_in', $user);
+                    redirect('index');
                 }
 
-                $this->session->set_flashdata("user_data", $data);
-                redirect("login/complete_register");
+                // create basic user and log in
+                $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth']);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_URL, $data['picture']);
+                $insert['avatar'] = curl_exec($ch);
+                curl_close($ch);
+
+                $user = $this->users->insert($insert);
+                if ($user) {
+                    $this->session->set_userdata('logged_in', $user);
+                    redirect('profile');
+                }
+                die('Erro: Cannot create user by facebook login');
             } catch (Facebook\Exceptions\FacebookResponseException $e) {
-                echo 'Graph returned an error: ' . $e->getMessage();
+                echo 'Graph returned an error: '.$e->getMessage();
                 exit;
             } catch (Facebook\Exceptions\FacebookSDKException $e) {
-                echo 'Facebook SDK returned an error: ' . $e->getMessage();
+                echo 'Facebook SDK returned an error: '.$e->getMessage();
                 exit;
             }
         }
     }
 
-    public function callback_google($token = "") {
+    public function callback_google($token = '')
+    {
         $url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={$token}";
 
         $ch = curl_init();
@@ -299,98 +328,36 @@ class Login extends CI_Controller {
         $response = json_decode($result, true);
 
         $data = array(
-            "name" => $response["name"],
-            'email' => $response["email"],
-            'id_auth' => $response["sub"],
+            'name' => $response['name'],
+            'email' => $response['email'],
+            'id_auth' => $response['sub'],
             'gender' => 1,
-            'link_rede' => "https://plus.google.com/{$response["sub"]}",
-            'picture' => $response["picture"]
+            'link_rede' => "https://plus.google.com/{$response['sub']}",
+            'picture' => $response['picture'],
         );
 
         $this->load->model('Users_model', 'users');
 
         // Check user exists
-        if ($user = $this->users->getUserExternalAuth($data["email"], $data["id_auth"])) {
-            $this->session->set_userdata("logged_in", $user);
-            redirect("index");
+        if ($user = $this->users->getUserExternalAuth($data['email'], $data['id_auth'])) {
+            $this->session->set_userdata('logged_in', $user);
+            redirect('index');
         }
 
+        $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth']);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $data['picture']);
+        $insert['avatar'] = curl_exec($ch);
+        curl_close($ch);
 
-        $this->session->set_flashdata("user_data", $data);
-        redirect("login/complete_register");
-    }
-
-    public function complete_register() {
-        if ($this->input->post()) {
-            $this->load->model('Users_model', 'users');
-            $this->load->library('form_validation');
-
-            $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
-            //$this->form_validation->set_rules('password', 'Senha', 'required|min_length[8]|max_length[22]');
-            //$this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]|min_length[8]|max_length[22]');
-            $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
-            $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');
-            $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required|callback_term');
-
-            $this->form_validation->set_message('required', 'O campo %s é obrigatório');
-            $this->form_validation->set_message('matches', 'As senhas não conferem');
-            $this->form_validation->set_message('validate_name', 'O nome só pode conter letras');
-            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 8 a 22 caracteres');
-            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 8 a 22 caracteres');
-            $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-
-            if ($this->form_validation->run() == true) {
-                $user_insert = array(
-                    "name" => $this->input->post("fullname"),
-                    "email" => $this->input->post("email"),
-                    "id_social" => $this->input->post("id_auth"),
-                    "birthday" => date('Y-m-d', strtotime($this->input->post("birthDate"))),
-                    "id_gender" => $this->input->post("gender"),
-                    "id_city" => $this->input->post('selectCity'),
-                    "phone" => $this->input->post('phone'),
-                    "avatar" => $this->input->post('avatar') != NULL ? $this->input->post('avatar') : NULL
-                );
-
-                if ($_FILES['avatar']['tmp_name'] !== "") {
-                    $user_insert['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
-                }
-
-                $user = $this->users->insert($user_insert);
-
-                if ($user != null) {
-                    $this->session->set_userdata("logged_in", $user);
-                    redirect("index");
-                }
-
-                $this->session->set_flashdata("erro", "Falha ao atualizar! Consulte administrador do sistema");
-            } else {
-                unset($_POST['termAcceptance']);
-            }
+        $user = $this->users->insert($insert);
+        if ($user) {
+            $this->session->set_userdata('logged_in', $user);
+            redirect('index');
         }
-
-        $this->load->model("State_model", 'state');
-        $this->load->model("City_model", 'city');
-
-        $user_profile = $this->session->flashdata("user_data");
-
-        $data = array("user_profile" => $user_profile);
-        $data['states'] = $this->state->getAll();
-        if ($this->input->post('selectState'))
-            $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
-        else
-            $data['citys'] = $this->city->getCityByState(1);
-        $data['scripts'] = array(
-            base_url("assets/js/changeCity.js"),
-            base_url("assets/js/funcoes.js"),
-            "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
-            base_url("assets/js/mask.js")
-        );
-
-
-        $this->load->view('_inc/header', $data);
-        $this->load->view('complete_register');
-        $this->load->view('_inc/footer');
+        die('Erro: Cannot create user by google login');
     }
-
 }

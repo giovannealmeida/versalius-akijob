@@ -13,7 +13,7 @@
                     elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar))))
                         echo $user_profile->avatar;
                     else
-                        echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
+                        echo 'data:image/jpeg;base64,' . base64_encode(($user_profile->avatar));
                     ?>" alt="">
 
                 </div>
