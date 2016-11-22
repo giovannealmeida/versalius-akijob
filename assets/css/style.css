@@ -46,6 +46,9 @@ a.navbar-brand img {
 .navbar-default .navbar-nav>li>a {
     color: white;
 }
+.navbar-default .navbar-nav>li>a:hover {
+    color: #337ab7;
+}
 .navbar-right a:hover {
     text-decoration: underline;
 }

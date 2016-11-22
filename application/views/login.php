@@ -21,13 +21,18 @@
 
                                 </div>
                                 <div class="divider"></div>
-                                <h3 class="text-center">Acesse a sua conta</h3>
-                                <?php echo form_open('login'); ?>
-                                <?php if ($this->session->flashdata("login_error")) : ?>
+                                <?php if (validation_errors()) : ?>
                                     <div class="alert alert-danger">
-                                        <strong><?php echo $this->session->flashdata("login_error"); ?></strong><br/>
+                                        <?php echo validation_errors(); ?>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (isset($login_status) && $login_status == "error") : ?>
+                                    <div class="alert alert-danger hint">
+                                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> O usuário informado não existe</p>
+                                    </div>
+                                <?php endif; ?>
+                                <h3 class="text-center">Acesse a sua conta</h3>
+                                <?php echo form_open('login'); ?>
                                 <div class="form-group">
                                     <?php echo form_input(array("name" => "email", "id" => "email", "class" => "form-control", "type" => "text", "placeholder" => "Email")); ?>
                                 </div>

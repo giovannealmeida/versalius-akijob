@@ -29,9 +29,22 @@ class Login extends CI_Controller
             base_url('assets/js/google-login.js'),
         );
         $this->load->model('Users_model', 'users');
-
         if ($this->input->post()) {
-            // VALIDAÇAO
+            $this->load->library('form_validation');
+            $this->load->model('Users_model', 'users');
+
+            $this->form_validation->set_rules('email', 'Email', 'required');
+            $this->form_validation->set_rules('password', 'Senha', 'required');
+            $this->form_validation->set_message('required', 'O campo <strong>%s</strong> é obrigatório');
+
+            if ($this->form_validation->run() == true) {
+                if ($user = $this->users->getUserLogin($this->input->post("email"), $this->input->post("password"))) {
+                    $this->session->set_userdata("logged_in", $user);
+                    redirect("index");
+                } else {
+                    $data["login_status"] = "error";
+                }
+            }
         }
 
         $this->load->view('_inc/header', $data);
@@ -66,7 +79,7 @@ class Login extends CI_Controller
                 $user_insert = array(
                     'name' => $this->input->post('fullname'),
                     'email' => $this->input->post('email'),
-                    'password' => sha1($this->input->post('password')),
+                    'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
                     'birthday' => date('Y-m-d', strtotime($this->input->post('birthDate'))),
                     'id_gender' => $this->input->post('gender'),
                     'id_city' => $this->input->post('selectCity'),
@@ -301,7 +314,7 @@ class Login extends CI_Controller
                 $user = $this->users->insert($insert);
                 if ($user) {
                     $this->session->set_userdata('logged_in', $user);
-                    redirect('profile');
+                    redirect('index');
                 }
                 die('Erro: Cannot create user by facebook login');
             } catch (Facebook\Exceptions\FacebookResponseException $e) {
