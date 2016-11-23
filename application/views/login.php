@@ -26,11 +26,17 @@
                                         <?php echo validation_errors(); ?>
                                     </div>
                                 <?php endif; ?>
-                                <?php if (isset($login_status) && $login_status == "error") : ?>
+                                <?php if (isset($login_status) && ($login_status == "error")) : ?>
                                     <div class="alert alert-danger hint">
                                         <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> O usuário informado não existe</p>
                                     </div>
                                 <?php endif; ?>
+                                <?php if ($this->session->flashdata("login_status")): ?>
+                                    <div class="alert alert-danger hint">
+                                        <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Este email já está cadastrado no sistema</p>
+                                    </div>
+                                <?php endif; ?>
+
                                 <h3 class="text-center">Acesse a sua conta</h3>
                                 <?php echo form_open('login'); ?>
                                 <div class="form-group">
