@@ -6,7 +6,7 @@ class Results extends CI_Controller {
         parent::__construct();
     }
 
-    public function index($idService, $idCity) {
+    public function index() {
         $this->load->model("Services_model", 'service');
         $this->load->model("City_model", 'city');
         $this->load->model("Recommendation_model", 'recommendation');
@@ -21,7 +21,9 @@ class Results extends CI_Controller {
             if ($this->form_validation->run() !== FALSE) {
                 $idService = $this->input->post('selectJob');
                 $idCity = $this->input->post('selectCity');
-                //redirect("results/index/{$idService}/{$idCity}");
+            }else{
+                $this->session->set_flashdata("erro", "Preencha todos os campos para pesquisar");
+                redirect('index');
             }
         }
         $data['idService'] = $idService;
@@ -30,4 +32,5 @@ class Results extends CI_Controller {
         $data['city'] = $this->city->getCityById($idCity);
         $this->load->view("results", $data);
     }
+
 }

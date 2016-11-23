@@ -132,4 +132,13 @@ class Users_model extends CI_Model
             return base_url('assets/img/crown-bronze.png');
         }
     }
+    
+    public function excluir($idUser) {
+        $this->db->delete('tb_users', array('id' => $idUser));
+
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
 }

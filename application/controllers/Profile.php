@@ -38,7 +38,7 @@ class Profile extends CI_Controller {
     public function config() {
         $data = $this->user_info;
 
-        if ($this->input->post() != NULL) {
+        if ($this->input->post()) {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
             $this->form_validation->set_rules('email', 'Email', 'required');
@@ -114,9 +114,17 @@ class Profile extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
+    public function account() {
+        $data = $this->user_info;
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/account");
+        $this->load->view("_inc/footer");
+    }
+
     public function alterPassword() {
         $data = $this->user_info;
-        if ($this->input->post() != NULL) {
+        if ($this->input->post()) {
             $this->load->library('form_validation');
             if ($data["user_profile"]->password !== NULL)
                 $this->form_validation->set_rules('oldPassword', 'Senha Atual', 'trim|required');
@@ -190,6 +198,22 @@ class Profile extends CI_Controller {
             $this->recommendation->insert_recommendation($form);
         }
         redirect("service/toView/{$idService}");
+    }
+    
+    public function excluir($idUser) {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else if($this->session->userdata('logged_in')->id == $idUser){
+            $this->load->model("Users_model", "users");
+            $delete = $this->users->excluir($idUser);
+            if ($delete) {
+                session_destroy();
+                redirect('index');
+            } else {
+                show_404();
+            }
+            redirect('profile/services');
+        }
     }
 
     public function validate_name() {

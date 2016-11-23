@@ -35,14 +35,14 @@ class Services_model extends CI_Model {
 
     public function getServicesByIdByCity($idJob, $idCity) {
         $query = $this->db->query("
-            SELECT u.name as name, u.email, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.`value`),0) as saldo, IFNULL(SUM(ra.`value`)/count(ra.value),0) as rating
+            SELECT u.name as name, u.email, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.value),0) as saldo, ra.rating
             FROM tb_services s
             LEFT JOIN tb_recommendation r ON r.id_user_receiver = s.id_user
-            LEFT JOIN tb_rating as ra ON s.id = ra.id_service
             INNER JOIN tb_jobs j ON j.id = s.id_job
             INNER JOIN tb_users u ON u.id = s.id_user
+            LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
             WHERE s.id_job = {$idJob} AND s.id_city = {$idCity}
-            GROUP BY s.id");
+            GROUP BY s.id_user");
 
         if (count($query->result()) > 0) {
             return $query->result();

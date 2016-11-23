@@ -21,7 +21,7 @@ class Service extends CI_Controller {
                 $this->load->model("State_model", 'state');
                 $this->load->model("City_model", 'city');
 
-                if ($this->input->post() != NULL) {
+                if ($this->input->post()) {
                     $this->load->library('form_validation');
                     $this->form_validation->set_rules('selectJob', 'Serviço', 'required');
                     $this->form_validation->set_rules('street', 'Rua', 'required');
@@ -107,7 +107,7 @@ class Service extends CI_Controller {
             $this->load->model("City_model", 'city');
             $data['dataService'] = $this->service->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
             if ($data['dataService']) {
-                if ($this->input->post() != NULL) {
+                if ($this->input->post()) {
                     $this->load->library('form_validation');
                     $this->form_validation->set_rules('selectJob', 'Serviço', 'required');
                     $this->form_validation->set_rules('street', 'Rua', 'required');
@@ -201,7 +201,7 @@ class Service extends CI_Controller {
         $this->load->model("Comments_model", 'comments');
 
         //Validando a parte do comenário
-        if ($this->input->post() != NULL) {
+        if ($this->input->post()) {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('comment', 'Nome', 'required');
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
@@ -273,7 +273,7 @@ class Service extends CI_Controller {
             redirect('login');
         } else {
             $this->load->model("Services_model", 'services');
-            if ($this->input->post() != NULL) {
+            if ($this->input->post()) {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('description', 'Descrição', 'required');
                 if (empty($_FILES['inputFile']['name'])) {
@@ -307,7 +307,7 @@ class Service extends CI_Controller {
             redirect('login');
         } else {
             $this->load->model("Services_model", 'services');
-            if ($this->input->post() != NULL) {
+            if ($this->input->post()) {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('description', 'Descrição', 'required');
 

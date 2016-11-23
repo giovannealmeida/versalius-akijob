@@ -71,6 +71,11 @@
                                 <i class="fa fa-diamond" aria-hidden="true"></i> Assinatura
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url("profile/account") ?>">
+                                <i class="fa fa-user" aria-hidden="true"></i> Conta
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- END MENU -->

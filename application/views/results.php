@@ -30,7 +30,7 @@
                     <a class="navbar-brand" href="<?= base_url() ?>"><img src="<?= base_url("assets/img/logo-vetor.png") ?>" alt="AkiJob" /></a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-left" action="<?= base_url("results/index/{$idService}/{$idCity}") ?>" method="post">
+                    <form class="navbar-form navbar-left" action="<?= base_url("results") ?>" method="post">
                         <div class="form-group search-navbar">
                             <label class="sr-only" for="selectJob">Serviços</label>
                             <?php echo form_dropdown(array('class' => "selectpicker with-ajax", "data-abs-log" => "false", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",)); ?>
