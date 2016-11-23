@@ -7,14 +7,14 @@
                     <a href="#"><img src="<?= $tier_img ?>" alt="tier" class="center-block tier-big" title="Clique para saber mais sobre os rankings"/></a>
                 </div>
                 <div class="profile-userpic">
-                    <img class="img-responsive" src="<?php
-                    if ($user_profile->avatar === null)
-                        echo base_url('/assets/pages/media/profile/profile_user.png');
-                    elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar))))
-                        echo $user_profile->avatar;
-                    else
-                        echo 'data:image/jpeg;base64,' . base64_encode(($user_profile->avatar));
-                    ?>" alt="">
+                    <img class="img-responsive" src="
+                    <?php if ($user_profile->avatar === NULL): ?>
+                        <?= '//placehold.it/200' ?>
+                    <?php elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar)))): ?>
+                        <?= $user_profile->avatar ?>
+                    <?php else: ?>
+                        <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar)); ?>
+                         <?php endif; ?>" alt="">
 
                 </div>
                 <!-- END SIDEBAR USERPIC -->
