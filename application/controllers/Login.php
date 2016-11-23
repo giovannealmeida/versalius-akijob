@@ -318,6 +318,11 @@ class Login extends CI_Controller
                     redirect('index');
                 }
 
+                // Check email exists
+                if ($this->users->exists($data['email'])) {
+                    $this->session->set_flashdata("login_status", "exists");
+                    redirect('login');
+                }
                 // create basic user and log in
                 $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth']);
                 $ch = curl_init();
@@ -372,6 +377,11 @@ class Login extends CI_Controller
         if ($user = $this->users->getUserExternalAuth($data['email'], $data['id_auth'])) {
             $this->session->set_userdata('logged_in', $user);
             redirect('index');
+        }
+
+        if ($this->users->exists($data['email'])) {
+            $this->session->set_flashdata("login_status", "exists");
+            redirect('login');
         }
 
         $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth']);
