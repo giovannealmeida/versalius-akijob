@@ -3,12 +3,19 @@
 				<div class="divider"></div>
 
 				<h4 ><strong>Visitas</strong></h4>
-				<small class="text-success">Total de visitas: <?= $total_visits[0]->visits ?></small>
-				<br>
-				<small class="text-danger">Visitas por serviço <?= $recommendations_negative ?></small>
-				<br>
-				<?php /*foreach da massa*/?>
-
+				
+				<h5>Total de visitas: <?= $all_services[0]->total_visits?></h5>
+				
+				<h5>Visitas por serviço</h5>
+				<div class="row">
+				<?php foreach ($all_services as $key => $service):?>
+					
+					<div class="col-xs-4">
+						<small class="text-success"><?= $service->job ?>:<?= $service->service_visits?></small><br>
+					</div>
+				<?php endforeach;?>
+				<br>	
+				</div>
 				<div class="divider"></div>
 				
 

@@ -13,11 +13,11 @@ class Visits_model extends CI_Model {
 	}
 	
 	public function getAllVisitsByUser($idUser){
-		return $this->db->query('SELECT COUNT(id_user) as visits FROM tb_visits WHERE id_user = '.$idUser)->result();
+		return $this->db->query('SELECT COUNT(id_services) as visits FROM tb_visits WHERE id_user = '.$idUser)->result();
 	}
 	
 	public function getVisitsByService($idService){
-		return $this->db->query('SELECT COUNT(id_service) FROM tb_visits WHERE id_service = '.$idService)->result();
+		return $this->db->query('SELECT COUNT(id_service) as visit_service FROM tb_visits WHERE id_service = '.$idService)->result();
 	}
 	
 	
