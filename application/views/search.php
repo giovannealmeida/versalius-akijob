@@ -8,7 +8,7 @@
     </div>
     <div class="search-form-container row">
         <div class="col-lg-8 col-lg-offset-2  ">
-            <form class="form-inline " id="search-form" action="<?= base_url("results") ?>" method="post">
+            <form class="form-inline " id="search-form" action="<?= base_url("index") ?>" method="post">
                 <div class="form-group col-xs-12 col-sm-5 col-md-5 col-lg-5 search-element">
                     <?php echo form_dropdown(array('class' => "selectpicker with-ajax", "data-abs-log" => "false", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob")); ?>
                 </div>
@@ -18,8 +18,12 @@
                 </div>
                 <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 search-element">
                     <button type="submit" class="btn btn-primary btn-lg search-button">Buscar</button>
-
                 </div>
+                <?php if (validation_errors()): ?>
+                <div class="col-lg-5" style="color: #FF0000">
+                        <h6>Preencha todos os campos para pesquisar</h6>
+                    </div>
+                <?php endif; ?>
             </form>
         </div>
 

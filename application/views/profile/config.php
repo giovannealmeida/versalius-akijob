@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Estado', 'selectState'); ?>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, isset($state) ? $state->id : NULL, set_value('selectState')); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, isset($state->id) ? $state->id : set_value('selectState')); ?>
                             </div>
                         </div>
 
@@ -85,7 +85,7 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Cidade', 'name'); ?>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, $user_profile->id_city, set_value('selectCity')); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, isset($user_profile->id_city) ? $user_profile->id_city : set_value('selectCity')); ?>
                             </div>
                         </div>
                     </div>

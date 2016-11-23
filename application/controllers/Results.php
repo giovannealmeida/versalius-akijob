@@ -6,20 +6,28 @@ class Results extends CI_Controller {
         parent::__construct();
     }
 
-    public function index() {
+    public function index($idService, $idCity) {
         $this->load->model("Services_model", 'service');
         $this->load->model("City_model", 'city');
         $this->load->model("Recommendation_model", 'recommendation');
         $data["user_profile"] = $this->session->userdata('logged_in');
-        // $data['jobs'] = $this->service->getJobsAll();
-        // $data['citys'] = $this->city->getAllWithStateInitials();
-        if ($this->input->post() == NULL || $this->input->post("selectJob") == "" || $this->input->post("selectCity") == "") {
-            redirect("index");
-        } else {
-            $data['services'] = $this->service->getServicesByIdByCity($this->input->post('selectJob'), $this->input->post('selectCity'));
-            $data['city'] = $this->city->getCityById($this->input->post('selectCity'));
+        if ($this->input->post()) {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('selectJob', 'Serviços', 'required');
+            $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
+
+            $this->form_validation->set_message('required', 'Preencha todos os campos para pesquisar');
+
+            if ($this->form_validation->run() !== FALSE) {
+                $idService = $this->input->post('selectJob');
+                $idCity = $this->input->post('selectCity');
+                //redirect("results/index/{$idService}/{$idCity}");
+            }
         }
+        $data['idService'] = $idService;
+        $data['idCity'] = $idCity;
+        $data['services'] = $this->service->getServicesByIdByCity($idService, $idCity);
+        $data['city'] = $this->city->getCityById($idCity);
         $this->load->view("results", $data);
     }
-
 }

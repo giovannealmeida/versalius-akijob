@@ -78,11 +78,18 @@ class Profile extends CI_Controller {
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['states'] = $this->state->getAll();
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
-        $data['citys'] = $this->city->getCityByState($data['state']->id);
+        if (isset($data['state']->id)) {
+            $data['citys'] = $this->city->getCityByState($data['state']->id);
+        } else if ($this->input->post('selectState') != null) {
+            $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
+        } else {
+            $data['citys'] = $this->city->getCityByState(1);
+        }
         $data["scripts"] = array(
             base_url("assets/js/profile-config.js"),
             "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
-            base_url("assets/js/mask.js")
+            base_url("assets/js/mask.js"),
+            base_url('assets/js/changeCity.js')
         );
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
