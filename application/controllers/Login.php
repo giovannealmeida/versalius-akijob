@@ -151,7 +151,8 @@ class Login extends CI_Controller
                     if ($exists) {
                         $this->load->model('Email_model');
                         if ($this->Email_model->send_forgotten_password($email, $exists)) {
-                            $data['message'] = 'Enviamos as instruções de recuperação de senha para seu email com sucesso!';
+                            $data['message'] = "Enviamos as instruções de recuperação de senha para seu email com sucesso!<br/><br/>Espere 5 segundos para ser redirecionado para tela inicial ou <a href=\"".base_url("")."\"> clique aqui</a>";
+                            $data["scripts"] = array(base_url('assets/js/timer_redirect.js'));
                         } else {
                             $data['message'] = 'Houve um problema com o envio do email, contate o administrador';
                         }
@@ -184,28 +185,44 @@ class Login extends CI_Controller
                         $this->db->trans_start();
 
                         $result = $this->users->update(
-                                $id_user, array('password' => sha1($this->input->post('password')))
+                                $id_user, array('password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT))
                         );
 
                         $this->db->trans_complete();
 
                         $this->db->where('hash', $hash);
                         $this->db->delete('tb_forgotten_password_hash');
-                        $data['message'] = 'Senha alterada com sucesso';
+                        $data['message'] = "Senha alterada com sucesso<br/><br/>Espere 5 segundos para ser redirecionado para tela inicial ou <a href=\"".base_url("")."\"> clique aqui</a>";
+                        $data["scripts"] = array(base_url('assets/js/timer_redirect.js'));
+
                         $this->load->view('message_panel', $data);
+                        $this->load->view('_inc/footer');
+
                     } else {
-                        $data['message'] = 'Este link expirou ou não existe';
+                        $data['message'] = "Este link expirou ou não existe<br/><br/>Espere 5 segundos para ser redirecionado para tela inicial ou <a href=\"".base_url("")."\"> clique aqui</a>";
+                        $data["scripts"] = array(base_url('assets/js/timer_redirect.js'));
+
                         $this->load->view('message_panel', $data);
+                        $this->load->view('_inc/footer');
+
                     }
                 } else {
                     $this->load->view('forgot_password_change');
+                    $this->load->view('_inc/footer');
+
                 }
             } else {
                 if ($id_user) {
                     $this->load->view('forgot_password_change');
+                    $this->load->view('_inc/footer');
+
                 } else {
                     $data['message'] = 'Este link expirou ou não existe';
+                    $data["scripts"] = array(base_url('assets/js/timer_redirect.js'));
+
                     $this->load->view('message_panel', $data);
+                    $this->load->view('_inc/footer');
+
                 }
             }
         }
@@ -301,6 +318,11 @@ class Login extends CI_Controller
                     redirect('index');
                 }
 
+                // Check email exists
+                if ($this->users->exists($data['email'])) {
+                    $this->session->set_flashdata("login_status", "exists");
+                    redirect('login');
+                }
                 // create basic user and log in
                 $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth']);
                 $ch = curl_init();
@@ -355,6 +377,11 @@ class Login extends CI_Controller
         if ($user = $this->users->getUserExternalAuth($data['email'], $data['id_auth'])) {
             $this->session->set_userdata('logged_in', $user);
             redirect('index');
+        }
+
+        if ($this->users->exists($data['email'])) {
+            $this->session->set_flashdata("login_status", "exists");
+            redirect('login');
         }
 
         $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth']);

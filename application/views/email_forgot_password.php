@@ -154,7 +154,7 @@
             <tr>
                 <td bgcolor="#3e454d" style="padding: 40px 0 ;">
                     <img src="http://www.akijob.com.br/assets/img/logo-vetor.png" width="250" height="150" alt="alt_text" border="0" align="center" class="fluid" style="margin: 0 auto; height: auto; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;display:block;">
-                    <h1 style="font-family: sans-serif; margin-top: 20px; margin-bottom: 0px; color: white; display:block; text-align:center;">Boas Notícias!</h1>
+                    <h1 style="font-family: sans-serif; margin-top: 20px; margin-bottom: 0px; color: white; display:block; text-align:center;">Recuperação de senha</h1>
                 </td>
             </tr>
             <!-- Hero Image, Flush : END -->
@@ -163,76 +163,28 @@
             <tr>
                 <td bgcolor="#ffffff" style="padding: 40px; text-align: center; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: black;">
                     <p>
-                        Você está sendo convidado para utilizar o mais novo sistema de busca de serviços e fazer parte deste time
+                        Olá! Recebemos uma solicitação de recuperação de senha para este email. Para trocar sua senha, clique no botão abaixo.
                     </p>
                     <br>
-
                     <p>
-                        Faça já seu cadastro, antes que seu convite expire.
-                        <br>
-                        O registro é fácil e rápido.
+                        Caso não tenha sido você quem solicitou este serviço, apenas desconsidere este email.
                     </p>
                     <br>
-
-                    <img src="http://www.akijob.com.br/assets/img/arrow.png" width="35" height="150" alt="alt_text" border="0" align="center" class="fluid" style="margin: 0 auto; height: auto; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;display:block;">
-                    <p>
-                        Você está sendo convidado para utilizar o mais novo sistema de busca de serviços e fazer parte deste time.
-                    </p>
-
-                    <br>
-
-                    <img src="http://www.akijob.com.br/assets/img/arrow.png" width="35" height="150" alt="alt_text" border="0" align="center" class="fluid" style="margin: 0 auto; height: auto; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #555555;display:block;">
-
-
                     <!-- Button : Begin -->
-                    <!-- <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto">
                         <tr>
                             <td style="border-radius: 3px; background: #222222; text-align: center;" class="button-td">
-                                <a href="http://www.google.com" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff;">A Button</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="<?= base_url("login/forgot_password/{$hash}") ?>" style="background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;" class="button-a">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#ffffff;">Clique aqui para redefinir sua senha</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                 </a>
                             </td>
                         </tr>
-                    </table> -->
+                    </table>
                     <!-- Button : END -->
                 </td>
             </tr>
             <!-- 1 Column Text : BEGIN -->
 
-            <!-- Background Image with Text : BEGIN -->
-            <tr>
-                <!-- Bulletproof Background Images c/o https://backgrounds.cm -->
-                <td bgcolor="#3e454d" valign="middle" style="text-align: center; background-position: center center !important; background-size: cover !important;">
-
-                    <!--[if gte mso 9]>
-                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:175px; background-position: center center !important;">
-                    <v:fill type="tile" src="http://placehold.it/600x230/222222/666666" color="#222222" />
-                    <v:textbox inset="0,0,0,0">
-                    <![endif]-->
-                    <div>
-                        <table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td valign="middle" style="text-align: center; padding: 40px; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #ffffff;">
-                                    <p>
-                                        Faça seu cadastro inicial e cole o código abaixo na aba de códigos promocionais.
-                                    </p>
-                                    <p style="margin: 35px 0;">
-                                        <span style="font-weight: bold; color:#e2563c;font-size:2em;">CF273HJB</span>
-                                    </p>
-                                    <p>
-                                        Esse código garante acesso premium ao sistema por um mês
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <!--[if gte mso 9]>
-                    </v:textbox>
-                    </v:rect>
-                    <![endif]-->
-                </td>
-            </tr>
-            <!-- Background Image with Text : END -->
 
         </table>
         <!-- Email Body : END -->

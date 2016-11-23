@@ -224,5 +224,29 @@ class Profile extends CI_Controller {
         }
         return TRUE;
     }
+	
+	public function statistics() {
+        $data = $this->user_info;
+
+        $this->load->model("Services_model", "services");
+		$this->load->model("Visits_model", "visits");
+        $data['services'] = $this->services->getServicesById($this->session->userdata('logged_in')->id);
+        $data['all_services'] = $this->services->getServicesByUser($this->session->userdata('logged_in')->id);
+		$total_visits = 0;
+		for($i=0; $i<count($data['all_services']); $i++){
+			$visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id);	
+			$data['all_services'][$i]->service_visits = $visits_service[0]->visit_service;
+			$total_visits += $data['all_services'][$i]->service_visits;
+		}
+		$data['all_services'][0]->total_visits = $total_visits;
+		//$data['all_services']['service_visits'] = $data['service_visits']; 
+		//$data['total_visits'] = $this->visits->getVisitsByService($this->session->userdata('logged_in')->id);
+		
+
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/statistics");
+        $this->load->view("_inc/footer");
+    }
 
 }

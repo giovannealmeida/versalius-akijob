@@ -199,7 +199,8 @@ class Service extends CI_Controller {
         $this->load->model("Recommendation_model", 'recommendation');
         $this->load->model("Rating_model", 'rating');
         $this->load->model("Comments_model", 'comments');
-
+		$this->load->model("Visits_model", "visits");
+		date_default_timezone_set('America/Bahia');
         //Validando a parte do comenário
         if ($this->input->post()) {
             $this->load->library('form_validation');
@@ -234,6 +235,17 @@ class Service extends CI_Controller {
         $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
         $data['comments'] = $this->comments->getCommentsByIdServices($idService, 0);
 
+        
+        if(isset($data["user_session"]->id) == FALSE){
+			$visit['id_user'] = NULL;
+		}
+		else {
+			$visit['id_user'] = $data["user_session"]->id;
+		}
+		$visit['visit_date'] = date('Y-m-d H:i:s');
+		$visit['id_service'] = $idService;
+		$this->visits->insert($visit);
+		
         if (isset($this->session->userdata('logged_in')->id))
             $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
         $data["styles"] = array(
