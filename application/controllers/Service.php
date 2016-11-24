@@ -9,6 +9,8 @@ class Service extends CI_Controller {
     public function novo() {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Subscription_model", "subs");
             $this->load->model("Services_model", 'service');
@@ -101,6 +103,8 @@ class Service extends CI_Controller {
     public function edit($idService) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'service');
             $this->load->model("State_model", 'state');
@@ -122,7 +126,6 @@ class Service extends CI_Controller {
                     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
                     if ($this->form_validation->run() !== FALSE) {
-                        //print_r($this->input->post());die;
                         $form['street'] = $this->input->post('street');
                         $form['number'] = $this->input->post('number');
                         $form['complement'] = $this->input->post('complement');
@@ -199,9 +202,8 @@ class Service extends CI_Controller {
         $this->load->model("Recommendation_model", 'recommendation');
         $this->load->model("Rating_model", 'rating');
         $this->load->model("Comments_model", 'comments');
-		$this->load->model("Visits_model", "visits");
-		date_default_timezone_set('America/Bahia');
-        //Validando a parte do comenário
+        $this->load->model("Visits_model", "visits");
+        date_default_timezone_set('America/Bahia');
         if ($this->input->post()) {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('comment', 'Nome', 'required');
@@ -220,7 +222,7 @@ class Service extends CI_Controller {
             }
         }
 
-        ////////////////////////////////////////////////
+////////////////////////////////////////////////
 
         $user_service = $this->user->getUserByService($idService);
         $data["user_profile"] = $this->user->getUserById($user_service);
@@ -235,17 +237,16 @@ class Service extends CI_Controller {
         $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
         $data['comments'] = $this->comments->getCommentsByIdServices($idService, 0);
 
-        
-        if(isset($data["user_session"]->id) == FALSE){
-			$visit['id_user'] = NULL;
-		}
-		else {
-			$visit['id_user'] = $data["user_session"]->id;
-		}
-		$visit['visit_date'] = date('Y-m-d H:i:s');
-		$visit['id_service'] = $idService;
-		$this->visits->insert($visit);
-		
+
+        if (isset($data["user_session"]->id) == FALSE) {
+            $visit['id_user'] = NULL;
+        } else {
+            $visit['id_user'] = $data["user_session"]->id;
+        }
+        $visit['visit_date'] = date('Y-m-d H:i:s');
+        $visit['id_service'] = $idService;
+        $this->visits->insert($visit);
+
         if (isset($this->session->userdata('logged_in')->id))
             $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
         $data["styles"] = array(
@@ -270,6 +271,8 @@ class Service extends CI_Controller {
     public function portifolio($idService) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'services');
             $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
@@ -283,6 +286,8 @@ class Service extends CI_Controller {
     public function portfolioNovo() {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'services');
             if ($this->input->post()) {
@@ -317,6 +322,8 @@ class Service extends CI_Controller {
     public function editPortfolio($idPortfolio) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'services');
             if ($this->input->post()) {
@@ -352,6 +359,8 @@ class Service extends CI_Controller {
     public function deletePortfolio($idPortfolio) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Services_model", "services");
             $delete = $this->services->deletePortfolio($idPortfolio);
@@ -378,6 +387,8 @@ class Service extends CI_Controller {
     public function delete($idService) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         } else {
             $this->load->model("Services_model", "services");
             $delete = $this->services->delete($this->session->userdata('logged_in')->id, $idService);

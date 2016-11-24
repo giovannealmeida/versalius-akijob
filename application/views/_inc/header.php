@@ -49,8 +49,10 @@
                     <div id="navbar" class="navbar-collapse collapse">
 
                         <ul class="nav navbar-nav navbar-right">
-                            <?php if ($this->session->userdata('logged_in')): ?>
+                            <?php if ($this->session->userdata('logged_in') && $this->session->userdata('logged_in')->id_status == 1): ?>
                                 <li><a href="<?= base_url("profile") ?>">Minha Conta</a></li>
+                                <li><a href="<?= base_url("logout") ?>">Sair</a></li>
+                            <?php elseif ($this->session->userdata('logged_in') && $this->session->userdata('logged_in')->id_status == -1): ?>
                                 <li><a href="<?= base_url("logout") ?>">Sair</a></li>
                             <?php else: ?>
                                 <li><a href="<?= base_url('login') ?>">Entrar</a></li>

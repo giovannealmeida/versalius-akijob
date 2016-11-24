@@ -29,6 +29,9 @@ class Profile extends CI_Controller {
     public function index() {
 
         $data = $this->user_info;
+        if ($data['user_profile']->id_status == -1) {
+            redirect('profile/account');
+        }
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
         $this->load->view("profile/overview");
@@ -37,7 +40,9 @@ class Profile extends CI_Controller {
 
     public function config() {
         $data = $this->user_info;
-
+        if ($data['user_profile']->id_status == -1) {
+            redirect('profile/account');
+        }
         if ($this->input->post()) {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
@@ -99,6 +104,9 @@ class Profile extends CI_Controller {
 
     public function plan() {
         $data = $this->user_info;
+        if ($data['user_profile']->id_status == -1) {
+            redirect('profile/account');
+        }
         if ($data["premium_data"]["isPremium"]) {
             $data["plan"] = "PREMIUM";
             $data["plan_class"] = "success";
@@ -117,13 +125,18 @@ class Profile extends CI_Controller {
     public function account() {
         $data = $this->user_info;
         $this->load->view("_inc/header", $data);
-        $this->load->view("profile/menu");
+        if ($data['user_profile']->id_status == 1) {
+            $this->load->view("profile/menu");
+        }
         $this->load->view("profile/account");
         $this->load->view("_inc/footer");
     }
 
     public function alterPassword() {
         $data = $this->user_info;
+        if ($data['user_profile']->id_status == -1) {
+            redirect('profile/account');
+        }
         if ($this->input->post()) {
             $this->load->library('form_validation');
             if ($data["user_profile"]->password !== NULL)
@@ -172,7 +185,9 @@ class Profile extends CI_Controller {
 
     public function services() {
         $data = $this->user_info;
-
+        if ($data['user_profile']->id_status == -1) {
+            redirect('profile/account');
+        }
         $this->load->model("Services_model", "services");
         $data['services'] = $this->services->getServicesByUser($data["user_profile"]->id);
 
@@ -184,6 +199,9 @@ class Profile extends CI_Controller {
     }
 
     public function recommendations($idService, $id_recommendation) {
+        if ($data['user_profile']->id_status == -1) {
+            redirect('profile/account');
+        }
         $this->load->model("Users_model", 'user');
         $this->load->model("Recommendation_model", 'recommendation');
         $user_service = $this->users->getUserByService($idService);
@@ -199,15 +217,50 @@ class Profile extends CI_Controller {
         }
         redirect("service/toView/{$idService}");
     }
-    
+
     public function excluir($idUser) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if($this->session->userdata('logged_in')->id == $idUser){
+        } else if ($this->session->userdata('logged_in')->id == $idUser) {
             $this->load->model("Users_model", "users");
             $delete = $this->users->excluir($idUser);
             if ($delete) {
                 session_destroy();
+                redirect('index');
+            } else {
+                show_404();
+            }
+            redirect('profile/services');
+        }
+    }
+
+    public function disable($idUser) {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else if ($this->session->userdata('logged_in')->id == $idUser) {
+            $this->load->model("Users_model", "users");
+            $data['id_status'] = -1;
+            $disable = $this->users->update($idUser, $data);
+            if ($disable) {
+                session_destroy();
+                redirect('index');
+            } else {
+                show_404();
+            }
+            redirect('profile/services');
+        }
+    }
+
+    public function active($idUser) {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        } else if ($this->session->userdata('logged_in')->id == $idUser) {
+            $this->load->model("Users_model", "users");
+            $data['id_status'] = 1;
+            $active = $this->users->update($idUser, $data);
+            if ($active) {
+                $user = $this->users->getUserById($this->session->userdata('logged_in')->id);
+                $this->session->set_userdata('logged_in', $user);
                 redirect('index');
             } else {
                 show_404();
@@ -224,24 +277,24 @@ class Profile extends CI_Controller {
         }
         return TRUE;
     }
-	
-	public function statistics() {
+
+    public function statistics() {
         $data = $this->user_info;
 
         $this->load->model("Services_model", "services");
-		$this->load->model("Visits_model", "visits");
+        $this->load->model("Visits_model", "visits");
         $data['services'] = $this->services->getServicesById($this->session->userdata('logged_in')->id);
         $data['all_services'] = $this->services->getServicesByUser($this->session->userdata('logged_in')->id);
-		$total_visits = 0;
-		for($i=0; $i<count($data['all_services']); $i++){
-			$visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id);	
-			$data['all_services'][$i]->service_visits = $visits_service[0]->visit_service;
-			$total_visits += $data['all_services'][$i]->service_visits;
-		}
-		$data['all_services'][0]->total_visits = $total_visits;
-		//$data['all_services']['service_visits'] = $data['service_visits']; 
-		//$data['total_visits'] = $this->visits->getVisitsByService($this->session->userdata('logged_in')->id);
-		
+        $total_visits = 0;
+        for ($i = 0; $i < count($data['all_services']); $i++) {
+            $visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id);
+            $data['all_services'][$i]->service_visits = $visits_service[0]->visit_service;
+            $total_visits += $data['all_services'][$i]->service_visits;
+        }
+        $data['all_services'][0]->total_visits = $total_visits;
+        //$data['all_services']['service_visits'] = $data['service_visits']; 
+        //$data['total_visits'] = $this->visits->getVisitsByService($this->session->userdata('logged_in')->id);
+
 
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");

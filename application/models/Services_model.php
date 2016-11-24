@@ -41,7 +41,7 @@ class Services_model extends CI_Model {
             INNER JOIN tb_jobs j ON j.id = s.id_job
             INNER JOIN tb_users u ON u.id = s.id_user
             LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
-            WHERE s.id_job = {$idJob} AND s.id_city = {$idCity}
+            WHERE s.id_job = {$idJob} AND s.id_city = {$idCity} AND u.id_status = 1
             GROUP BY s.id_user");
 
         if (count($query->result()) > 0) {

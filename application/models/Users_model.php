@@ -9,9 +9,8 @@ class Users_model extends CI_Model
         parent::__construct();
     }
 
-    public function getUserLogin($email, $password)
-    {
-        $response = $this->db->get_where('tb_users', array('email' => $email));
+    public function getUserLogin($email, $password, $idStatus){
+        $response = $this->db->get_where('tb_users', array('email' => $email, 'id_status' => $idStatus));
         if ($response->num_rows() == 1) {
             $user = $response->result()[0];
             if (password_verify($password, $user->password)) {
@@ -21,6 +20,7 @@ class Users_model extends CI_Model
 
         return null;
     }
+   
 
     public function getUserById($id)
     {
@@ -45,10 +45,11 @@ class Users_model extends CI_Model
     }
 
     // $type pode ser "facebook" ou "google"
-    public function getUserExternalAuth($email, $id_social)
+    public function getUserExternalAuth($email, $id_social, $id_satus)
     {
         $this->db->where('email', $email);
         $this->db->where('id_social', $id_social);
+        $this->db->where('id_status', $id_satus);
         $response = $this->db->get('tb_users');
 
         if ($response->num_rows() == 1) {

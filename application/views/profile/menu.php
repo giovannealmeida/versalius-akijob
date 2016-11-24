@@ -11,7 +11,7 @@
                     <?php if ($user_profile->avatar === NULL): ?>
                         <?= '//placehold.it/200' ?>
                     <?php elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar)))): ?>
-                        <?= $user_profile->avatar ?>
+                        <?php $user_profile->avatar ?>
                     <?php else: ?>
                         <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar)); ?>
                          <?php endif; ?>" alt="">
