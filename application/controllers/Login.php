@@ -319,14 +319,7 @@ class Login extends CI_Controller {
                     redirect('login');
                 }
                 // create basic user and log in
-                $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth'], 'id_status' => 1);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_URL, $data['picture']);
-                $insert['avatar'] = curl_exec($ch);
-                curl_close($ch);
+                $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth'], 'id_status' => 1, "avatar" => $data['picture']);
 
                 $user = $this->users->insert($insert);
                 if ($user) {

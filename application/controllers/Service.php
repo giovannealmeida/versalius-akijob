@@ -72,9 +72,14 @@ class Service extends CI_Controller {
                 $data['coordinates'] = $this->service->getUserLatLng($this->session->userdata('logged_in')->id);
                 $data['states'] = $this->state->getAll();
                 if ($this->input->post('selectState') != NULL) {
-                    $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
+                    $data['selected_city'] = $this->city->getCityById($this->input->post('selectCity'));
                 } else {
                     $data['citys'] = $this->city->getCityByState(1);
+                }
+                
+                if ($this->input->post('selectState') != NULL) {
+                    $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
+                    $data['functions_scripts'] = array("setLatLng({$data['selected_city']->latitude},{$data['selected_city']->longitude});");
                 }
                 $data['styles'] = array(
                     base_url('assets/css/bootstrap-toggle.min.css'),
