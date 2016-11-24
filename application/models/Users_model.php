@@ -11,7 +11,6 @@ class Users_model extends CI_Model
 
     public function getUserLogin($email, $password)
     {
-        $this->db->select("password");
         $response = $this->db->get_where('tb_users', array('email' => $email));
         if ($response->num_rows() == 1) {
             $user = $response->result()[0];
