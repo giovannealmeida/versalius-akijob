@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="description" content="" />
         <title>Akijob</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link href="<?= base_url("assets/css/bootstrap.min.css") ?>" rel="stylesheet">
         <link href="<?= base_url("assets/css/style.css") ?>" rel="stylesheet">
         <link href="<?= base_url("assets/css/bootstrap-select.min.css") ?>" rel="stylesheet">

@@ -66,7 +66,7 @@
                         <div class="list-container" style="height: 90%; overflow: auto;">
                             <?php if (count($services) > 0): ?>
                                 <?php foreach ($services as $key => $service): ?>
-                                    <div class="list-group" id="line-<?= $key ?>">
+                                    <div class="list-group result-list" id="line-<?= $key ?>">
                                         <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
                                             <div class="row">
                                                 <!--<div class="score">

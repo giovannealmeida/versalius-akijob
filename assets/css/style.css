@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    font-family: 'Roboto', sans-serif !important;
     /* The html and body elements cannot have any padding or margin. */
 }
 
@@ -201,7 +202,7 @@ span.job {
     margin-right: 10px;
     color: grey;
 }
-.list-group-item {
+.result-list .list-group-item {
     border-radius: 0px !important;
     border: none;
 }
@@ -433,11 +434,36 @@ div.status {
 .profile-page-title {
     color: #337ab7;
 }
-
-form#edit_user > div.row{
+form#edit_user>div.row {
+    margin-top: 10px;
+}
+form#alterPassword>div.row {
     margin-top: 10px;
 }
 
-form#alterPassword > div.row{
+.social-list {
     margin-top: 10px;
+    margin-bottom: 0px;
+}
+.social-list li {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    border-bottom: 1px solid #ddd;
+    /*border-top: 1px solid #ddd;*/
+}
+.social-list li:first-child {
+    border-top: 1px solid #ddd;
+}
+
+.social-list .social-icon {
+    color: #ddd;
+}
+
+.ads_600_300{
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 600px;
+    min-height: 600px;
 }
