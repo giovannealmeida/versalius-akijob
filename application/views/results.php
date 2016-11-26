@@ -141,7 +141,7 @@
                                         ];
 
                                         map = new google.maps.Map(document.getElementById('map-canvas'), {
-                                            zoom: 15,
+                                            zoom: 13,
                                             center: {lat: <?= $city->latitude ?>, lng: <?= $city->longitude ?>},
                                             styles: myStyles,
                                             mapTypeControlOptions: {

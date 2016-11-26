@@ -406,19 +406,4 @@ class Service extends CI_Controller {
         }
     }
 
-    public function updateRating($idService, $value) {
-        $this->load->model("Users_model", 'user');
-        $this->load->model("Rating_model", 'rating');
-        $user_service = $this->user->getUserByService($idService);
-        $form = array('id_user' => $this->session->userdata('logged_in')->id, 'id_user_receiver' => $user_service, 'id_service' => $idService, 'value' => $value);
-        $rating = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
-        if ($rating) {
-            if ($rating->value != $value)
-                $this->rating->update_rating($form);
-        } else {
-            $this->rating->insert_rating($form);
-        }
-        redirect("service/toView/{$idService}");
-    }
-
 }
