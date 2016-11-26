@@ -63,6 +63,9 @@ class Profile extends CI_Controller {
                 $form['id_gender'] = $this->input->post('gender');
                 $form['birthday'] = $this->input->post('birthDate');
                 $form['phone'] = $this->input->post('phone');
+                $form['site'] = $this->input->post('site');
+                $form['facebook'] = $this->input->post('facebook');
+                $form['twitter'] = $this->input->post('twitter');
                 if ($_FILES['upload_avatar']['tmp_name'] !== "") {
                     $form['avatar'] = addslashes(file_get_contents($_FILES['upload_avatar']['tmp_name']));
                 }

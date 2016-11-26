@@ -100,6 +100,40 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="col-xs-12">
+                                <?php echo form_label('Site', 'site'); ?>
+                                <div class="input-group">
+                                    <div class="input-group-addon">http://</div>
+                                    <?php echo form_input(array('name' => 'site', 'class' => 'form-control', 'id' => 'site', 'placeholder' => "Site"), set_value('site', isset($user_profile) ? $user_profile->site : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <?php echo form_label('Facebook', 'facebook'); ?>
+                                <div class="input-group">
+                                    <div class="input-group-addon">facebook.com/</div>
+                                    <?php echo form_input(array('name' => 'facebook', 'class' => 'form-control', 'id' => 'facebook', 'placeholder' => "Facebook"), set_value('facebook', isset($user_profile) ? $user_profile->facebook : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+
+                            <div class="col-xs-12">
+                                <?php echo form_label('Twitter', 'twitter'); ?>
+                                <div class="input-group">
+                                    <div class="input-group-addon">@</div>
+                                    <?php echo form_input(array('name' => 'twitter', 'class' => 'form-control', 'id' => 'twitter', 'placeholder' => "Twitter"), set_value('twitter', isset($user_profile) ? $user_profile->twitter : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12">
                                 <label class="control-label">Sexo</label>
                                 <label class="checkbox-inline">
                                     <?php echo form_radio(array('name' => 'gender', 'value' => 2, 'checked' => (isset($user_profile->id_gender) && 2 == $user_profile->id_gender) ? TRUE : set_radio('gender', '2'), 'id' => 'male')) ?>Feminino

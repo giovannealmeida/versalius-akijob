@@ -111,6 +111,33 @@
                                 <?php echo form_input(array('name' => 'phone', 'class' => 'form-control phone', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile["phone"]) ? $user_profile["phone"] : "")); ?>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <?php echo form_label('Site', 'site', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">http://</div>
+                                    <?php echo form_input(array('name' => 'site', 'class' => 'form-control', 'id' => 'site', 'placeholder' => "Site"), set_value('site', isset($user_profile) ? $user_profile["site"] : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <?php echo form_label('Facebook', 'facebook', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">facebook.com/</div>
+                                    <?php echo form_input(array('name' => 'facebook', 'class' => 'form-control', 'id' => 'facebook', 'placeholder' => "Facebook"), set_value('facebook', isset($user_profile) ? $user_profile["facebook"] : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <?php echo form_label('Twitter', 'twitter', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">@</div>
+                                    <?php echo form_input(array('name' => 'twitter', 'class' => 'form-control', 'id' => 'twitter', 'placeholder' => "Twitter"), set_value('twitter', isset($user_profile) ? $user_profile["twitter"] : "")); ?>
+                                </div>
+                            </div>
+                        </div>
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label class="control-label col-md-3">Sexo</label>

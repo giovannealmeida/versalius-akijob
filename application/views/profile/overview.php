@@ -6,7 +6,7 @@
 				<br>
 				<small class="text-danger"><?= $recommendations_negative ?> Recomendações Negativas</small>
 				<br>
-				<small> <a href="#">Ver detalhes</a></small>
+				<small> <a href="<?=base_url('profile/statistics') ?>">Ver detalhes</a></small>
 
 				<div class="divider"></div>
 				

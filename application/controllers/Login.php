@@ -85,7 +85,10 @@ class Login extends CI_Controller {
                     'id_city' => $this->input->post('selectCity'),
                     'phone' => $this->input->post('phone'),
                     'avatar' => $this->input->post('picture') != null ? $this->input->post('picture') : null,
-                    'id_status' => 1
+                    'id_status' => 1,
+                    'site' => $this->input->post('site'),
+                    'facebook' => $this->input->post('facebook'),
+                    'twitter' => $this->input->post('twitter'),
                 );
 
                 if ($_FILES['avatar']['tmp_name'] !== '') {

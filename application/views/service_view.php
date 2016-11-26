@@ -26,7 +26,7 @@
                                     <?php else: ?>
                                         <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar)); ?>
                                     <?php endif; ?>
-                                    " alt="" >
+                                         " alt="" >
                                 </div>
                                 <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                     <span class="profile-name"><?= $user_profile->name ?></span>
@@ -77,7 +77,7 @@
                             <div class="skills">
                                 <h3 class="text-primary"><strong>Competências</strong></h3>
                                 <p class="text-justify skills">
-                                    <?= $dataService->skills == "" ? "Não Fornecido" : $dataService->skills?>
+                                    <?= $dataService->skills == "" ? "Não Fornecido" : $dataService->skills ?>
                                 </p>
                             </div>
 
@@ -178,7 +178,7 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1">
-                                                            <img class="img-circle img-responsive center-block profile-photo" src="<?=$value->avatar?>" alt="" >
+                                                            <img class="img-circle img-responsive center-block profile-photo" src="<?= $value->avatar ?>" alt="" >
                                                         </div>
                                                         <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
                                                             <p><small class="address"> </span> Postado<?= $value->current_date; ?></small></p>
@@ -222,21 +222,33 @@
                                     <ul class="list-group social-list">
                                         <li class="">
                                             <span class="social-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                                            <a href="#" target="_blank">
-                                                &nbsp;&nbsp; www.versalius.com.br
-                                            </a>
+                                            <?php if ($user_profile->site != NULL): ?>
+                                                <a href="http://<?= $user_profile->site ?>" target="_blank">
+                                                    &nbsp;&nbsp; <?= $user_profile->site ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <span> Não Fornecido </span>
+                                            <?php endif; ?>
                                         </li>
                                         <li class="">
                                             <span class="social-icon"><i class="fa fa-facebook-square" aria-hidden="true"></i></span>
-                                            <a href="#" target="_blank">
-                                                &nbsp;&nbsp;Filipe Marques
-                                            </a>
+                                            <?php if ($user_profile->facebook != NULL): ?>
+                                                <a href="https://www.facebook.com/<?= $user_profile->facebook ?>" target="_blank">
+                                                    &nbsp;&nbsp; <?= $user_profile->facebook ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <span> Não Fornecido </span>
+                                            <?php endif; ?>
                                         </li>
                                         <li class="">
                                             <span class="social-icon"><i class="fa fa-twitter-square" aria-hidden="true"></i></span>
-                                            <a href="#" target="_blank">
-                                                &nbsp;&nbsp;@carambola
-                                            </a>
+                                            <?php if ($user_profile->twitter != NULL): ?>
+                                                <a href="https://twitter.com/<?= $user_profile->twitter ?>" target="_blank">
+                                                    &nbsp;&nbsp; <?= $user_profile->twitter ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <span> Não Fornecido </span>
+                                            <?php endif; ?>
                                         </li>
                                     </ul>
                                 </div>
