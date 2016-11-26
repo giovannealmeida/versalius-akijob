@@ -1,4 +1,4 @@
-
+<?php // var_dump($all_services);?>
 <h2 class="profile-page-title"><strong>Estatísticas</strong></h2>
 				<div class="divider"></div>
 
@@ -16,6 +16,9 @@
 				<?php endforeach;?>
 				<br>	
 				</div>
+				<div id="linechart_material"></div>	
+				
+				
 				<div class="divider"></div>
 				
 

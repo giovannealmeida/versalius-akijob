@@ -285,19 +285,112 @@ class Profile extends CI_Controller {
         $data = $this->user_info;
 
         $this->load->model("Services_model", "services");
-        $this->load->model("Visits_model", "visits");
+		$this->load->model("Visits_model", "visits");
         $data['services'] = $this->services->getServicesById($this->session->userdata('logged_in')->id);
         $data['all_services'] = $this->services->getServicesByUser($this->session->userdata('logged_in')->id);
-        $total_visits = 0;
-        for ($i = 0; $i < count($data['all_services']); $i++) {
-            $visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id);
-            $data['all_services'][$i]->service_visits = $visits_service[0]->visit_service;
-            $total_visits += $data['all_services'][$i]->service_visits;
-        }
-        $data['all_services'][0]->total_visits = $total_visits;
-        //$data['all_services']['service_visits'] = $data['service_visits']; 
-        //$data['total_visits'] = $this->visits->getVisitsByService($this->session->userdata('logged_in')->id);
+        
+		$total_visits = 0;
+		$add_column_chart = 'data.addColumn("number", "Dia");';
+		for($i=0; $i<count($data['all_services']); $i++){
+			$visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id);	
+			$data['all_services'][$i]->service_visits = $visits_service[0]->visit_service;
+			$data['all_services'][$i]->visit_dates = $this->visits->getVisitDateByService($data['all_services'][$i]->id);
+			$total_visits += $data['all_services'][$i]->service_visits;
+			$add_column_chart = $add_column_chart.'data.addColumn("number", "'.$data['all_services'][$i]->job.'");';
+		}
+		$data['all_services'][0]->total_visits = $total_visits;
+		$number_column_charts = substr_count($add_column_chart, ';', 0);
+		$row_charts = array();
+		for($i=0; $i<$number_column_charts; $i++){
+			${"column_charts$i"}=0; //variavéis dinâmicas 
+			
+		}
+		$data['scripts'] = array('https://www.gstatic.com/charts/loader.js',
+			'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'
+		);
+		
+		$dayVisit='';
+		$day = 1;
+		$day_current = NULL;
+		
+		for($iService=0; $iService<count($data['all_services']); $iService++){
+			$idService = $data['all_services'][$iService]->id;
+				
+				for($jDay=1; $jDay<=date("t"); $jDay++){
+					$auxDayVisit = $this->visits->getCountVisitDayByService($idService, date('Y-m-d', mktime(0, 0, 0, date('m') , $jDay , date('Y'))));						
+					if($auxDayVisit[0]->count_visit_date != 0){
+									 	
+						${"column_charts$iService"} = $auxDayVisit[0]->count_visit_date;
+						
+						if(isset($row_charts[$jDay]) == false){
+							$row_charts[$jDay] = "[$jDay ";
+							for ($col=0; $col < $number_column_charts-1; $col++) {
+									
+								if($col == $iService){
+									$row_charts[$jDay] = $row_charts[$jDay].",".${"column_charts$col"};
+								}else{
+									$row_charts[$jDay] = $row_charts[$jDay].",0";	
+								}
+							}
+							$row_charts[$jDay] = $row_charts[$jDay]."],";
+						}
+						else{
+							$count_comma = 0;
+							for($pos=1; $pos<strlen($row_charts[$jDay]); $pos++){
+								if(strcmp($row_charts[$jDay][$pos], ",") == 0){
+									$count_comma++;		
+									if(strcmp($row_charts[$jDay][$pos+1], "0") == 0){
+										if($count_comma == $iService+1){	
+											$row_charts[$jDay][$pos+1] = ${"column_charts$iService"};
+											break;	
+										}
+									}
+								}
+							}
+						}
+							
+					}
+					else{
+						if(isset($row_charts[$jDay]) == false){
+							$row_charts[$jDay] = "[$jDay";
+							for ($col=0; $col < $number_column_charts-1; $col++) { 
+								$row_charts[$jDay] = $row_charts[$jDay].",0";
+							}
+							$row_charts[$jDay] = $row_charts[$jDay]."],";	
+						}
+					}
+					
+				}
+			
+		}
+		
+		$add_row_charts = '';
+		for ($i=1; $i < date("t") ; $i++) { 
+			$add_row_charts = $add_row_charts.$row_charts[$i];
+		}
+		
+		$data['functions_scripts'] = array('  google.charts.load("current", {"packages":["line"]});
+      google.charts.setOnLoadCallback(drawChart);
 
+    function drawChart() {var data = new google.visualization.DataTable();
+      '.$add_column_chart.'
+      data.addRows(
+        ['.$add_row_charts.']
+      );
+
+      var options = {
+        chart: {
+          title: "Gráfico de Visitas",
+          subtitle: ""
+        },
+        width: 500,
+        height: 500
+      };
+
+      var chart = new google.charts.Line(document.getElementById("linechart_material"));
+
+      chart.draw(data, options);
+      }');
 
         $this->load->view("_inc/header", $data);
         $this->load->view("profile/menu");
