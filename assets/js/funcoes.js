@@ -45,3 +45,49 @@ $('#ButtonLoadMoreComments').on('click', function () {
     });
     $btn.button('reset');
 });
+
+$('#btn_positive').on('click', function () {
+    urlConsulta = base_url.url + "index.php/consult/insert_recommendation/" + $('#id_user').val() + "/" + $('#id_user_receiver').val() + "/1";
+    $.ajax({url: urlConsulta,
+        success: function (result) {
+            if(result == "0"){
+                $("#btn_positive").attr('class', 'btn btn-default btn-sm');
+                $('#span_positive').text(Number($('#span_positive').text()) - 1);
+            }else if(result == "1"){
+                $("#btn_positive").attr('class', 'btn btn-success btn-sm');
+                $("#btn_negative").attr('class', 'btn btn-default btn-sm');
+                $('#span_positive').text(Number($('#span_positive').text()) + 1);
+                $('#span_negative').text(Number($('#span_negative').text()) - 1);
+            }else{
+                $("#btn_positive").attr('class', 'btn btn-success btn-sm');
+                $('#span_positive').text(Number($('#span_positive').text()) + 1);
+            }
+        },
+        error: function (error) {
+            alert("Falha ao consultar cidade!");
+        }
+    });
+});
+
+$('#btn_negative').on('click', function () {
+    urlConsulta = base_url.url + "index.php/consult/insert_recommendation/" + $('#id_user').val() + "/" + $('#id_user_receiver').val() + "/-1";
+    $.ajax({url: urlConsulta,
+        success: function (result) {
+            if(result == "0"){
+                $("#btn_negative").attr('class', 'btn btn-default btn-sm');
+                $('#span_negative').text(Number($('#span_negative').text()) - 1);
+            }else if(result == "1"){
+                $("#btn_negative").attr('class', 'btn btn-danger btn-sm');
+                $("#btn_positive").attr('class', 'btn btn-default btn-sm');
+                $('#span_positive').text(Number($('#span_positive').text()) - 1);
+                $('#span_negative').text(Number($('#span_negative').text()) + 1);
+            }else{
+                $("#btn_negative").attr('class', 'btn btn-danger btn-sm');
+                $('#span_negative').text(Number($('#span_negative').text()) + 1);
+            }
+        },
+        error: function (error) {
+            alert("Falha ao consultar cidade!");
+        }
+    });
+});

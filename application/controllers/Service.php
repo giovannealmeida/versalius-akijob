@@ -234,7 +234,7 @@ class Service extends CI_Controller {
         $data["user_session"] = $this->session->userdata('logged_in');
         $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($user_service);
         $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($user_service);
-        $data['recommendations'] = $this->recommendation->getRecommendationByUser($user_service);
+        $data['recommendation'] = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;

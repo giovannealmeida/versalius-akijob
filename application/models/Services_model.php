@@ -65,7 +65,7 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesById($idService) {
-        $this->db->select('s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
+        $this->db->select('s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
         $this->db->from('tb_services s');
         $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
         $this->db->join('tb_city c', 's.id_city = c.id', "inner");

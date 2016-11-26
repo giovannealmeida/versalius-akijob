@@ -34,9 +34,9 @@
                                     <p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> <?= $user_profile->email ?></small></p>
                                     <p><small class="address"><span class="glyphicon glyphicon-phone"></span> <?= $user_profile->phone != NULL ? $user_profile->phone : 'Não Fornecido' ?></small></p>
                                     <p>
-                                        <small class="text-success"><?= $recommendations_positive ?> Recomendações Positivas</small>
+                                        <small class="text-success"><span id="span_positive"><?= $recommendations_positive ?></span> Recomendações Positivas</small>
                                         <br>
-                                        <small class="text-danger"><?= $recommendations_negative ?> Recomendações Negativas</small>
+                                        <small class="text-danger"><span id="span_negative"><?= $recommendations_negative ?></span> Recomendações Negativas</small>
                                     </p>
 
 
@@ -47,8 +47,8 @@
                             <div class="panel-footer">
                                 <div class="text-right recomendations-survey">
                                     <span>Você recomendaria este profissional?</span>
-                                    <a class="btn btn-success btn-sm" href="<?= base_url("profile/recommendations/{$id}/1") ?>"><span class="glyphicon glyphicon-thumbs-up"></span> Sim!</a>
-                                    <a class="btn btn-danger btn-sm" href="<?= base_url("profile/recommendations//{$id}/-1") ?>"><span class="glyphicon glyphicon-hand-right"></span> Não!</a>
+                                    <button <?= $recommendation != NULL && $recommendation->value == 1 ? 'class="btn btn-success btn-sm"' : 'class="btn btn-default btn-sm"' ?> id="btn_positive"><span class="glyphicon glyphicon-thumbs-up"></span> Sim!</button>
+                                    <button <?= $recommendation != NULL && $recommendation->value == -1 ? 'class="btn btn-danger btn-sm"' : 'class="btn btn-default btn-sm"' ?> id="btn_negative"><span class="glyphicon glyphicon-hand-right"></span> Não!</button>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -164,7 +164,8 @@
                                         <legend>Deixe seu comentário:</legend>
                                         <textarea name="comment" class="form-control" rows="3" required></textarea>
                                         <input id="id_service" type="hidden" name="id_service" value="<?= $id ?>">
-                                        <input type="hidden" name="id_user" value="<?= $user_session->id ?>">
+                                        <input type="hidden" name="id_user" id="id_user" value="<?= $user_session->id ?>">
+                                        <input type="hidden" name="id_user_receiver" id="id_user_receiver" value="<?= $dataService->id_user ?>">
                                         <div class="clear"></div><br>
                                         <input type="submit" class="btn btn-success" value="Enviar">
                                     </form>

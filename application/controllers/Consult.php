@@ -12,7 +12,7 @@ class consult extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function getCityByName(){
+    public function getCityByName() {
         if ($this->input->post()) {
             $name = $this->input->post("q");
         }
@@ -20,7 +20,7 @@ class consult extends CI_Controller {
         $this->db->like('c.name', $name);
         $this->db->join("tb_states s", "s.id = c.id_state");
         $result = $this->db->get("tb_city c")->result();
-        $array = array( );
+        $array = array();
 
         foreach ($result as $row) {
             $array[] = array("id" => $row->id, "initials" => $row->initials, "name" => $row->name);
@@ -28,8 +28,8 @@ class consult extends CI_Controller {
 
         print_r(json_encode($array));
     }
-    
-    public function getCityById($idCity){
+
+    public function getCityById($idCity) {
         $this->db->select('*');
         $this->db->from('tb_city');
         $this->db->where('id', $idCity);
@@ -39,20 +39,21 @@ class consult extends CI_Controller {
         print_r(json_encode($array));
     }
 
-    public function getJobsByName(){
+    public function getJobsByName() {
         if ($this->input->post()) {
             $name = $this->input->post("q");
         }
         $this->db->like('name', $name);
         $result = $this->db->get("tb_jobs")->result();
-        $array = array( );
+        $array = array();
         foreach ($result as $row) {
             $array[] = array("id" => $row->id, "name" => $row->name);
         }
 
         print_r(json_encode($array));
     }
-    public function getComments($idService, $x){
+
+    public function getComments($idService, $x) {
         $this->load->model('Comments_model');
         //Definindo variaveis de inicio e fim para serem usadas como "limit" na consulta do mysql
         $offset = $x * 5;
@@ -60,4 +61,28 @@ class consult extends CI_Controller {
         $result = $this->Comments_model->getCommentsByIdServices($idService, $offset);
         echo json_encode($result);
     }
+
+    public function insert_recommendation($id_user, $id_user_receiver, $value) {
+        $data = array("id_user" => $id_user, "id_user_receiver" => $id_user_receiver, "value" => $value);
+        $this->db->where($data);
+        $query = $this->db->get('tb_recommendation');
+        if ($query->num_rows() > 0) {
+            $this->db->delete('tb_recommendation', $data);
+            echo 0;
+        } else {
+            $this->db->where("id_user", $id_user);
+            $this->db->where("id_user_receiver", $id_user_receiver);
+            $query = $this->db->get('tb_recommendation');
+            if ($query->num_rows() > 0) {
+                $this->db->where('id_user', $id_user);
+                $this->db->where('id_user_receiver', $id_user_receiver);
+                $this->db->update('tb_recommendation', array("value" => $value));
+                echo 1;
+            } else {
+                $this->db->insert("tb_recommendation", $data);
+                echo 2;
+            }
+        }
+    }
+
 }
