@@ -42,13 +42,8 @@ class Subscribe extends CI_Controller
 
             $payment->setReference($insert['hash']);
 
-            $payment->setRedirectUrl(base_url('subscribe/pagseguro_listener'));
-
-            //Add items by parameter using an array
-            $payment->addParameter()->withArray(['notificationURL', 'http://www.lojamodelo.com.br/nofitication']);
-
-            $payment->setRedirectUrl('http://www.lojamodelo.com.br');
-            $payment->setNotificationUrl('http://www.lojamodelo.com.br/nofitication');
+            $payment->setRedirectUrl(base_url('profile'));
+            $payment->setNotificationUrl(base_url('subscribe/pagseguro_listener'));
 
             try {
                 $code = $payment->register(
