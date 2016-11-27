@@ -1,6 +1,6 @@
 var options_city = {
     ajax: {
-        url: 'http://localhost/akijob/consult/getCityByName/',
+        url: base_url.url + '/consult/getCityByName/',
         type: 'POST',
         dataType: 'json',
         // Use "{{{q}}}" as a placeholder and Ajax Bootstrap Select will
@@ -41,7 +41,7 @@ var options_city = {
 
 var options_job = {
     ajax: {
-        url: 'http://localhost/akijob/consult/getJobsByName/',
+        url: base_url.url + '/consult/getJobsByName/',
         type: 'POST',
         dataType: 'json',
         // Use "{{{q}}}" as a placeholder and Ajax Bootstrap Select will
