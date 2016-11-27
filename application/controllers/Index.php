@@ -26,10 +26,7 @@ class Index extends CI_Controller {
         \PagSeguro\Library::initialize();
         \PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
         \PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
-        /*
-         * To do a dynamic configuration of the library credentials you have to use the set methods
-         * from the static class \PagSeguro\Configuration\Configure.
-         */
+
         //For example, to configure the library dynamically:
         \PagSeguro\Configuration\Configure::setEnvironment('sandbox');//production or sandbox
         \PagSeguro\Configuration\Configure::setAccountCredentials(
@@ -49,7 +46,12 @@ class Index extends CI_Controller {
 
         $payment->setCurrency("BRL");
 
-        $payment->setReference("LIBPHP000001");
+        $this->load->model('Util_model', 'util');
+        date_default_timezone_set('America/Sao_Paulo');
+        $insert = array('hash' => $this->util->generateRandomString(10), "id_user" => 131, "modification_date" => date('Y-m-d H:i:s'));
+        $this->db->insert("tb_payment_history", $insert);
+
+        $payment->setReference($insert["hash"]);
 
         $payment->setRedirectUrl("http://www.lojamodelo.com.br");
 
@@ -65,11 +67,7 @@ class Index extends CI_Controller {
 
         try {
 
-            /**
-             * @todo For checkout with application use:
-             * \PagSeguro\Configuration\Configure::getApplicationCredentials()
-             *  ->setAuthorizationCode("FD3AF1B214EC40F0B0A6745D041BF50D")
-             */
+
             $code = $payment->register(
                 \PagSeguro\Configuration\Configure::getAccountCredentials(),
                 true
@@ -84,9 +82,16 @@ class Index extends CI_Controller {
     }
 
     public function pag_notification(){
+
         \PagSeguro\Library::initialize();
         \PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
         \PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
+		\PagSeguro\Configuration\Configure::setEnvironment('sandbox');//production or sandbox
+        \PagSeguro\Configuration\Configure::setAccountCredentials(
+            'versalius.it@gmail.com',
+            'CCEACF42E2FE4820BFA08D1E9035D7A6'
+        );
+
         try {
             if (\PagSeguro\Helpers\Xhr::hasPost()) {
                 $response = \PagSeguro\Services\Transactions\Notification::check(
@@ -95,9 +100,30 @@ class Index extends CI_Controller {
             } else {
                 throw new \InvalidArgumentException($_POST);
             }
-            echo "<pre>";
-            print_r($response);
+
+
+			//file_put_contents('filename.txt', print_r($response, true));
+			// $myfile = fopen("testfile.txt", "w");
+			// fwrite($myfile, print_r($response, true));
+			// fclose($myfile);
+
+            $result = $this->db->get_where("tb_payment_history", array("hash" => $response->getReference()));
+            if ($result->num_rows() == 1) {
+                $result = $result->result()[0];
+                date_default_timezone_set('America/Sao_Paulo');
+
+                $this->db->where("id", $result->id);
+                $this->db->update("tb_payment_history", array("modification_date" => date('Y-m-d H:i:s'), "id_status" => $response->getStatus()));
+                if ($response->getStatus() == 3) {
+                    $this->load->model('Subscription_model', 'subscription');
+                    $this->subscription->insert($result->id_user);
+                }
+            }
+			
         } catch (Exception $e) {
+			$myfile = fopen("testfile.txt", "w");
+			fwrite($myfile, $e->getMessage());
+			fclose($myfile);
             die($e->getMessage());
         }
     }
