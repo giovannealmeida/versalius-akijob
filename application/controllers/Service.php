@@ -76,7 +76,7 @@ class Service extends CI_Controller {
                 } else {
                     $data['citys'] = $this->city->getCityByState(1);
                 }
-                
+
                 if ($this->input->post('selectState') != NULL) {
                     $data['citys'] = $this->city->getCityByState($this->input->post('selectState'));
                     $data['functions_scripts'] = array("setLatLng({$data['selected_city']->latitude},{$data['selected_city']->longitude});");
@@ -234,7 +234,6 @@ class Service extends CI_Controller {
         $data["user_session"] = $this->session->userdata('logged_in');
         $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($user_service);
         $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($user_service);
-        $data['recommendation'] = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;
@@ -252,8 +251,10 @@ class Service extends CI_Controller {
         $visit['id_service'] = $idService;
         $this->visits->insert($visit);
 
-        if (isset($this->session->userdata('logged_in')->id))
+        if (isset($this->session->userdata('logged_in')->id)) {
+            $data['recommendation'] = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
             $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
+        }
         $data["styles"] = array(
             base_url("assets/css/google_maps/mapsRegister.css"),
             base_url("assets/css/star-rating.css")
