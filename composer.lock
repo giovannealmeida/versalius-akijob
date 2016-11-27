@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8746d2ba49b63f178f7b0ed3f9b0cda5",
-    "content-hash": "85d0156123854b9f315d3a450e8ebec5",
+    "hash": "26738a0e96998966199537842a83e622",
+    "content-hash": "2b51be1b734f7bcf8ac7b9c001b2dfb3",
     "packages": [
         {
             "name": "facebook/php-sdk-v4",
-            "version": "5.4.1",
+            "version": "5.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/php-graph-sdk.git",
-                "reference": "a5a6b6cc493d8dc417f588c7c0bdfc6396198350"
+                "reference": "2839246e971aef150650196acbb46d47e5207370"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/a5a6b6cc493d8dc417f588c7c0bdfc6396198350",
-                "reference": "a5a6b6cc493d8dc417f588c7c0bdfc6396198350",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/2839246e971aef150650196acbb46d47e5207370",
+                "reference": "2839246e971aef150650196acbb46d47e5207370",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,8 @@
                 "phpunit/phpunit": "~4.0"
             },
             "suggest": {
-                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client"
+                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
+                "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
             },
             "type": "library",
             "extra": {
@@ -63,7 +64,45 @@
                 "sdk"
             ],
             "abandoned": "facebook/graph-sdk",
-            "time": "2016-10-18 19:19:03"
+            "time": "2016-11-15 14:34:16"
+        },
+        {
+            "name": "pagseguro/php3",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pagseguro/php3.git",
+                "reference": "f0ca745a285fb6996c5a60e577ec6832f41a5138"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pagseguro/php3/zipball/f0ca745a285fb6996c5a60e577ec6832f41a5138",
+                "reference": "f0ca745a285fb6996c5a60e577ec6832f41a5138",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "lib-curl": "*",
+                "lib-openssl": "*",
+                "php": ">=5.4.27"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PagSeguro\\": "source/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache License 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "PagSeguro"
+                }
+            ],
+            "description": "Biblioteca de integração com o PagSeguro",
+            "time": "2016-09-12 18:03:36"
         }
     ],
     "packages-dev": [
