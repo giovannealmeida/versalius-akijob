@@ -1,5 +1,6 @@
 <?php // var_dump($all_services);?>
 <h2 class="profile-page-title"><strong>Estatísticas</strong></h2>
+				<?php if(isset($no_service) == false):?>
 				<div class="divider"></div>
 
 				<h4 ><strong>Visitas</strong></h4>
@@ -20,8 +21,15 @@
 				
 				
 				<div class="divider"></div>
+				<?php endif;?>
 				
+				<?php if(isset($no_service) == true):?>
+				<div class="divider"></div>
 
+				<h4 ><strong>Visitas</strong></h4>
+				<h5><?= $no_service?></h5>
+				<div class="divider"></div>
+				<?php endif;?>
 
 				</div> <!-- END PROFILE-CONTENT -->
 

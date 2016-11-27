@@ -301,99 +301,109 @@ class Profile extends CI_Controller {
                 $total_visits += $data['all_services'][$i]->service_visits;
                 $add_column_chart = $add_column_chart . 'data.addColumn("number", "' . $data['all_services'][$i]->job . '");';
             }
-            $data['all_services'][0]->total_visits = $total_visits;
-            $number_column_charts = substr_count($add_column_chart, ';', 0);
-            $row_charts = array();
-            for ($i = 0; $i < $number_column_charts; $i++) {
-                ${"column_charts$i"} = 0; //variavéis dinâmicas 
+            if(($data['all_services']) == NULL){
+            	$data['no_service'] = "Não há estatísticas disponíveis, pois não há serviços cadastrados";	
+            	$this->load->view("_inc/header", $data);
+            	$this->load->view("profile/menu");
+            	$this->load->view("profile/statistics");
+            	$this->load->view("_inc/footer");
             }
-            $data['scripts'] = array('https://www.gstatic.com/charts/loader.js',
-                'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'
-            );
-
-            $dayVisit = '';
-            $day = 1;
-            $day_current = NULL;
-
-            for ($iService = 0; $iService < count($data['all_services']); $iService++) {
-                $idService = $data['all_services'][$iService]->id;
-
-                for ($jDay = 1; $jDay <= date("t"); $jDay++) {
-                    $auxDayVisit = $this->visits->getCountVisitDayByService($idService, date('Y-m-d', mktime(0, 0, 0, date('m'), $jDay, date('Y'))));
-                    if ($auxDayVisit[0]->count_visit_date != 0) {
-
-                        ${"column_charts$iService"} = $auxDayVisit[0]->count_visit_date;
-
-                        if (isset($row_charts[$jDay]) == false) {
-                            $row_charts[$jDay] = "[$jDay ";
-                            for ($col = 0; $col < $number_column_charts - 1; $col++) {
-
-                                if ($col == $iService) {
-                                    $row_charts[$jDay] = $row_charts[$jDay] . "," . ${"column_charts$col"};
-                                } else {
-                                    $row_charts[$jDay] = $row_charts[$jDay] . ",0";
-                                }
-                            }
-                            $row_charts[$jDay] = $row_charts[$jDay] . "],";
-                        } else {
-                            $count_comma = 0;
-                            for ($pos = 1; $pos < strlen($row_charts[$jDay]); $pos++) {
-                                if (strcmp($row_charts[$jDay][$pos], ",") == 0) {
-                                    $count_comma++;
-                                    if (strcmp($row_charts[$jDay][$pos + 1], "0") == 0) {
-                                        if ($count_comma == $iService + 1) {
-                                            $row_charts[$jDay][$pos + 1] = ${"column_charts$iService"};
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        if (isset($row_charts[$jDay]) == false) {
-                            $row_charts[$jDay] = "[$jDay";
-                            for ($col = 0; $col < $number_column_charts - 1; $col++) {
-                                $row_charts[$jDay] = $row_charts[$jDay] . ",0";
-                            }
-                            $row_charts[$jDay] = $row_charts[$jDay] . "],";
-                        }
-                    }
-                }
-            }
-
-            $add_row_charts = '';
-            for ($i = 1; $i < date("t"); $i++) {
-                $add_row_charts = $add_row_charts . $row_charts[$i];
-            }
-
-            $data['functions_scripts'] = array('  google.charts.load("current", {"packages":["line"]});
-      google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {var data = new google.visualization.DataTable();
-      ' . $add_column_chart . '
-      data.addRows(
-        [' . $add_row_charts . ']
-      );
-
-      var options = {
-        chart: {
-          title: "Gráfico de Visitas",
-          subtitle: ""
-        },
-        width: 500,
-        height: 500
-      };
-
-      var chart = new google.charts.Line(document.getElementById("linechart_material"));
-
-      chart.draw(data, options);
-      }');
-
-            $this->load->view("_inc/header", $data);
-            $this->load->view("profile/menu");
-            $this->load->view("profile/statistics");
-            $this->load->view("_inc/footer");
-        }
+            else{
+            	$data['all_services'][0]->total_visits = $total_visits;
+            	$number_column_charts = substr_count($add_column_chart, ';', 0);
+	            $row_charts = array();
+	            for ($i = 0; $i < $number_column_charts; $i++) {
+	                ${"column_charts$i"} = 0; //variavéis dinâmicas 
+	            }
+	            $data['scripts'] = array('https://www.gstatic.com/charts/loader.js',
+	                'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'
+	            );
+	
+	            $dayVisit = '';
+	            $day = 1;
+	            $day_current = NULL;
+	
+	            for ($iService = 0; $iService < count($data['all_services']); $iService++) {
+	                $idService = $data['all_services'][$iService]->id;
+	
+	                for ($jDay = 1; $jDay <= date("t"); $jDay++) {
+	                    $auxDayVisit = $this->visits->getCountVisitDayByService($idService, date('Y-m-d', mktime(0, 0, 0, date('m'), $jDay, date('Y'))));
+	                    if ($auxDayVisit[0]->count_visit_date != 0) {
+	
+	                        ${"column_charts$iService"} = $auxDayVisit[0]->count_visit_date;
+	
+	                        if (isset($row_charts[$jDay]) == false) {
+	                            $row_charts[$jDay] = "[$jDay ";
+	                            for ($col = 0; $col < $number_column_charts - 1; $col++) {
+	
+	                                if ($col == $iService) {
+	                                    $row_charts[$jDay] = $row_charts[$jDay] . "," . ${"column_charts$col"};
+	                                } else {
+	                                    $row_charts[$jDay] = $row_charts[$jDay] . ",0";
+	                                }
+	                            }
+	                            $row_charts[$jDay] = $row_charts[$jDay] . "],";
+	                        } else {
+	                            $count_comma = 0;
+	                            for ($pos = 1; $pos < strlen($row_charts[$jDay]); $pos++) {
+	                                if (strcmp($row_charts[$jDay][$pos], ",") == 0) {
+	                                    $count_comma++;
+	                                    if (strcmp($row_charts[$jDay][$pos + 1], "0") == 0) {
+	                                        if ($count_comma == $iService + 1) {
+	                                            $row_charts[$jDay][$pos + 1] = ${"column_charts$iService"};
+	                                            break;
+	                                        }
+	                                    }
+	                                }
+	                            }
+	                        }
+	                    } else {
+	                        if (isset($row_charts[$jDay]) == false) {
+	                            $row_charts[$jDay] = "[$jDay";
+	                            for ($col = 0; $col < $number_column_charts - 1; $col++) {
+	                                $row_charts[$jDay] = $row_charts[$jDay] . ",0";
+	                            }
+	                            $row_charts[$jDay] = $row_charts[$jDay] . "],";
+	                        }
+	                    }
+	                }
+	            }
+	
+	            $add_row_charts = '';
+	            for ($i = 1; $i < date("t"); $i++) {
+	                $add_row_charts = $add_row_charts . $row_charts[$i];
+	            }
+	
+	            $data['functions_scripts'] = array('  google.charts.load("current", {"packages":["line"]});
+	      google.charts.setOnLoadCallback(drawChart);
+	
+	    function drawChart() {var data = new google.visualization.DataTable();
+	      ' . $add_column_chart . '
+	      data.addRows(
+	        [' . $add_row_charts . ']
+	      );
+	
+	      var options = {
+	        chart: {
+	          title: "Gráfico de Visitas",
+	          subtitle: ""
+	        },
+	        width: 500,
+	        height: 500
+	      };
+	
+	      var chart = new google.charts.Line(document.getElementById("linechart_material"));
+	
+	      chart.draw(data, options);
+	      }');
+	
+	            $this->load->view("_inc/header", $data);
+	            $this->load->view("profile/menu");
+	            $this->load->view("profile/statistics");
+	            $this->load->view("_inc/footer");
+	        }	
+	    }
+           
     }
 
 }
