@@ -74,15 +74,10 @@
                                                 <div class="details">
                                                     <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                     <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
-                                                    <?php if ($service->saldo >= 100 && $service->saldo <= 1000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif ($service->saldo > 1000 && $service->saldo <= 5000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-silver.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif ($service->saldo > 5000 && $service->saldo < 10000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-gold.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif ($service->saldo > 10000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
+                                                    <?php if ($tier_url[$service->id]): ?>
+                                                        <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
                                                     <?php endif; ?>
+
                                                     <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
                                                     <span class="job "><?= $service->job ?></span>
                                                     <span class="recomendations hidden-xs">

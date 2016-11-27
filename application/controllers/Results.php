@@ -14,6 +14,7 @@ class Results extends CI_Controller {
             $this->load->model("Services_model", 'service');
             $this->load->model("City_model", 'city');
             $this->load->model("Recommendation_model", 'recommendation');
+            $this->load->model("Users_model", 'users');
             $data["user_profile"] = $this->session->userdata('logged_in');
             $this->load->library('form_validation');
             $this->form_validation->set_rules('selectJob', 'Serviços', 'required');
@@ -31,6 +32,9 @@ class Results extends CI_Controller {
             $data['idService'] = $idService;
             $data['idCity'] = $idCity;
             $data['services'] = $this->service->getServicesByIdByCity($idService, $idCity);
+            foreach ($data["services"] as $service) {
+                $data["tier_url"][$service->id] = $this->users->getTierImage($service->id_user, $service->saldo, true);
+            }
             $data['city'] = $this->city->getCityById($idCity);
             $this->load->view("results", $data);
         }else{

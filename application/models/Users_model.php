@@ -20,7 +20,7 @@ class Users_model extends CI_Model
 
         return null;
     }
-   
+
 
     public function getUserById($id)
     {
@@ -117,9 +117,12 @@ class Users_model extends CI_Model
         return false;
     }
 
-    public function getTierImage($id, $recommendations)
+    public function getTierImage($id, $recommendations, $result_page = false)
     {
         if ($recommendations < 100) {
+            if ($result_page) {
+                return null;
+            }
             return base_url('assets/img/crown-nothing.png');
         }
         if ($recommendations >= 100 && $recommendations <= 1000) {
@@ -132,7 +135,7 @@ class Users_model extends CI_Model
             return base_url('assets/img/crown-bronze.png');
         }
     }
-    
+
     public function excluir($idUser) {
         $this->db->delete('tb_users', array('id' => $idUser));
 
