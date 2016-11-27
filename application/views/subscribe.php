@@ -140,6 +140,7 @@
 									    code: '<?=$code?>'
 									}, {
 									    success : function(transactionCode) {
+											window.location = base_url.url + "profile";
 									    },
 									    abort : function() {
 									    }

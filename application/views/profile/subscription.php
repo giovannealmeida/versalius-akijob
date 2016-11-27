@@ -8,7 +8,7 @@
 
 				<p>
 					Seu plano atual: <strong class="text-<?=$plan_class?>"><?=$plan?></strong>
-					<?= (!$premium_data["isPremium"]) ? "<a href=\"".base_url("subscribe")."\"><button class=\"btn btn-primary\">ASSINE!</button> </a>" : "" ?>
+					<a href="<?=base_url("subscribe")?>"><button class="btn btn-primary">  <?= (!$premium_data["isPremium"]) ? "ASSINE!" : "Estenda sua assinatura!" ?></button> </a>
 				</p>
 
 				<?php if ($premium_data["isPremium"]): ?>
