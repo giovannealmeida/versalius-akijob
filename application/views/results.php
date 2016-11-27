@@ -98,6 +98,7 @@
                         </div>
                 </div>
                 <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
+                    <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
