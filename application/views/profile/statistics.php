@@ -4,13 +4,21 @@
 					<div class="divider"></div>
 					<h4 ><strong>Visitas</strong></h4>
 					<h5><?= $invalide_date?></h5>
-					<div class="col-xs-12">
-						<?php echo form_open('profile/statistics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
-						<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectMonth", 'id' => "selectMonth",), $months);?></h5>
-						<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectYear", 'id' => "selectYear",), $years);?></h5>
+					<?php echo form_open('profile/statistics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
+					<div class="row">
+						<div class="col-xs-5">
+						
+						<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectMonth", 'id' => "selectMonth",), $months);?></h5>
+						</div>
+						<div class="col-xs-5">
+						<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectYear", 'id' => "selectYear",), $years);?></h5>		
+						</div>
+						<div class="col-xs-2">
 						<input type="submit" class="btn btn-primary" value="Ok">
-						<?php form_close() ?>	
+						
+						</div>	
 					</div>
+					<?php echo form_close(); ?>
 					<div class="divider"></div>
 					
 				<?php elseif(isset($no_service) == false):?>
@@ -19,14 +27,21 @@
 				<h4 ><strong>Visitas</strong></h4>
 				
 				<h5>Total de visitas: <?= $all_services[0]->total_visits?></h5>
-				
-				<div class="col-xs-12">
-					<?php echo form_open('profile/statistics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
-					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectMonth", 'id' => "selectMonth",), $months);?></h5>
-					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectYear", 'id' => "selectYear",), $years);?></h5>
+				<?php echo form_open('profile/statistics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
+				<div class="row">
+					<div class="col-xs-5">
+					
+					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectMonth", 'id' => "selectMonth",), $months);?></h5>
+					</div>
+					<div class="col-xs-5">
+					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectYear", 'id' => "selectYear",), $years);?></h5>		
+					</div>
+					<div class="col-xs-2">
 					<input type="submit" class="btn btn-primary" value="Ok">
-					<?php form_close() ?>	
-				</div>	
+					
+					</div>	
+				</div>
+				<?php echo form_close(); ?>		
 				
 				
 				
