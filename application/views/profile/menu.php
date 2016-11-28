@@ -55,7 +55,7 @@
                         </li>
                         <?php if ($premium_data["isPremium"]): ?>
                             <li>
-                                <a href="<?= base_url("profile/statistics") ?>">
+                                <a href="<?= base_url("profile/statistics/".date('m').'-'.date('Y')) ?>">
                                     <i class="fa fa-line-chart" aria-hidden="true"></i> Estatísticas
                                     <span class="label label-warning">Em Breve!</span>
                                 </a>

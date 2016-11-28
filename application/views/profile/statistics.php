@@ -1,11 +1,34 @@
 <?php // var_dump($all_services);?>
 <h2 class="profile-page-title"><strong>Estatísticas</strong></h2>
-				<?php if(isset($no_service) == false):?>
+				<?php if(isset($invalide_date) == true):?>
+					<div class="divider"></div>
+					<h4 ><strong>Visitas</strong></h4>
+					<h5><?= $invalide_date?></h5>
+					<div class="col-xs-12">
+						<?php echo form_open('profile/statistics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
+						<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectMonth", 'id' => "selectMonth",), $months);?></h5>
+						<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectYear", 'id' => "selectYear",), $years);?></h5>
+						<input type="submit" class="btn btn-primary" value="Ok">
+						<?php form_close() ?>	
+					</div>
+					<div class="divider"></div>
+					
+				<?php elseif(isset($no_service) == false):?>
 				<div class="divider"></div>
 
 				<h4 ><strong>Visitas</strong></h4>
 				
 				<h5>Total de visitas: <?= $all_services[0]->total_visits?></h5>
+				
+				<div class="col-xs-12">
+					<?php echo form_open('profile/statistics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
+					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectMonth", 'id' => "selectMonth",), $months);?></h5>
+					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "20%", 'name' => "selectYear", 'id' => "selectYear",), $years);?></h5>
+					<input type="submit" class="btn btn-primary" value="Ok">
+					<?php form_close() ?>	
+				</div>	
+				
+				
 				
 				<h5>Visitas por serviço</h5>
 				<div class="row">
