@@ -148,58 +148,63 @@
             <?php endif; ?>
             <!-- END PORTIFOLIO -->
 
-            <!-- BEGIN COMMENTS -->
-            <?php if (isset($user_session) && $user_profile->id != $user_session->id) : ?>
-                <div class="row">
-                    <div class="col-xs-12">
+            <!-- BEGIN COMMENTS -->            
+            <div class="row">
+                <div class="col-xs-12">
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Comentários</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="comments">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Comentários</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="comments">
 
-                                    <form action="<?= base_url("Service/toView/" . $id) ?>" method="post">
+                                <form action="<?= base_url("Service/toView/" . $id) ?>" method="post">
+                                    <?php if (isset($user_session) && $user_profile->id != $user_session->id) : ?>
                                         <legend>Deixe seu comentário:</legend>
-                                        <textarea name="comment" class="form-control" rows="3" required></textarea>
+                                        <textarea name="comment" class="form-control" rows="3" style="resize: none" required></textarea>
                                         <input id="id_service" type="hidden" name="id_service" value="<?= $id ?>">
                                         <input type="hidden" name="id_user" id="id_user" value="<?= $user_session->id ?>">
                                         <input type="hidden" name="id_user_receiver" id="id_user_receiver" value="<?= $dataService->id_user ?>">
                                         <div class="clear"></div><br>
                                         <input type="submit" class="btn btn-success" value="Enviar">
-                                    </form>
-                                    <br>
-                                    <?php
-                                    if ($comments != NULL):
-                                        foreach ($comments as $value):
-                                            ?>
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading"><?= $value->user_name ?></div>
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1">
-                                                            <img class="img-circle img-responsive center-block profile-photo" src="<?= $value->avatar ?>" alt="" >
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
-                                                            <p><small class="address"> </span> Postado<?= $value->current_date; ?></small></p>
-                                                            <p class="text-justify"><?= $value->comment ?></p>
-                                                        </div>
+                                    <?php endif; ?>
+                                </form>
+                                <br>
+                                <?php
+                                if ($comments == NULL) {
+                                    echo 'Não existem comentários a serem exibidos.';
+                                } else {
+                                    foreach ($comments as $value):
+                                        ?>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><?= $value->user_name ?></div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1">
+                                                        <img class="img-circle img-responsive center-block profile-photo" src="<?= $value->avatar ?>" alt="" >
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11">
+                                                        <p><small class="address"> </span> Postado<?= $value->current_date; ?></small></p>
+                                                        <p class="text-justify"><?= $value->comment ?></p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <?php
-                                        endforeach;
-                                    endif;
+                                        </div>
+                                        <?php
+                                    endforeach;
                                     ?>
-                                </div>
-                                <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
-                            </div>
-
+                                    <br>
+                                    <button type="button" id="ButtonLoadMoreComments" value="<?= $id ?>" data-loading-text="Carregando..." class="btn btn-default">Ver mais comentários</button>
+                                    <?php
+                                }
+                                ?>
+                            </div>                                
                         </div>
+
                     </div>
                 </div>
-            <?php endif; ?>
+            </div>            
             <!-- END COMMENTS -->
         </div>
 
