@@ -67,7 +67,9 @@ class Profile extends CI_Controller {
                 $form['facebook'] = $this->input->post('facebook');
                 $form['twitter'] = $this->input->post('twitter');
                 if ($_FILES['upload_avatar']['tmp_name'] !== "") {
-                    $form['avatar'] = addslashes(file_get_contents($_FILES['upload_avatar']['tmp_name']));
+                    $this->load->model("Util_model", "util");
+                    $image = $this->util->resizeImage($_FILES['upload_avatar'], 200, 200);
+                    $form['avatar'] = addslashes($image);
                 }
                 $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
@@ -288,45 +290,44 @@ class Profile extends CI_Controller {
 
     public function statistics() {
         $data = $this->user_info;
-		$data['typeGraphic'] = array(
-			'Visitas'=>'Visitas',
-			'Visitantes' => 'Visitantes'
-		);
-		$data['months'] = array(
-			'0' => '',
-			'1' => "Janeiro",
-			'2' => 'Fevereiro',
-			'3' => 'Março',
-			'4' => 'Abril',
-			'5' => 'Maio',
-			'6' => 'Junho',
-			'7' => 'Julho',
-			'8' => 'Agosto',
-			'9' => 'Setembro',
-			'10' => 'Outubro',
-			'11' => 'Novembro',
-			'12' => 'Dezembro',
-		);
-		$data['years'] = array(
-		'0'=>'', 
-		'2016'=>"2016",
-		);
-		$this->load->view("_inc/header", $data);
-	    $this->load->view("profile/menu");
-	    $this->load->view("profile/statistics");
-	    $this->load->view("_inc/footer");       
+        $data['typeGraphic'] = array(
+            'Visitas' => 'Visitas',
+            'Visitantes' => 'Visitantes'
+        );
+        $data['months'] = array(
+            '0' => '',
+            '1' => "Janeiro",
+            '2' => 'Fevereiro',
+            '3' => 'Março',
+            '4' => 'Abril',
+            '5' => 'Maio',
+            '6' => 'Junho',
+            '7' => 'Julho',
+            '8' => 'Agosto',
+            '9' => 'Setembro',
+            '10' => 'Outubro',
+            '11' => 'Novembro',
+            '12' => 'Dezembro',
+        );
+        $data['years'] = array(
+            '0' => '',
+            '2016' => "2016",
+        );
+        $this->load->view("_inc/header", $data);
+        $this->load->view("profile/menu");
+        $this->load->view("profile/statistics");
+        $this->load->view("_inc/footer");
     }
-	
-	public function redirectGraphic(){
-		$data = $this->input->post();
-		
-		if($data['selectTypeGraphic'] == 'Visitas'){
-			redirect('graphics/visitsGraphics/'.$data['selectMonth'].'/'.$data['selectYear']);
-		}
-		else if($data['selectTypeGraphic'] == 'Visitantes'){
-			redirect('graphics/visitorsGraphics/'.$data['selectMonth'].'/'.$data['selectYear']);
-		}	
-	}
+
+    public function redirectGraphic() {
+        $data = $this->input->post();
+
+        if ($data['selectTypeGraphic'] == 'Visitas') {
+            redirect('graphics/visitsGraphics/' . $data['selectMonth'] . '/' . $data['selectYear']);
+        } else if ($data['selectTypeGraphic'] == 'Visitantes') {
+            redirect('graphics/visitorsGraphics/' . $data['selectMonth'] . '/' . $data['selectYear']);
+        }
+    }
 
     public function email_check($str) {
         $this->load->model('Users_model');
