@@ -189,9 +189,9 @@
                                 <?php echo form_label('Senha Atual', 'oldPassword'); ?>
                                 <span class="required">*</span>
                                 <?php if ($user_profile->password == NULL): ?>
-                                    <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga", 'disabled' => 'true'); ?>
+                                    <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Atual", 'disabled' => 'true'); ?>
                                 <?php else: ?>
-                                    <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga", "Senha", "required" => "true", "data-minlength" => "6", "maxlength" => "22"); ?>
+                                    <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Atual", "Senha", "required" => "true", "data-minlength" => "6", "maxlength" => "22"); ?>
                                 <?php endif; ?>
                                 <?php echo form_password($config); ?>
                                 <div class="help-block">A senha deve ter entre 6 a 22 caracteres</div>

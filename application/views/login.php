@@ -28,7 +28,7 @@
                     <?php endif; ?>
                     <?php if (isset($login_status) && ($login_status == "error")) : ?>
                         <div class="alert alert-danger hint">
-                            <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> O usuário informado não existe</p>
+                            <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Usuário/Senha incorreto(s) </p>
                         </div>
                     <?php endif; ?>
                     <?php if ($this->session->flashdata("login_status")): ?>
