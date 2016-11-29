@@ -25,6 +25,7 @@ class Login extends CI_Controller {
             base_url('assets/js/facebook-login.js'),
             'https://apis.google.com/js/api:client.js',
             base_url('assets/js/google-login.js'),
+            base_url("assets/js/validator.js")
         );
         $this->load->model('Users_model', 'users');
         if ($this->input->post()) {
@@ -47,10 +48,6 @@ class Login extends CI_Controller {
                 }
             }
         }
-
-        $data['scripts'] = array(
-            base_url("assets/js/validator.js")
-        );
 
         $this->load->view('_inc/header', $data);
         $this->load->view('login');
@@ -384,14 +381,7 @@ class Login extends CI_Controller {
             redirect('login');
         }
 
-        $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth'], 'id_status' => 1);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $data['picture']);
-        $insert['avatar'] = curl_exec($ch);
-        curl_close($ch);
+        $insert = array('name' => $data['name'], 'email' => $data['email'], 'id_social' => $data['id_auth'], 'id_status' => 1, 'avatar' => $data['picture']);
 
         $user = $this->users->insert($insert);
         if ($user) {
