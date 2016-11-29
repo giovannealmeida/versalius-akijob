@@ -1,5 +1,5 @@
 <!-- Begin page content -->
-<div class="container">
+<div class="container" id="search-container">
     <div class="row">
         <div class="col-xs-10 col-sm-8 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-2 col-md-offset-4 col-lg-offset-4">
             <img src="<?= base_url("assets/img/logo-vetor.png") ?>" alt="logo" class="img-responsive center-block" />
