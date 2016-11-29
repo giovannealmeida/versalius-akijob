@@ -122,16 +122,42 @@
 								</a>
 								<small>Você já possui esse plano</small>
 							<?php else: ?>
-								<a href="#">
+								<a href="<?=base_url("register")?>">
 									<button type="button" name="button" class="btn btn-primary btn-lg btn-block">Cadastre-se</button>
 								</a>
 
 							<?php endif; ?>
 					</td>
 					<td>
-						<a href="<?=base_url("subscribe/confirm")?>">
-							<button type="button" name="button" class="btn btn-success btn-lg">Contrate!</button>
-						</a>
+						<?php if ($this->session->userdata('logged_in')): ?>
+							<button type="button" name="button" class="btn btn-success btn-lg" onclick="open_lightbox()">Contrate!</button>
+							<script type="text/javascript"
+					            src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js">
+					        </script>
+							<script type="text/javascript">
+								function open_lightbox(){
+									var isOpenLightbox = PagSeguroLightbox({
+									    code: '<?=$code?>'
+									}, {
+									    success : function(transactionCode) {
+											window.location = base_url.url + "profile";
+									    },
+									    abort : function() {
+									    }
+									});
+									// Redirecionando o cliente caso o navegador não tenha suporte ao Lightbox
+									if (!isOpenLightbox){
+									    location.href="https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code="+code;
+									}
+								}
+							</script>
+						<?php else: ?>
+							<a href="<?=base_url("login")?>">
+								<button type="button" name="button" class="btn btn-success btn-lg">Contrate!</button>
+							</a>
+						<?php endif; ?>
+
+
 					</td>
 				</tr>
 			</tbody>

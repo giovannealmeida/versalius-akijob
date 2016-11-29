@@ -7,18 +7,18 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-2">
-                            <a href="<?= $login_url_google ?>" class="btn btn-block btn-social btn-google">
+                        <div class="col-xs-12 col-lg-6">
+                            <button class="btn btn-block btn-social btn-google" id="google_login">
                                 <span class="fa fa-google"></span>Cadastre-se com o Gmail
-                            </a>
+                            </button>
 
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <a href="<?= $login_url_facebook ?>" class="btn btn-block btn-social btn-facebook ">
+                        <div class="col-xs-12 col-lg-6">
+                            <button onclick="fb_login()" class="btn btn-block btn-social btn-facebook" id="facebook_login">
                                 <span class="fa fa-facebook"></span> Cadastre-se com Facebook
-                            </a>
-                        </div>
+                            </button>
 
+                        </div>
                     </div>
                     <div class="divider"></div>
                     <h3 class="text-center">Cadastrar</h3>
@@ -35,8 +35,7 @@
                             </div>
                         <?php endif; ?>
                         <?php echo form_open('login/register', array('id' => "register", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data")); ?>
-                        <?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'name', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>
-                        <?php echo form_input(array('name' => 'id_google', 'class' => 'form-control', 'id' => 'id_google', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['id_google'] : NULL)); ?>
+                        <?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'avatar', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>
                         <?php if (validation_errors()): ?>
                             <div class="alert alert-danger">
                                 <strong>Erros no formulário!</strong><br/>
@@ -109,7 +108,34 @@
                         <div class="form-group">
                             <?php echo form_label('Telefone', 'phone', array("class" => "col-md-3 control-label")); ?>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile["phone"]) ? $user_profile["phone"] : "")); ?>
+                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control phone', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile["phone"]) ? $user_profile["phone"] : "")); ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <?php echo form_label('Site', 'site', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">http://</div>
+                                    <?php echo form_input(array('name' => 'site', 'class' => 'form-control', 'id' => 'site', 'placeholder' => "Site"), set_value('site', isset($user_profile) ? $user_profile["site"] : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <?php echo form_label('Facebook', 'facebook', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">facebook.com/</div>
+                                    <?php echo form_input(array('name' => 'facebook', 'class' => 'form-control', 'id' => 'facebook', 'placeholder' => "Facebook"), set_value('facebook', isset($user_profile) ? $user_profile["facebook"] : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <?php echo form_label('Twitter', 'twitter', array("class" => "col-md-3 control-label")); ?>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">@</div>
+                                    <?php echo form_input(array('name' => 'twitter', 'class' => 'form-control', 'id' => 'twitter', 'placeholder' => "Twitter"), set_value('twitter', isset($user_profile) ? $user_profile["twitter"] : "")); ?>
+                                </div>
                             </div>
                         </div>
                         <!-- /.form-group -->

@@ -9,17 +9,17 @@
 
 var map;
 var markers = [];
-var latitude;
-var longitude;
+var latitude = -9.82778;
+var longitude = -66.88333;
 var dataService;
-
-function setLatLng(lat, lng) {
-    this.latitude = Number(lat);
-    this.longitude = Number(lng);
-}
 
 function setMarker(dataService) {
     this.dataService = dataService;
+}
+
+function setLatLng(lat, lng){
+    this.latitude = Number(lat);
+    this.longitude = Number(lng);
 }
 
 function initMap() {
@@ -35,7 +35,7 @@ function initMap() {
     ];
 
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
+        zoom: 13,
         center: {lat: latitude, lng: longitude},
         styles: myStyles
     });
@@ -53,6 +53,19 @@ function initMap() {
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
         searchBox.setBounds(map.getBounds());
+    });
+
+    $("#selectCity").change(function () {
+        urlConsulta = base_url.url + "index.php/consult/getCityById/" + this.value;
+        $.ajax({url: urlConsulta,
+            success: function (result) {
+                var coordenadas = JSON.parse(result);
+                map.setCenter({lat: Number(coordenadas.lat), lng: Number(coordenadas.lng)});
+            },
+            error: function (error) {
+                alert("Falha ao consultar cidade!");
+            }
+        });
     });
 
     // [START region_getplaces]
@@ -95,14 +108,14 @@ function initMap() {
         var marker = new google.maps.Marker({
             position: location,
             /*icon: {
-                url: '../../assets/img/marker-default.png',
-                scaledSize: new google.maps.Size(50, 50)
-            },*/
+             url: '../../assets/img/marker-default.png',
+             scaledSize: new google.maps.Size(50, 50)
+             },*/
             map: map
         });
         markers.push(marker);
-        $("#latitude").val(location.lat());
-        $("#longitude").val(location.lng());
+        $("#latitude").val(location.lat);
+        $("#longitude").val(location.lng);
     }
 
 // Sets the map on all markers in the array.

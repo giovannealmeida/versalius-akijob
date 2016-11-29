@@ -18,8 +18,12 @@
                 </div>
                 <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 search-element">
                     <button type="submit" class="btn btn-primary btn-lg search-button">Buscar</button>
-
                 </div>
+                <?php if ($this->session->flashdata("erro")): ?>
+                <div class="col-lg-5" style="color: #FF0000">
+                        <h6><?= $this->session->flashdata("erro") ?></h6>
+                    </div>
+                <?php endif; ?>
             </form>
         </div>
 

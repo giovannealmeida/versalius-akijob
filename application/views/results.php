@@ -44,9 +44,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <?php if ($user_profile): ?>
                             <li><a href="<?= base_url("profile") ?>">Minha Conta</a></li>
-                            <li><a href="<?= base_url("logout") ?>">Logout</a></li>
+                            <li><a href="<?= base_url("logout") ?>">Sair</a></li>
                         <?php else: ?>
-                            <li><a href="<?= base_url('login') ?>">Login</a></li>
+                            <li><a href="<?= base_url('login') ?>">Entrar</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div id="map-canvas" class="hidden-xs hidden-sm"></div>
-        <input id="pac-input" class="controls" type="text" placeholder="Pesquisar">
+        <input id="pac-input" class="controls" type="text" placeholder="Digite um endereço">
         <input id="delete-all-button" class="controls" type=button value="Limpar">
         <div class="container-fluid" id="main-result">
             <div class="row">
@@ -66,23 +66,18 @@
                         <div class="list-container" style="height: 90%; overflow: auto;">
                             <?php if (count($services) > 0): ?>
                                 <?php foreach ($services as $key => $service): ?>
-                                    <div class="list-group" id="line-<?= $key ?>">
+                                    <div class="list-group result-list" id="line-<?= $key ?>">
                                         <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
                                             <div class="row">
                                                 <!--<div class="score">
                                                 </div>-->
                                                 <div class="details">
-                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                    <input disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
-                                                    <?php if ($service->saldo >= 100 && $service->saldo <= 1000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-bronze.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif ($service->saldo > 1000 && $service->saldo <= 5000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-silver.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif ($service->saldo > 5000 && $service->saldo < 10000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-gold.png") ?>" alt="tier" class="tier"/>
-                                                    <?php elseif ($service->saldo > 10000): ?>
-                                                        <img src="<?= base_url("assets/img/crown-platina.png") ?>" alt="tier" class="tier"/>
+                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                    <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
+                                                    <?php if ($tier_url[$service->id]): ?>
+                                                        <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
                                                     <?php endif; ?>
+
                                                     <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
                                                     <span class="job "><?= $service->job ?></span>
                                                     <span class="recomendations hidden-xs">
@@ -98,6 +93,7 @@
                         </div>
                 </div>
                 <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
+                    <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                     <script src="<?= base_url("assets/js/bootstrap.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
@@ -120,259 +116,259 @@
 
         <script>
 
-                                            // In the following example, markers appear when the user clicks on the map.
-                                            // The markers are stored in an array.
-                                            // The user can then click an option to hide, show or delete the markers.
-                                            var map;
-                                            var markers = [];
-                                            var infoWindows = [];
-                                            var all_overlays = [];
-                                            var id = 0;
+                                    // In the following example, markers appear when the user clicks on the map.
+                                    // The markers are stored in an array.
+                                    // The user can then click an option to hide, show or delete the markers.
+                                    var map;
+                                    var markers = [];
+                                    var infoWindows = [];
+                                    var all_overlays = [];
+                                    var id = 0;
 
-                                            function initMap() {
-                                                var myStyles = [
-                                                    {
-                                                        featureType: "poi",
-                                                        elementType: "labels",
-                                                        stylers: [
-                                                            {visibility: "off"}
-                                                        ]
-                                                    }
-                                                ];
+                                    function initMap() {
+                                        var myStyles = [
+                                            {
+                                                featureType: "poi",
+                                                elementType: "labels",
+                                                stylers: [
+                                                    {visibility: "off"}
+                                                ]
+                                            }
+                                        ];
 
-                                                map = new google.maps.Map(document.getElementById('map-canvas'), {
-                                                    zoom: 15,
-                                                    center: {lat: <?= $city->latitude ?>, lng: <?= $city->longitude ?>},
-                                                    styles: myStyles,
-                                                    mapTypeControlOptions: {
-                                                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-                                                        position: google.maps.ControlPosition.RIGHT_TOP
-                                                    }
-                                                });
+                                        map = new google.maps.Map(document.getElementById('map-canvas'), {
+                                            zoom: 13,
+                                            center: {lat: <?= $city->latitude ?>, lng: <?= $city->longitude ?>},
+                                            styles: myStyles,
+                                            mapTypeControlOptions: {
+                                                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                                                position: google.maps.ControlPosition.RIGHT_TOP
+                                            }
+                                        });
 
-                                                var input = document.getElementById('pac-input');
-                                                var deleteButton = document.getElementById('delete-all-button');
-                                                var searchBox = new google.maps.places.SearchBox(input);
-                                                map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-                                                map.controls[google.maps.ControlPosition.LEFT_TOP].push(deleteButton);
+                                        var input = document.getElementById('pac-input');
+                                        var deleteButton = document.getElementById('delete-all-button');
+                                        var searchBox = new google.maps.places.SearchBox(input);
+                                        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+                                        map.controls[google.maps.ControlPosition.LEFT_TOP].push(deleteButton);
 
-                                                var drawingManager = new google.maps.drawing.DrawingManager({
-                                                    drawingControl: true,
-                                                    drawingControlOptions: {
-                                                        position: google.maps.ControlPosition.LEFT_TOP,
-                                                        drawingModes: [
-                                                            google.maps.drawing.OverlayType.CIRCLE,
-                                                            google.maps.drawing.OverlayType.POLYGON,
-                                                            google.maps.drawing.OverlayType.POLYLINE,
-                                                            google.maps.drawing.OverlayType.RECTANGLE
-                                                        ]
-                                                    },
-                                                    circleOptions: {
-                                                        fillColor: '#ADD8E6',
-                                                        opacity: 1,
-                                                        weight: 1,
-                                                        fillOpacity: 0.4,
-                                                        clickable: false,
-                                                        editable: false,
-                                                        zIndex: 1
-                                                    }
-                                                });
-                                                drawingManager.setMap(map);
+                                        var drawingManager = new google.maps.drawing.DrawingManager({
+                                            drawingControl: true,
+                                            drawingControlOptions: {
+                                                position: google.maps.ControlPosition.LEFT_TOP,
+                                                drawingModes: [
+                                                    google.maps.drawing.OverlayType.CIRCLE,
+                                                    google.maps.drawing.OverlayType.POLYGON,
+                                                    google.maps.drawing.OverlayType.POLYLINE,
+                                                    google.maps.drawing.OverlayType.RECTANGLE
+                                                ]
+                                            },
+                                            circleOptions: {
+                                                fillColor: '#ADD8E6',
+                                                opacity: 1,
+                                                weight: 1,
+                                                fillOpacity: 0.4,
+                                                clickable: false,
+                                                editable: false,
+                                                zIndex: 1
+                                            }
+                                        });
+                                        drawingManager.setMap(map);
 
-                                                google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
-                                                    all_overlays.push(event);
-                                                    verifyMakersInDrawn();
-                                                });
-                                                // Create the search box and link it to the UI element.
+                                        google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
+                                            all_overlays.push(event);
+                                            verifyMakersInDrawn();
+                                        });
+                                        // Create the search box and link it to the UI element.
 
-                                                // Bias the SearchBox results towards current map's viewport.
-                                                map.addListener('bounds_changed', function () {
-                                                    searchBox.setBounds(map.getBounds());
-                                                });
+                                        // Bias the SearchBox results towards current map's viewport.
+                                        map.addListener('bounds_changed', function () {
+                                            searchBox.setBounds(map.getBounds());
+                                        });
 
-                                                // [START region_getplaces]
-                                                // Listen for the event fired when the user selects a prediction and retrieve
-                                                // more details for that place.
-                                                searchBox.addListener('places_changed', function () {
-                                                    var places = searchBox.getPlaces();
+                                        // [START region_getplaces]
+                                        // Listen for the event fired when the user selects a prediction and retrieve
+                                        // more details for that place.
+                                        searchBox.addListener('places_changed', function () {
+                                            var places = searchBox.getPlaces();
 
-                                                    if (places.length == 0) {
-                                                        return;
-                                                    }
+                                            if (places.length == 0) {
+                                                return;
+                                            }
 
-                                                    // For each place, get the icon, name and location.
-                                                    var bounds = new google.maps.LatLngBounds();
-                                                    places.forEach(function (place) {
-                                                        var icon = {
-                                                            url: place.icon,
-                                                            size: new google.maps.Size(71, 71),
-                                                            origin: new google.maps.Point(0, 0),
-                                                            anchor: new google.maps.Point(17, 34),
-                                                            scaledSize: new google.maps.Size(25, 25)
-                                                        };
+                                            // For each place, get the icon, name and location.
+                                            var bounds = new google.maps.LatLngBounds();
+                                            places.forEach(function (place) {
+                                                var icon = {
+                                                    url: place.icon,
+                                                    size: new google.maps.Size(71, 71),
+                                                    origin: new google.maps.Point(0, 0),
+                                                    anchor: new google.maps.Point(17, 34),
+                                                    scaledSize: new google.maps.Size(25, 25)
+                                                };
 
-                                                        if (place.geometry.viewport) {
-                                                            // Only geocodes have viewport.
-                                                            bounds.union(place.geometry.viewport);
-                                                        } else {
-                                                            bounds.extend(place.geometry.location);
+                                                if (place.geometry.viewport) {
+                                                    // Only geocodes have viewport.
+                                                    bounds.union(place.geometry.viewport);
+                                                } else {
+                                                    bounds.extend(place.geometry.location);
+                                                }
+                                            });
+                                            map.fitBounds(bounds);
+                                        });
+
+                                        google.maps.event.addDomListener(document.getElementById('delete-all-button'), 'click', deleteAllShape);
+                                        loadMarkers();
+                                    }
+
+
+                                    // Adds a marker to the map and push to the array.
+                                    function addMarker(location, html) {
+                                        var marker = new google.maps.Marker({
+                                            position: location,
+                                            animation: google.maps.Animation.DROP,
+                                            /*icon: {
+                                             url: '../assets/img/marker-default.png',
+                                             scaledSize: new google.maps.Size(50, 50)
+                                             },*/
+                                            map: map
+                                        });
+                                        setInfo(marker, html);
+                                        marker.set("id", id);
+                                        markers.push(marker);
+                                        id++;
+                                    }
+
+                                    // Sets the map on all markers in the array.
+                                    function setMapOnAll(map) {
+                                        for (var i = 0; i < markers.length; i++) {
+                                            markers[i].setMap(map);
+                                        }
+                                    }
+
+                                    // Removes the markers from the map, but keeps them in the array.
+                                    function clearMarkers() {
+                                        setMapOnAll(null);
+                                    }
+
+                                    // Shows any markers currently in the array.
+                                    function showMarkers() {
+                                        setMapOnAll(map);
+                                        for (var i = 0; i < markers.length; i++) {
+                                            markers[i].setVisible(true);
+                                            $("#line-" + i).show();
+                                            $("#item-" + i).show();
+                                        }
+                                    }
+
+                                    // Deletes all markers in the array by removing references to them.
+                                    function deleteMarkers() {
+                                        clearMarkers();
+                                        markers = [];
+                                    }
+
+                                    function deleteAllShape() {
+                                        for (var i = 0; i < all_overlays.length; i++) {
+                                            all_overlays[i].overlay.setMap(null);
+                                        }
+                                        all_overlays = [];
+                                        showMarkers();
+                                    }
+
+                                    function setInfo(marker, html) {
+                                        var infowindow = new google.maps.InfoWindow({
+                                            content: html
+                                        });
+
+                                        infoWindows.push(infowindow);
+
+                                        marker.addListener('click', function () {
+                                            highlightsDiv(marker.get("id"));
+                                            for (var i = 0; i < infoWindows.length; i++) {
+                                                infoWindows[i].close();
+                                            }
+                                            infowindow.open(marker.get('map'), marker);
+                                        });
+                                    }
+
+                                    function verifyMakersInDrawn() {
+                                        var i = j = 0;
+                                        while (j < all_overlays.length) { //número de desenhos
+                                            i = 0;
+                                            while (i < markers.length) { // Número de marcadors
+                                                if (all_overlays[j].type == google.maps.drawing.OverlayType.CIRCLE || all_overlays[j].type == google.maps.drawing.OverlayType.RECTANGLE) {
+                                                    if (all_overlays[j].overlay.getBounds().contains(markers[i].getPosition())) { //verifica se o marcador está dentro do desenho
+                                                        markers[i].setMap(map);
+                                                        markers[i].setVisible(true);
+                                                        $("#line-" + i).show();
+                                                        $("#item-" + i).show();
+                                                    } else {
+                                                        // remove the ones that are not within the circle's bounds
+                                                        if (markers[i].visible && j == 0) {
+                                                            markers[i].setMap(null);
+                                                            markers[i].setVisible(false);
+                                                            $("#line-" + i).hide();
+                                                            $("#item-" + i).hide();
                                                         }
-                                                    });
-                                                    map.fitBounds(bounds);
-                                                });
-
-                                                google.maps.event.addDomListener(document.getElementById('delete-all-button'), 'click', deleteAllShape);
-                                                loadMarkers();
-                                            }
-
-
-                                            // Adds a marker to the map and push to the array.
-                                            function addMarker(location, html) {
-                                                var marker = new google.maps.Marker({
-                                                    position: location,
-                                                    animation: google.maps.Animation.DROP,
-                                                    /*icon: {
-                                                     url: '../assets/img/marker-default.png',
-                                                     scaledSize: new google.maps.Size(50, 50)
-                                                     },*/
-                                                    map: map
-                                                });
-                                                setInfo(marker, html);
-                                                marker.set("id", id);
-                                                markers.push(marker);
-                                                id++;
-                                            }
-
-                                            // Sets the map on all markers in the array.
-                                            function setMapOnAll(map) {
-                                                for (var i = 0; i < markers.length; i++) {
-                                                    markers[i].setMap(map);
-                                                }
-                                            }
-
-                                            // Removes the markers from the map, but keeps them in the array.
-                                            function clearMarkers() {
-                                                setMapOnAll(null);
-                                            }
-
-                                            // Shows any markers currently in the array.
-                                            function showMarkers() {
-                                                setMapOnAll(map);
-                                                for (var i = 0; i < markers.length; i++) {
-                                                    markers[i].setVisible(true);
-                                                    $("#line-" + i).show();
-                                                    $("#item-" + i).show();
-                                                }
-                                            }
-
-                                            // Deletes all markers in the array by removing references to them.
-                                            function deleteMarkers() {
-                                                clearMarkers();
-                                                markers = [];
-                                            }
-
-                                            function deleteAllShape() {
-                                                for (var i = 0; i < all_overlays.length; i++) {
-                                                    all_overlays[i].overlay.setMap(null);
-                                                }
-                                                all_overlays = [];
-                                                showMarkers();
-                                            }
-
-                                            function setInfo(marker, html) {
-                                                var infowindow = new google.maps.InfoWindow({
-                                                    content: html
-                                                });
-
-                                                infoWindows.push(infowindow);
-
-                                                marker.addListener('click', function () {
-                                                    highlightsDiv(marker.get("id"));
-                                                    for (var i = 0; i < infoWindows.length; i++) {
-                                                        infoWindows[i].close();
+                                                        //break;
                                                     }
-                                                    infowindow.open(marker.get('map'), marker);
-                                                });
-                                            }
-
-                                            function verifyMakersInDrawn() {
-                                                var i = j = 0;
-                                                while (j < all_overlays.length) { //número de desenhos
-                                                    i = 0;
-                                                    while (i < markers.length) { // Número de marcadors
-                                                        if (all_overlays[j].type == google.maps.drawing.OverlayType.CIRCLE || all_overlays[j].type == google.maps.drawing.OverlayType.RECTANGLE) {
-                                                            if (all_overlays[j].overlay.getBounds().contains(markers[i].getPosition())) { //verifica se o marcador está dentro do desenho
-                                                                markers[i].setMap(map);
-                                                                markers[i].setVisible(true);
-                                                                $("#line-" + i).show();
-                                                                $("#item-" + i).show();
-                                                            } else {
-                                                                // remove the ones that are not within the circle's bounds
-                                                                if (markers[i].visible && j == 0) {
-                                                                    markers[i].setMap(null);
-                                                                    markers[i].setVisible(false);
-                                                                    $("#line-" + i).hide();
-                                                                    $("#item-" + i).hide();
-                                                                }
-                                                                //break;
-                                                            }
-                                                        } else {
-                                                            var coordinates = all_overlays[j].overlay.getPath().getArray();
-                                                            if (google.maps.geometry.poly.containsLocation(markers[i].getPosition(), new google.maps.Polygon({paths: coordinates}))) {
-                                                                // only do setMap if the marker wasn't already visible
-                                                                //if (markers[i].getVisible() != true) {
-                                                                markers[i].setMap(map);
-                                                                markers[i].setVisible(true);
-                                                                $("#line-" + i).show();
-                                                                $("#item-" + i).show();
-                                                                //}
-                                                            } else {
-                                                                // remove the ones that are not within the circle's bounds
-                                                                if (markers[i].visible && j == 0) {
-                                                                    markers[i].setMap(null);
-                                                                    markers[i].setVisible(false);
-                                                                    $("#line-" + i).hide();
-                                                                    $("#item-" + i).hide();
-                                                                }
-                                                            }
+                                                } else {
+                                                    var coordinates = all_overlays[j].overlay.getPath().getArray();
+                                                    if (google.maps.geometry.poly.containsLocation(markers[i].getPosition(), new google.maps.Polygon({paths: coordinates}))) {
+                                                        // only do setMap if the marker wasn't already visible
+                                                        //if (markers[i].getVisible() != true) {
+                                                        markers[i].setMap(map);
+                                                        markers[i].setVisible(true);
+                                                        $("#line-" + i).show();
+                                                        $("#item-" + i).show();
+                                                        //}
+                                                    } else {
+                                                        // remove the ones that are not within the circle's bounds
+                                                        if (markers[i].visible && j == 0) {
+                                                            markers[i].setMap(null);
+                                                            markers[i].setVisible(false);
+                                                            $("#line-" + i).hide();
+                                                            $("#item-" + i).hide();
                                                         }
-                                                        i++;
                                                     }
-                                                    j++;
                                                 }
+                                                i++;
                                             }
+                                            j++;
+                                        }
+                                    }
 
-                                            function loadMarkers() {
+                                    function loadMarkers() {
 <?php if (count($services) > 0) : ?>
     <?php foreach ($services as $service): ?>
-                                                        var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
-                                                        var htm = "<h1><?= $service->name ?></h1><br>" +
-                                                                "<b>Email: </b><?= $service->email ?><br>" +
-                                                                "<b>Endereço: </b><?= $service->street ?>, <?= $service->number ?><br>" +
-                                                                "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
-                                                                "<b>Complemento: </b><?= $service->complement ?><br>" +
-                                                                "<b>CEP: </b><?= $service->zip_code ?><br>";
-                                                        addMarker(location, htm);
+                                                var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
+                                                var htm = "<h1><?= $service->name ?></h1><br>" +
+                                                        "<b>Email: </b><?= $service->email ?><br>" +
+                                                        "<b>Endereço: </b><?= $service->street ?>, <?= $service->number ?><br>" +
+                                                        "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
+                                                        "<b>Complemento: </b><?= $service->complement ?><br>" +
+                                                        "<b>CEP: </b><?= $service->zip_code ?><br>";
+                                                addMarker(location, htm);
     <?php endforeach; ?>
 <?php endif; ?>
-                                            }
+                                    }
 
-                                            function highlightsDiv(id) {
-                                                /* Criar função para destacar*/
-                                                var container = $(".list-container");
-                                                var scrollTo = $("#item-" + id);
-                                                container.animate({
-                                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-                                                });
-                                            }
+                                    function highlightsDiv(id) {
+                                        /* Criar função para destacar*/
+                                        var container = $(".list-container");
+                                        var scrollTo = $("#item-" + id);
+                                        container.animate({
+                                            scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                        });
+                                    }
 
-                                            function animationMarker(id_marker) {
-                                                if (markers[id_marker].getAnimation() !== null) {
-                                                    markers[id_marker].setAnimation(null);
-                                                } else {
-                                                    markers[id_marker].setAnimation(google.maps.Animation.BOUNCE);
-                                                }
-                                            }
+                                    function animationMarker(id_marker) {
+                                        if (markers[id_marker].getAnimation() !== null) {
+                                            markers[id_marker].setAnimation(null);
+                                        } else {
+                                            markers[id_marker].setAnimation(google.maps.Animation.BOUNCE);
+                                        }
+                                    }
 
         </script>
 </html>

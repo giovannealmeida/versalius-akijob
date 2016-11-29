@@ -2,10 +2,22 @@ $(document).ready(function () {
     $('.date').mask('00/00/0000');
     $('.time').mask('00:00:00');
     $('.date_time').mask('00/00/0000 00:00:00');
-    $(".zipCode").mask("99999-999",{completed: function () {
-            $('#registerService').formValidation('revalidateField', 'zipCode');
-        }});
-    $('.phone').mask('0000-0000');
+    $(".cep").mask("99999-999");
+    $(".phone")
+            .mask("(99) 9999?9-9999")
+            .on("change", function () {
+
+                var last = $(this).val().substr($(this).val().indexOf("-") + 1);
+
+                if (last.length == 3) {
+                    var move = $(this).val().substr($(this).val().indexOf("-") - 1, 1);
+                    var lastfour = move + last;
+                    var first = $(this).val().substr(0, 9); // Change 9 to 8 if you prefer mask without space: (99)9999?9-9999
+
+                    $(this).val(first + '-' + lastfour);
+                }
+            })
+            .change(); // Trigger the event change to adjust the mask when the value comes setted. Useful on edit forms.
     $('.phone_with_ddd').mask('(00) 0000-0000');
     $('.phone_us').mask('(000) 000-0000');
     $('.mixed').mask('AAA 000-S0S');

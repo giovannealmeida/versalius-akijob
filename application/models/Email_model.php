@@ -22,8 +22,16 @@ class Email_model extends CI_Model {
         $this->email->from('no-reply@akijob.com.br', 'AkiJob');
     }
 
-    public function send($email) {
-        
+    public function send($to, $subject, $message) {
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        $result = $this->email->send();
+        if (!$result) {
+            return false;
+        }
+        return true;
     }
 
     public function send_forgotten_password($email, $id) {
@@ -31,17 +39,14 @@ class Email_model extends CI_Model {
         $data['hash'] = md5(uniqid(rand(), true));
         $time = date("Y-m-d H:i:s");
         $this->db->insert("tb_forgotten_password_hash", array("id_user" => $id, "hash" => $data['hash'], "time" => $time));
-        $emailTemplate = $this->load->view("email_template", $data, TRUE);
+
+        $emailTemplate = $this->load->view("email_forgot_password", $data, TRUE);
         $this->email->to($email);
         $this->email->subject('[AKIJOB] Recuperar senha');
         $this->email->message($emailTemplate);
 
-        $result = $this->email->send();
-        if (!$result) {
-            return false;
-        }
+        return $this->send($email, '[AKIJOB] Recuperar senha', $emailTemplate);
 
-        return true;
     }
 
 }

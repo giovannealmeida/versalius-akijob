@@ -8,6 +8,7 @@
 
 				<p>
 					Seu plano atual: <strong class="text-<?=$plan_class?>"><?=$plan?></strong>
+					<a href="<?=base_url("subscribe")?>"><button class="btn btn-primary">  <?= (!$premium_data["isPremium"]) ? "ASSINE!" : "Estenda sua assinatura!" ?></button> </a>
 				</p>
 
 				<?php if ($premium_data["isPremium"]): ?>
@@ -23,7 +24,7 @@
 							<div class="row">
 								<div class="col-xs-12">
 									<div class="form-group">
-										<label for="code">Insira o Código Promocional</label>
+										<label for="code">Insira o código promocional</label>
 										<input type="input" class="form-control" id="code" placeholder="Código Promocional" name="code">
 									</div>
 

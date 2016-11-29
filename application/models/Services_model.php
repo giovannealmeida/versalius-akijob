@@ -35,14 +35,17 @@ class Services_model extends CI_Model {
 
     public function getServicesByIdByCity($idJob, $idCity) {
         $query = $this->db->query("
-            SELECT u.name as name, u.email, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.`value`),0) as saldo, IFNULL(SUM(ra.`value`)/count(ra.value),0) as rating
+            SELECT u.name as name, u.email, u.id as id_user, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.value),0) as saldo, ra.rating
             FROM tb_services s
             LEFT JOIN tb_recommendation r ON r.id_user_receiver = s.id_user
-            LEFT JOIN tb_rating as ra ON s.id = ra.id_service
             INNER JOIN tb_jobs j ON j.id = s.id_job
             INNER JOIN tb_users u ON u.id = s.id_user
-            WHERE s.id_job = {$idJob} AND s.id_city = {$idCity}
-            GROUP BY s.id");
+            LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
+            LEFT JOIN tb_subscriptions p ON s.id_user = p.id_user 
+            WHERE s.id_job = {$idJob} AND s.id_city = {$idCity} AND u.id_status = 1
+            GROUP BY s.id_user
+            ORDER BY p.id IS NOT NULL DESC, saldo DESC, ra.rating DESC"
+            );
 
         if (count($query->result()) > 0) {
             return $query->result();
@@ -65,7 +68,7 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesById($idService) {
-        $this->db->select('s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
+        $this->db->select('s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
         $this->db->from('tb_services s');
         $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
         $this->db->join('tb_city c', 's.id_city = c.id', "inner");

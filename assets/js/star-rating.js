@@ -111,7 +111,16 @@
                 self.$element.trigger('change').trigger('rating.change', [self.$element.val(), self._getCaption()]);
                 self.starClicked = true;
             });
-            window.location = "../../service/updateRating/" + $('#id_service').val() + "/" + $('#input-id').val();
+            if (self.$element[0].id == 'input-id') {
+                var urlConsulta = base_url.url + "index.php/consult/rating/" + $('#id_user').val() + "/" + $('#id_user_receiver').val() + "/" + $('#id_service').val() + "/" + $('#input-id').val();
+                $.ajax({url: urlConsulta,
+                    success: function (result) {
+                    },
+                    error: function (error) {
+                        alert("Falha ao consultar cidade!");
+                    }
+                });
+            }
         },
         _starMouseMove: function (e) {
             var self = this, pos, out;
@@ -519,7 +528,7 @@
         displayOnly: false,
         rtl: false,
         showClear: true,
-        showCaption: true,
+        showCaption: false,
         starCaptionClasses: {
             0.5: 'label label-danger',
             1: 'label label-danger',

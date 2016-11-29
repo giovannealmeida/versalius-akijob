@@ -7,14 +7,14 @@
                     <a href="#"><img src="<?= $tier_img ?>" alt="tier" class="center-block tier-big" title="Clique para saber mais sobre os rankings"/></a>
                 </div>
                 <div class="profile-userpic">
-                    <img class="img-responsive" src="<?php
-                    if ($user_profile->avatar === null)
-                        echo base_url('/assets/pages/media/profile/profile_user.png');
-                    elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar))))
-                        echo $user_profile->avatar;
-                    else
-                        echo 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar));
-                    ?>" alt="" style="width: 200px; height: 200px">
+                    <img class="img-responsive" src="
+                    <?php if ($user_profile->avatar === NULL): ?>
+                        <?= '//placehold.it/200' ?>
+                    <?php elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar)))): ?>
+                        <?= $user_profile->avatar ?>
+                    <?php else: ?>
+                        <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar)); ?>
+                         <?php endif; ?>" alt="">
 
                 </div>
                 <!-- END SIDEBAR USERPIC -->
@@ -45,7 +45,7 @@
                         </li>
                         <li>
                             <a href="<?= base_url("profile/config") ?>">
-                                <i class="glyphicon glyphicon-user"></i> Configurações
+                                <i class="fa fa-cog" aria-hidden="true"></i> Configurações
                             </a>
                         </li>
                         <li>
@@ -53,13 +53,14 @@
                                 <i class="fa fa-briefcase" aria-hidden="true"></i> Serviços
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-line-chart" aria-hidden="true"></i> Estatísticas
-                                <span class="label label-warning">Em Breve!</span>
-                            </a>
-                        </li>
-
+                        <?php if ($premium_data["isPremium"]): ?>
+                            <li>
+                                <a href="<?= base_url("profile/statistics/".date('m').'-'.date('Y')) ?>">
+                                    <i class="fa fa-line-chart" aria-hidden="true"></i> Estatísticas
+                                    <span class="label label-warning">Em Breve!</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
                         <li>
                             <a href="javascript:void(0)">
                                 <i class="glyphicon glyphicon-flag"></i> Ajuda
@@ -68,6 +69,11 @@
                         <li>
                             <a href="<?= base_url("profile/plan") ?>">
                                 <i class="fa fa-diamond" aria-hidden="true"></i> Assinatura
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url("profile/account") ?>">
+                                <i class="fa fa-user" aria-hidden="true"></i> Conta
                             </a>
                         </li>
                     </ul>

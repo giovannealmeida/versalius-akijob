@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Estado', 'selectState'); ?>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, isset($state) ? $state->id : NULL, set_value('selectState')); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectState", 'id' => "selectState",), $states, isset($state->id) ? $state->id : set_value('selectState')); ?>
                             </div>
                         </div>
 
@@ -85,7 +85,7 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Cidade', 'name'); ?>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, $user_profile->id_city, set_value('selectCity')); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, isset($user_profile->id_city) ? $user_profile->id_city : set_value('selectCity')); ?>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,41 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Telefone', 'phone'); ?>
-                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile->phone) ? $user_profile->phone : "")); ?>
+                                <?php echo form_input(array('name' => 'phone', 'class' => 'form-control phone', 'id' => 'phone', 'placeholder' => "Telefone", "autofocus"), set_value('phone', isset($user_profile->phone) ? $user_profile->phone : "")); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <?php echo form_label('Site', 'site'); ?>
+                                <div class="input-group">
+                                    <div class="input-group-addon">http://</div>
+                                    <?php echo form_input(array('name' => 'site', 'class' => 'form-control', 'id' => 'site', 'placeholder' => "Site"), set_value('site', isset($user_profile) ? $user_profile->site : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <?php echo form_label('Facebook', 'facebook'); ?>
+                                <div class="input-group">
+                                    <div class="input-group-addon">facebook.com/</div>
+                                    <?php echo form_input(array('name' => 'facebook', 'class' => 'form-control', 'id' => 'facebook', 'placeholder' => "Facebook"), set_value('facebook', isset($user_profile) ? $user_profile->facebook : "")); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+
+                            <div class="col-xs-12">
+                                <?php echo form_label('Twitter', 'twitter'); ?>
+                                <div class="input-group">
+                                    <div class="input-group-addon">@</div>
+                                    <?php echo form_input(array('name' => 'twitter', 'class' => 'form-control', 'id' => 'twitter', 'placeholder' => "Twitter"), set_value('twitter', isset($user_profile) ? $user_profile->twitter : "")); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -149,7 +183,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo form_label('Senha Antiga: ', 'oldPassword'); ?>
+                                <?php echo form_label('Senha Atual', 'oldPassword'); ?>
                                 <span class="required">*</span>
                                 <?php if ($user_profile->password == NULL): ?>
                                     <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga", 'disabled' => 'true'); ?>
@@ -163,7 +197,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo form_label('Senha: ', 'password'); ?>
+                                <?php echo form_label('Nova Senha', 'password'); ?>
                                 <span class="required">*</span>
                                 <?php echo form_password(array("name" => "password", "id" => "password", 'class' => 'form-control', 'placeholder' => "Senha")); ?>
                             </div>
@@ -172,7 +206,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo form_label('Confirme a senha: ', 'ConfirmPassword'); ?>
+                                <?php echo form_label('Confirmar Nova Senha', 'ConfirmPassword'); ?>
                                 <span class="required">*</span>
                                 <?php echo form_password(array("name" => "ConfirmPassword", "id" => "ConfirmPassword", 'class' => 'form-control', 'placeholder' => "Confirme a senha")); ?>
                             </div>
