@@ -89,7 +89,7 @@
                                 <span class="required control-label">*</span>
                             </div>
                             <div class="col-md-9">
-                                <?php echo form_input(array('name' => 'password', 'class' => 'form-control', 'id' => 'password', 'placeholder' => "Senha", "autofocus", "type" => "password", "required" => "true", "data-minlength" => "6", "maxlength"=>"22")); ?>
+                                <?php echo form_input(array('name' => 'password', 'class' => 'form-control', 'id' => 'password', 'placeholder' => "Senha", "autofocus", "type" => "password", "required" => "true", "data-minlength" => "6", "data-maxlength"=>"22")); ?>
                                 <div class="help-block">A senha deve ter entre 6 a 22 caracteres</div>
                             </div>
                         </div>

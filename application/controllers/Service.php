@@ -90,7 +90,8 @@ class Service extends CI_Controller {
                     base_url('assets/js/changeCity.js'),
                     base_url('/assets/js/google_maps/mapsRegister.js'),
                     "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
-                    base_url("assets/js/mask.js")
+                    base_url("assets/js/mask.js"),
+                    base_url("assets/js/validator.js")
                 );
 
                 if ($this->input->post('latitude')) {
@@ -179,7 +180,8 @@ class Service extends CI_Controller {
                     base_url('assets/js/changeCity.js'),
                     base_url('/assets/js/google_maps/mapsRegister.js'),
                     "https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js",
-                    base_url("assets/js/mask.js")
+                    base_url("assets/js/mask.js"),
+                    base_url("assets/js/validator.js")
                 );
                 $data['functions_scripts'] = array(
                     "setLatLng({$data['dataService']->latitude},{$data['dataService']->longitude});",

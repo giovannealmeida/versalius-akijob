@@ -8,9 +8,9 @@
                     <h3 class="panel-title"><strong><?= $title ?> Serviço</strong></h3>
                 </div>
                 <div class="panel-body">
-                    <?php echo form_open("service/{$action}/{$id}", array('id' => "registerService")); ?>
-                    <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude', 'type' => "hidden"), set_value('latitude', isset($dataService) ? $dataService->latitude : "")); ?>
-                    <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude', 'type' => "hidden"), set_value('longitude', isset($dataService) ? $dataService->longitude : "")); ?>
+                    <?php echo form_open("service/{$action}/{$id}", array('id' => "registerService", "data-toggle" => "validator")); ?>
+                    <?php echo form_input(array('name' => 'latitude', 'class' => 'form-control', 'id' => 'latitude', 'type' => "hidden", "required" => "true"), set_value('latitude', isset($dataService) ? $dataService->latitude : "")); ?>
+                    <?php echo form_input(array('name' => 'longitude', 'class' => 'form-control', 'id' => 'longitude', 'type' => "hidden", "required" => "true"), set_value('longitude', isset($dataService) ? $dataService->longitude : "")); ?>
                     <?php if (validation_errors()): ?>
                         <div class="alert alert-danger">
                             <strong>Erros no formulário!</strong><br/>
@@ -33,7 +33,8 @@
                             <div class="form-group">
                                 <?php echo form_label('Rua', 'street'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_input(array('name' => 'street', 'class' => 'form-control', 'id' => 'street', 'placeholder' => "Rua"), set_value('street', isset($dataService) ? $dataService->street : "")); ?>
+                                <?php echo form_input(array('name' => 'street', 'class' => 'form-control', 'id' => 'street', 'placeholder' => "Rua", "required" => "true"), set_value('street', isset($dataService) ? $dataService->street : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
 
@@ -59,14 +60,16 @@
                             <div class="form-group">
                                 <?php echo form_label('CEP', 'zipCode'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control cep', 'id' => 'zipCode', 'pattern' => ".{8,}"), set_value('zipCode', isset($dataService) ? $dataService->zip_code : "")); ?>
+                                <?php echo form_input(array('name' => 'zipCode', 'class' => 'form-control cep', 'id' => 'zipCode', 'pattern' => ".{8,}", "required" => "true"), set_value('zipCode', isset($dataService) ? $dataService->zip_code : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <?php echo form_label('Bairro', 'neighborhood'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_input(array('name' => 'neighborhood', 'class' => 'form-control', 'id' => 'neighborhood', 'placeholder' => "Bairro"), set_value('neighborhood', isset($dataService) ? $dataService->neighborhood : "")); ?>
+                                <?php echo form_input(array('name' => 'neighborhood', 'class' => 'form-control', 'id' => 'neighborhood', 'placeholder' => "Bairro", "required" => "true"), set_value('neighborhood', isset($dataService) ? $dataService->neighborhood : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
 
@@ -95,7 +98,8 @@
                             <div class="form-group">
                                 <?php echo form_label('Serviço', 'selectJob'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob",), $jobs, set_value('selectJob', isset($dataService) ? $dataService->id_job : "")); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob", "required" => "true"), $jobs, set_value('selectJob', isset($dataService) ? $dataService->id_job : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
                     </div>
@@ -136,7 +140,7 @@
                         <div class="col-xs-12">
                             <h4 class="text-info">Onde te encontrar?</h4>
                             <div id="map" style="width:100%;height: 500px; margin-left: 0px"></div>
-                            <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'placeholder' => "Pesquisar")); ?>
+                            <?php echo form_input(array('class' => 'controls', 'id' => 'pac-input', 'pllatiaceholder' => "Pesquisar")); ?>
                         </div>
                     </div>
 

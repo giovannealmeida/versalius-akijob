@@ -27,7 +27,7 @@
         </div>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active" id="alter_user">
-                <form action="<?= base_url('profile/config') ?>" method="post" enctype="multipart/form-data">
+                <form action="<?= base_url('profile/config') ?>" method="post" enctype="multipart/form-data" data-toggle ="validator">
                     <?php if ($this->session->flashdata("erro_validation_profile")): ?>
                         <div class="alert alert-danger">
                             <strong>Erros no formulário!</strong><br/>
@@ -50,7 +50,8 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Nome Completo', 'fullname'); ?>
-                                <?php echo form_input(array('name' => 'fullname', 'class' => 'form-control', 'id' => 'fullname', 'placeholder' => "Nome Completo", "autofocus"), set_value('fullname', isset($user_profile->name) ? $user_profile->name : "")); ?>
+                                <?php echo form_input(array('name' => 'fullname', 'class' => 'form-control', 'id' => 'fullname', 'placeholder' => "Nome Completo", "autofocus", "required" => "true"), set_value('fullname', isset($user_profile->name) ? $user_profile->name : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
                     </div>
@@ -58,7 +59,8 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Email', 'email'); ?>
-                                <?php echo form_input(array('name' => 'email', 'class' => 'form-control', 'id' => 'email', 'placeholder' => "Email", "autofocus", "type" => "email"), set_value('email', isset($user_profile->email) ? $user_profile->email : "")); ?>
+                                <?php echo form_input(array('name' => 'email', 'class' => 'form-control', 'id' => 'email', 'placeholder' => "Email", "autofocus", "type" => "email", "required" => "true"), set_value('email', isset($user_profile->email) ? $user_profile->email : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
 
@@ -67,7 +69,8 @@
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <?php echo form_label('Data de Nascimento', 'birthDate'); ?>
-                                <?php echo form_input(array('name' => 'birthDate', 'class' => 'form-control', 'id' => 'birthDate', "type" => "date"), set_value('birthDate', isset($user_profile->birthday) ? $user_profile->birthday : "")); ?>
+                                <?php echo form_input(array('name' => 'birthDate', 'class' => 'form-control', 'id' => 'birthDate', "type" => "date", "required" => "true"), set_value('birthDate', isset($user_profile->birthday) ? $user_profile->birthday : "")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
 
@@ -136,14 +139,14 @@
                             <div class="col-xs-12">
                                 <label class="control-label">Sexo</label>
                                 <label class="checkbox-inline">
-                                    <?php echo form_radio(array('name' => 'gender', 'value' => 2, 'checked' => (isset($user_profile->id_gender) && 2 == $user_profile->id_gender) ? TRUE : set_radio('gender', '2'), 'id' => 'male')) ?>Feminino
+                                    <?php echo form_radio(array('name' => 'gender', 'value' => 2, "required" => "true", 'checked' => (isset($user_profile->id_gender) && 2 == $user_profile->id_gender) ? TRUE : set_radio('gender', '2'), 'id' => 'male')) ?>Feminino
                                 </label>
                                 <label class="checkbox-inline">
-                                    <?php echo form_radio(array('name' => 'gender', 'value' => 1, 'checked' => (isset($user_profile->id_gender) && 1 == $user_profile->id_gender) ? TRUE : set_radio('gender', '1'), 'id' => 'male')) ?>Masculino
+                                    <?php echo form_radio(array('name' => 'gender', 'value' => 1, "required" => "true", 'checked' => (isset($user_profile->id_gender) && 1 == $user_profile->id_gender) ? TRUE : set_radio('gender', '1'), 'id' => 'male')) ?>Masculino
                                 </label>
                             </div>
                         </div>
-
+                        <div class="help-block with-errors"></div>
                     </div>
                     <div class="row">
                         <div class="form-group">
@@ -161,7 +164,7 @@
                 </form>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="alter_pass">
-                <form action="<?= base_url('profile/alterPassword') ?>" method="post">
+                <form action="<?= base_url('profile/alterPassword') ?>" method="post" data-toggle ="validator">
                     <?php if ($this->session->flashdata("erro_validation_password")): ?>
                         <div class="alert alert-danger">
                             <strong>Erros no formulário!</strong><br/>
@@ -188,9 +191,10 @@
                                 <?php if ($user_profile->password == NULL): ?>
                                     <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga", 'disabled' => 'true'); ?>
                                 <?php else: ?>
-                                    <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga"); ?>
+                                    <?php $config = array("name" => "oldPassword", "id" => "oldPassword", 'class' => 'form-control', 'placeholder' => "Senha Antiga", "Senha", "required" => "true", "data-minlength" => "6", "maxlength" => "22"); ?>
                                 <?php endif; ?>
                                 <?php echo form_password($config); ?>
+                                <div class="help-block">A senha deve ter entre 6 a 22 caracteres</div>
                             </div>
                         </div>
                     </div>
@@ -199,7 +203,8 @@
                             <div class="form-group">
                                 <?php echo form_label('Nova Senha', 'password'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_password(array("name" => "password", "id" => "password", 'class' => 'form-control', 'placeholder' => "Senha")); ?>
+                                <?php echo form_password(array("name" => "password", "id" => "password", 'class' => 'form-control', 'placeholder' => "Senha", "required" => "true", "data-minlength" => "6", "maxlength" => "22")); ?>
+                                <div class="help-block">A senha deve ter entre 6 a 22 caracteres</div>
                             </div>
                         </div>
                     </div>
@@ -208,7 +213,8 @@
                             <div class="form-group">
                                 <?php echo form_label('Confirmar Nova Senha', 'ConfirmPassword'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_password(array("name" => "ConfirmPassword", "id" => "ConfirmPassword", 'class' => 'form-control', 'placeholder' => "Confirme a senha")); ?>
+                                <?php echo form_password(array("name" => "ConfirmPassword", "id" => "ConfirmPassword", 'class' => 'form-control', 'placeholder' => "Confirme a senha", "required" => "true", "data-match" => "#password", "data-match-error" => "As senhas não conferem")); ?>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
 
