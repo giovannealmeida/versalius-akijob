@@ -63,7 +63,7 @@ class Login extends CI_Controller {
 
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
-            $this->form_validation->set_rules('password', 'Senha', 'required|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('password', 'Senha', 'required|min_length[6]|max_length[22]');
             $this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]|min_length[6]|max_length[22]');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');

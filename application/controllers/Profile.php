@@ -46,7 +46,7 @@ class Profile extends CI_Controller {
         if ($this->input->post()) {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
-            $this->form_validation->set_rules('email', 'Email', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
             $this->form_validation->set_rules('gender', 'Gênero', 'required');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('selectState', 'Estado', 'required');
@@ -470,6 +470,17 @@ class Profile extends CI_Controller {
                 $this->load->view("_inc/footer");
             }
         }
+    }
+
+    public function email_check($str) {
+        $this->load->model('Users_model');
+        if ($this->Users_model->exists($str)) {
+            $this->form_validation->set_message('email_check', 'O email já foi cadastrado');
+
+            return false;
+        }
+
+        return true;
     }
 
 }
