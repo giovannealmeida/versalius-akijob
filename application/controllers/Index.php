@@ -13,7 +13,8 @@ class Index extends CI_Controller {
         $data["user_profile"] = $this->session->userdata('logged_in');
         $data["scripts"] = array(
             base_url("assets/js/ajax-bootstrap-select.min.js"),
-            base_url("assets/js/search.js")
+            base_url("assets/js/search.js"),
+            base_url("assets/js/validator.js")
         );
         $data["styles"] = array(base_url('assets/css/akijob.css'));
         $this->load->view("_inc/header", $data);
@@ -21,26 +22,22 @@ class Index extends CI_Controller {
         $this->load->view("_inc/footer");
     }
 
-    public function pagseguro(){
+    public function pagseguro() {
 
         \PagSeguro\Library::initialize();
         \PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
         \PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
 
         //For example, to configure the library dynamically:
-        \PagSeguro\Configuration\Configure::setEnvironment('sandbox');//production or sandbox
+        \PagSeguro\Configuration\Configure::setEnvironment('sandbox'); //production or sandbox
         \PagSeguro\Configuration\Configure::setAccountCredentials(
-            'versalius.it@gmail.com',
-            'CCEACF42E2FE4820BFA08D1E9035D7A6'
+                'versalius.it@gmail.com', 'CCEACF42E2FE4820BFA08D1E9035D7A6'
         );
-        \PagSeguro\Configuration\Configure::setCharset('UTF-8');// UTF-8 or ISO-8859-1
+        \PagSeguro\Configuration\Configure::setCharset('UTF-8'); // UTF-8 or ISO-8859-1
         $payment = new \PagSeguro\Domains\Requests\Payment();
 
         $payment->addItems()->withParameters(
-            '0001',
-            'Mensalidade Akijob',
-            1,
-            7.00
+                '0001', 'Mensalidade Akijob', 1, 7.00
         );
 
 
@@ -69,43 +66,40 @@ class Index extends CI_Controller {
 
 
             $code = $payment->register(
-                \PagSeguro\Configuration\Configure::getAccountCredentials(),
-                true
+                    \PagSeguro\Configuration\Configure::getAccountCredentials(), true
             );
-
         } catch (Exception $e) {
             die($e->getMessage());
         }
 
-        $data = array('code' => $code->getCode() );
+        $data = array('code' => $code->getCode());
         $this->load->view("pagseguro", $data);
     }
 
-    public function pag_notification(){
+    public function pag_notification() {
 
         \PagSeguro\Library::initialize();
         \PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
         \PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
-		\PagSeguro\Configuration\Configure::setEnvironment('sandbox');//production or sandbox
+        \PagSeguro\Configuration\Configure::setEnvironment('sandbox'); //production or sandbox
         \PagSeguro\Configuration\Configure::setAccountCredentials(
-            'versalius.it@gmail.com',
-            'CCEACF42E2FE4820BFA08D1E9035D7A6'
+                'versalius.it@gmail.com', 'CCEACF42E2FE4820BFA08D1E9035D7A6'
         );
 
         try {
             if (\PagSeguro\Helpers\Xhr::hasPost()) {
                 $response = \PagSeguro\Services\Transactions\Notification::check(
-                    \PagSeguro\Configuration\Configure::getAccountCredentials()
+                                \PagSeguro\Configuration\Configure::getAccountCredentials()
                 );
             } else {
                 throw new \InvalidArgumentException($_POST);
             }
 
 
-			//file_put_contents('filename.txt', print_r($response, true));
-			// $myfile = fopen("testfile.txt", "w");
-			// fwrite($myfile, print_r($response, true));
-			// fclose($myfile);
+            //file_put_contents('filename.txt', print_r($response, true));
+            // $myfile = fopen("testfile.txt", "w");
+            // fwrite($myfile, print_r($response, true));
+            // fclose($myfile);
 
             $result = $this->db->get_where("tb_payment_history", array("hash" => $response->getReference()));
             if ($result->num_rows() == 1) {
@@ -119,12 +113,12 @@ class Index extends CI_Controller {
                     $this->subscription->insert($result->id_user);
                 }
             }
-			
         } catch (Exception $e) {
-			$myfile = fopen("testfile.txt", "w");
-			fwrite($myfile, $e->getMessage());
-			fclose($myfile);
+            $myfile = fopen("testfile.txt", "w");
+            fwrite($myfile, $e->getMessage());
+            fclose($myfile);
             die($e->getMessage());
         }
     }
+
 }

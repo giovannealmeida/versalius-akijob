@@ -32,12 +32,14 @@ class Results extends CI_Controller {
             $data['idService'] = $idService;
             $data['idCity'] = $idCity;
             $data['services'] = $this->service->getServicesByIdByCity($idService, $idCity);
-            foreach ($data["services"] as $service) {
-                $data["tier_url"][$service->id] = $this->users->getTierImage($service->id_user, $service->saldo, true);
+            if (count($data["services"]) > 0) {
+                foreach ($data["services"] as $service) {
+                    $data["tier_url"][$service->id] = $this->users->getTierImage($service->id_user, $service->saldo, true);
+                }
             }
             $data['city'] = $this->city->getCityById($idCity);
             $this->load->view("results", $data);
-        }else{
+        } else {
             redirect('index');
         }
     }

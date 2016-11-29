@@ -39,14 +39,18 @@ class Login extends CI_Controller {
                 if ($user = $this->users->getUserLogin($this->input->post("email"), $this->input->post("password"), 1)) {
                     $this->session->set_userdata("logged_in", $user);
                     redirect("index");
-                } else if($user = $this->users->getUserLogin($this->input->post("email"), $this->input->post("password"), -1)){
+                } else if ($user = $this->users->getUserLogin($this->input->post("email"), $this->input->post("password"), -1)) {
                     $this->session->set_userdata("logged_in", $user);
                     redirect("profile/account");
-                } else{
+                } else {
                     $data["login_status"] = "error";
                 }
             }
         }
+
+        $data['scripts'] = array(
+            base_url("assets/js/validator.js")
+        );
 
         $this->load->view('_inc/header', $data);
         $this->load->view('login');
@@ -63,7 +67,7 @@ class Login extends CI_Controller {
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
             $this->form_validation->set_rules('password', 'Senha', 'required|min_length[8]|max_length[22]');
-            $this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('password2', 'Digite a Senha Novamente', 'required|matches[password]|min_length[6]|max_length[22]');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');
             $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required|callback_term');
@@ -71,8 +75,8 @@ class Login extends CI_Controller {
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
             $this->form_validation->set_message('validate_name', 'O nome só pode conter letras');
-            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 8 a 22 caracteres');
-            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 8 a 22 caracteres');
+            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 6 a 22 caracteres');
+            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 6 a 22 caracteres');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
             if ($this->form_validation->run() == true) {
@@ -130,6 +134,7 @@ class Login extends CI_Controller {
             base_url('assets/js/facebook-login.js'),
             'https://apis.google.com/js/api:client.js',
             base_url('assets/js/google-login.js'),
+            base_url("assets/js/validator.js")
         );
 
         $this->load->view('_inc/header', $data);
@@ -309,13 +314,13 @@ class Login extends CI_Controller {
                     $this->session->set_userdata('logged_in', $user);
                     redirect('index');
                 }
-                
+
                 // Check user exists and disabled
                 if ($user = $this->users->getUserExternalAuth($data['email'], $data['id_auth'], -1)) {
                     $this->session->set_userdata('logged_in', $user);
                     redirect('profile/account');
                 }
-                
+
                 // Check email exists
                 if ($this->users->exists($data['email'])) {
                     $this->session->set_flashdata("login_status", "exists");
@@ -368,7 +373,7 @@ class Login extends CI_Controller {
             $this->session->set_userdata('logged_in', $user);
             redirect('index');
         }
-        
+
         if ($user = $this->users->getUserExternalAuth($data['email'], $data['id_auth'], -1)) {
             $this->session->set_userdata('logged_in', $user);
             redirect('profile/account');

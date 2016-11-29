@@ -40,14 +40,14 @@
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <?php echo form_label('Complemento', 'complement'); ?>
-                                <?php echo form_input(array('name' => 'complement', 'class' => 'form-control', 'id' => 'complement', 'placeholder' => "Complemento"), set_value('complement', isset($dataService) ? $dataService->complement : "")); ?>
+                                <?php echo form_input(array('name' => 'complement', 'class' => 'form-control', 'id' => 'complement', 'placeholder' => "Complemento (Opcional)"), set_value('complement', isset($dataService) ? $dataService->complement : "")); ?>
                             </div>
 
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <?php echo form_label('Número', 'number'); ?>
-                                <?php echo form_input(array('name' => 'number', 'class' => 'form-control', 'id' => 'number', 'placeholder' => "Número"), set_value('number', isset($dataService) ? $dataService->number : "")); ?>
+                                <?php echo form_input(array('name' => 'number', 'class' => 'form-control', 'id' => 'number', 'placeholder' => "Número (Opcional)"), set_value('number', isset($dataService) ? $dataService->number : "")); ?>
                             </div>
                         </div>
 
@@ -103,7 +103,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <?php echo form_label('Competências', 'skills'); ?>
-                            <textarea class="form-control" name="skills" id="skills" placeholder="Informe aqui sua experiência e capacidade no serviço escolhido"><?php echo set_value('skills', isset($dataService) ? $dataService->skills : ""); ?></textarea>
+                            <textarea class="form-control" name="skills" id="skills" placeholder="Informe aqui sua experiência e capacidade no serviço escolhido (Opcional)"><?php echo set_value('skills', isset($dataService) ? $dataService->skills : ""); ?></textarea>
                         </div>
                     </div>
 
