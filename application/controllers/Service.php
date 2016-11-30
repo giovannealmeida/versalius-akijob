@@ -323,7 +323,7 @@ class Service extends CI_Controller {
 
                     $confirmation = $this->services->insertPortfolio($form);
                     if ($confirmation)
-                        redirect("profile/service/{$idService}");
+                        redirect("service/portifolio/{$idService}");
                     else
                         $this->session->set_flashdata("erro", "Falha ao enviar comentário! Consulte administrador do sistema");
                 }

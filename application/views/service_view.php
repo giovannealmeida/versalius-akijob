@@ -129,7 +129,7 @@
                                     <?php foreach ($portfolios as $portfolio): ?>
 
                                         <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                            <a data-gallery="" title="<?= $portfolio->description ?>" href="base64_encode(stripslashes($portfolio->image))">
+                                            <a data-gallery="" title="<?= $portfolio->description ?>" href="<?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($portfolio->image))?>">
                                                 <img class="img-responsive center-block" alt="images.jpg"
                                                      src=" <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($portfolio->image)) ?>" />
                                             </a>
