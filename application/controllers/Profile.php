@@ -164,7 +164,7 @@ class Profile extends CI_Controller {
             if ($this->form_validation->run() !== FALSE) {
                 if ($data["user_profile"]->password !== NULL) {
                     if ($this->users->validatePassword($data["user_profile"]->id, sha1($this->input->post('oldPassword')))) {
-                        $form['password'] = sha1($this->input->post('password'));
+                        $form['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
                         $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                         if ($confirmationUpdate) {
                             $this->session->set_flashdata("mensagem_password", "Senha cadastrada com sucesso");
