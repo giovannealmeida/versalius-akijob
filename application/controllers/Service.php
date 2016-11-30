@@ -260,13 +260,17 @@ class Service extends CI_Controller {
         }
         $data["styles"] = array(
             base_url("assets/css/google_maps/mapsRegister.css"),
-            base_url("assets/css/star-rating.css")
+            base_url("assets/css/star-rating.css"),
+            base_url("assets/css/blueimp-gallery.min.css"),
         );
 
         $data['scripts'] = array(
             base_url('/assets/js/google_maps/mapsServiceView.js'),
             base_url("assets/js/star-rating.js"),
             base_url('assets/js/funcoes.js'),
+            base_url('assets/js/carousel.js'),
+            base_url('assets/js/blueimp-gallery.min.js'),
+
         );
         $data['functions_scripts'] = array(
             "setLatLng({$data['dataService']->latitude},{$data['dataService']->longitude});",
