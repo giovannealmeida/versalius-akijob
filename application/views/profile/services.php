@@ -12,6 +12,11 @@
             <strong><?php echo $this->session->flashdata("erro_service"); ?></strong><br/>
         </div>
     <?php endif; ?>
+    <?php if (!$premium_data["isPremium"] && count($services) > 1): ?>
+        <div class="alert alert-warning">
+            <strong>Alerta!</strong> O seu plano premium terminou, apenas o primeiro serviço cadastrado estará disponível pra busca. Para comprar seu plano premium <a href="<?=base_url("subscribe")?>">CLIQUE AQUI</a><br/>
+        </div>
+    <?php endif; ?>
     <table class="table">
         <thead>
             <tr>
@@ -34,8 +39,8 @@
                     <td><?= $service->job ?></td>
                     <td></td>
                     <td>
-                        <a  class="btn btn-info btn-sm" href="<?= base_url("service/toView/{$service->id}"); ?>" target="_blank"><span class="glyphicon glyphicon-eye-openn"></span>Visualizar Anúncio</a>
-                        <a  class="btn btn-warning btn-sm" href="<?= base_url("service/edit/{$service->id}"); ?>"><span class="glyphicon glyphicon-pencil"></span>Editar</a>
+                        <a  class="btn btn-info btn-sm" href="<?= base_url("service/toView/{$service->id}"); ?>" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualizar Anúncio</a>
+                        <a  class="btn btn-warning btn-sm" href="<?= base_url("service/edit/{$service->id}"); ?>"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
                         <a class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')" href="<?= base_url("service/delete/{$service->id}"); ?>"><span class="glyphicon glyphicon-remove"></span> Remover</a>
                         <?php if ($premium_data["isPremium"]): ?>
                             <a class="btn btn-primary btn-sm" href="<?= base_url("service/portifolio/{$service->id}"); ?>"><i class="fa fa-camera-retro" aria-hidden="true"></i> Portifolio</a>

@@ -230,12 +230,13 @@ class Service extends CI_Controller {
         }
 
 ////////////////////////////////////////////////
-
+        $this->load->model("Subscription_model", "subs");
         $user_service = $this->user->getUserByService($idService);
         $data["user_profile"] = $this->user->getUserById($user_service);
         $data["user_session"] = $this->session->userdata('logged_in');
         $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($user_service);
         $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($user_service);
+        $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($user_service);
         $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;

@@ -15,8 +15,8 @@ class Subscription_model extends CI_Model
         $this->db->select('*');
         $this->db->from('tb_subscriptions');
         $this->db->where('id_user',$id_user);
-        //$this->db->where('start <=',$today);
-        //$this->db->where('end >=',$today);
+        $this->db->where('start <=',$today);
+        $this->db->where('end >=',$today);
         $result = $this->db->get();
 
         if ($result->num_rows() > 0) {
@@ -28,7 +28,7 @@ class Subscription_model extends CI_Model
     public function insert($id_user)
     {
         date_default_timezone_set('America/Sao_Paulo');
-        
+
         $start = $this->getEndSubscription($id_user);
         if ($start == null) {
             $start = date('Y-m-d');
