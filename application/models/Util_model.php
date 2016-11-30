@@ -39,8 +39,6 @@ class Util_model extends CI_Model
                 $aux = addslashes(file_get_contents($path));
                 unlink($path);
                 return $aux;
-            } else {
-                echo 'Imagem não encontrada';
             }
         }
     }
