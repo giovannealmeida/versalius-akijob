@@ -26,6 +26,6 @@ class Visits_model extends CI_Model {
 	}
 	
 	public function getVisitorsByService($idService){
-		return $this->db->query('SELECT id_service, visit_date, tb_users.name FROM tb_visits INNER JOIN tb_users on tb_users.id=tb_visits.id_user WHERE id_service = 50 ORDER BY visit_date DESC')->result();
+		return $this->db->query('SELECT id_service, visit_date, tb_users.name, tb_users.avatar FROM tb_visits INNER JOIN tb_users on tb_users.id=tb_visits.id_user WHERE id_service = 50 ORDER BY visit_date DESC LIMIT 6')->result();
 	}
 }
