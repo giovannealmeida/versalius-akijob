@@ -92,7 +92,7 @@
 					<td> </td>
 					<td colspan="4">Maior Visibilidade</td>
 				</tr>
-				<tr>
+				<tr class="compare-row">
 					<td>Maior Visibilidade</td>
 					<td><span class="glyphicon glyphicon-remove"></span></td>
 					<td><span class="glyphicon glyphicon-ok"></span></td>
