@@ -163,7 +163,10 @@ class Profile extends CI_Controller {
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             if ($this->form_validation->run() !== FALSE) {
                 if ($data["user_profile"]->password !== NULL) {
-                    if ($this->users->validatePassword($data["user_profile"]->id, sha1($this->input->post('oldPassword')))) {
+                    $user = $this->users->getUserById($data["user_profile"]->id);
+                    if (password_verify($this->input->post('oldPassword'), $user->password)) {
+
+                    // if ($this->users->validatePassword($data["user_profile"]->id, sha1($this->input->post('oldPassword')))) {
                         $form['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
                         $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                         if ($confirmationUpdate) {
@@ -177,7 +180,7 @@ class Profile extends CI_Controller {
                         $this->session->set_flashdata("erro_password", "Senha antiga incorreta");
                     }
                 } else {
-                    $form['password'] = sha1($this->input->post('password'));
+                    $form['password'] = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
                     $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                     if ($confirmationUpdate) {
                         $this->session->set_flashdata("mensagem_password", "Senha cadastrada com sucesso");
