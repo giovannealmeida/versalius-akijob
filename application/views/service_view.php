@@ -30,7 +30,6 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                     <span class="profile-name"><?= $user_profile->name ?></span>
-                                    <p><small class="address"> <span class="glyphicon glyphicon-map-marker"> </span> <?= isset($city->name) ? $city->name . ', ' . $state->initials : 'Não Fornecido' ?></small></p>
                                     <p><small class="address"> <span class="glyphicon glyphicon-envelope"></span> <?= $user_profile->email ?></small></p>
                                     <p><small class="address"><span class="glyphicon glyphicon-phone"></span> <?= $user_profile->phone != NULL ? $user_profile->phone : 'Não Fornecido' ?></small></p>
                                     <p>

@@ -45,7 +45,6 @@
                     </div>
                     <div class="form-group">
                         <?php echo form_input(array("name" => "password", "id" => "password", "class" => "form-control", "type" => "password", "placeholder" => "Senha", "data-minlength" => "6", "maxlength"=>"22")); ?>
-                        <div class="help-block">A senha deve ter entre 6 a 22 caracteres</div>
                     </div>
                     <div class="form-group">
                         <input class="form-control btn btn-success" type="submit" name="login" value="Login">

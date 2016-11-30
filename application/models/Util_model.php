@@ -38,7 +38,6 @@ class Util_model extends CI_Model
                 $manipulator->save($path);
                 $aux = addslashes(file_get_contents($path));
                 unlink($path);
-                print_r($aux);die;
                 return $aux;
             } else {
                 echo 'Imagem não encontrada';
