@@ -292,7 +292,6 @@ img.tier {
     padding: 15px;
 }
 .portfolio-container {
-    overflow: scroll;
     height: 300px;
 }
 .portfolio-text p {
@@ -472,4 +471,12 @@ form#alterPassword>div.row {
     min-width: 300px;
     max-height: 600px;
     min-height: 600px;
+}
+
+div#links img {
+    height: 100px;
+}
+
+div#links div {
+    margin-bottom: 20px;
 }
