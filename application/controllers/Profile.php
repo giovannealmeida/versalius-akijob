@@ -80,8 +80,6 @@ class Profile extends CI_Controller {
                     $this->session->set_flashdata("mensagem_profile", "Cadastro atualizado com sucesso");
                     $user = $this->users->getUserById($data["user_profile"]->id);
                     $this->session->set_userdata('logged_in', $user);
-                } else {
-                    $this->session->set_flashdata("erro_profile", "Falha ao atualizar! Consulte administrador do sistema");
                 }
                 redirect('profile/config');
             } else {
