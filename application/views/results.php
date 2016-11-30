@@ -69,11 +69,11 @@
                                         <div class="list-group result-list" id="line-<?= $key ?>">
                                             <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
                                                 <div class="row">
-                                                    <!--<div class="score">
-                                                </div>-->
+                                                    <div class="score">
+                                                        <span class="badge"><?= isset($service->rating) ? $service->rating : 0 ?></span>
+                                                    </div>
                                                     <div class="details">
                                                         <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                        <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
                                                         <?php if ($tier_url[$service->id]): ?>
                                                             <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
                                                         <?php endif; ?>
@@ -86,18 +86,18 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        <div class="divider"></div>
+                                            <div class="divider"></div>
                                         </div>
                                     <?php else: ?>
                                         <?php if ($service->premium == 1): ?>
                                             <div class="list-group result-list" id="line-<?= $key ?>">
                                                 <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
                                                     <div class="row">
-                                                        <!--<div class="score">
-                                                    </div>-->
+                                                        <div class="score">
+                                                            <span><?= isset($service->rating) ? $service->rating : 0 ?></span>
+                                                        </div>
                                                         <div class="details">
                                                             <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                            <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
                                                             <?php if ($tier_url[$service->id]): ?>
                                                                 <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
                                                             <?php endif; ?>
@@ -110,7 +110,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            <div class="divider"></div>
+                                                <div class="divider"></div>
                                             </div>
                                         <?php endif; ?>
                                     <?php endif; ?>
@@ -129,12 +129,6 @@
 
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
-
-                    <!-- default styles -->
-                    <link href="<?= base_url("assets/css/star-rating.css") ?>" media="all" rel="stylesheet" type="text/css" />
-
-                    <!-- important mandatory libraries -->
-                    <script src="<?= base_url("assets/js/star-rating.js") ?>" type="text/javascript"></script>
 
                 </div>
 
@@ -330,9 +324,9 @@
                         }
 
                         function loadMarkers() {
-                            <?php if (count($services) > 0) : ?>
-                                <?php foreach ($services as $service): ?>
-                                    <?php if ($service->primary == 1): ?>
+<?php if (count($services) > 0) : ?>
+    <?php foreach ($services as $service): ?>
+        <?php if ($service->primary == 1): ?>
 
                                         var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
                                         var htm = "<h1><?= $service->name ?></h1><br>" +
@@ -342,8 +336,8 @@
                                                 "<b>Complemento: </b><?= $service->complement ?><br>" +
                                                 "<b>CEP: </b><?= $service->zip_code ?><br>";
                                         addMarker(location, htm);
-                                    <?php else: ?>
-                                        <?php if ($service->premium == 1): ?>
+        <?php else: ?>
+            <?php if ($service->premium == 1): ?>
                                             var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
                                             var htm = "<h1><?= $service->name ?></h1><br>" +
                                                     "<b>Email: </b><?= $service->email ?><br>" +
@@ -352,10 +346,10 @@
                                                     "<b>Complemento: </b><?= $service->complement ?><br>" +
                                                     "<b>CEP: </b><?= $service->zip_code ?><br>";
                                             addMarker(location, htm);
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
                         }
 
                         function highlightsDiv(id) {
