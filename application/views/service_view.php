@@ -116,7 +116,7 @@
             <!-- END PROFILE SERVICE -->
 
             <!-- BEGIN PORTIFOLIO -->
-            <?php if (count($portfolios) > 0): ?>
+            <?php if ($premium_data["isPremium"] && count($portfolios) > 0): ?>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="panel panel-default">
@@ -148,7 +148,7 @@
             <?php endif; ?>
             <!-- END PORTIFOLIO -->
 
-            <!-- BEGIN COMMENTS -->            
+            <!-- BEGIN COMMENTS -->
             <div class="row">
                 <div class="col-xs-12">
 
@@ -199,12 +199,12 @@
                                     <?php
                                 }
                                 ?>
-                            </div>                                
+                            </div>
                         </div>
 
                     </div>
                 </div>
-            </div>            
+            </div>
             <!-- END COMMENTS -->
         </div>
 

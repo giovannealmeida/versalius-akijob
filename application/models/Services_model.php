@@ -35,13 +35,14 @@ class Services_model extends CI_Model {
 
     public function getServicesByIdByCity($idJob, $idCity) {
         $query = $this->db->query("
-            SELECT u.name as name, u.email, u.id as id_user, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.value),0) as saldo, ra.rating
+            SELECT u.name as name, u.email, u.id as id_user, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.value),0) as saldo, ra.rating, IF(sub.id is null,0,1) as premium, s.`primary`
             FROM tb_services s
             LEFT JOIN tb_recommendation r ON r.id_user_receiver = s.id_user
             INNER JOIN tb_jobs j ON j.id = s.id_job
             INNER JOIN tb_users u ON u.id = s.id_user
+            LEFT JOIN tb_subscriptions sub ON u.id = sub.id_user AND NOW() BETWEEN sub.`start` AND sub.`end`
             LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
-            LEFT JOIN tb_subscriptions p ON s.id_user = p.id_user 
+            LEFT JOIN tb_subscriptions p ON s.id_user = p.id_user
             WHERE s.id_job = {$idJob} AND s.id_city = {$idCity} AND u.id_status = 1
             GROUP BY s.id_user
             ORDER BY p.id IS NOT NULL DESC, saldo DESC, ra.rating DESC"
@@ -147,6 +148,12 @@ class Services_model extends CI_Model {
     }
 
     public function insert($data) {
+        $result = $this->db->query("SELECT count(*) as quantidade FROM tb_services WHERE id_user = {$data["id_user"]}")->result()[0]->quantidade;
+
+        if ($result == 0) {
+            $data["primary"] = 1;
+        }
+
         $this->db->insert('tb_services', $data);
 
         if ($this->db->affected_rows() > 0) {
@@ -169,9 +176,19 @@ class Services_model extends CI_Model {
     }
 
     public function delete($idUser, $idService) {
+
+        $this->db->trans_start();
+
         $this->db->delete('tb_services', array('id' => $idService, 'id_user' => $idUser));
 
         if ($this->db->affected_rows() > 0) {
+            $result = $this->db->query("SELECT count(*) as quantidade FROM tb_services WHERE id_user = {$idUser}")->result()[0]->quantidade;
+            if ($result > 0) {
+                $next = $this->db->limit(1)->get_where("tb_services", array("id_user" => $idUser))->result()[0]->id;
+                $this->update($next, array("primary" => 1));
+            }
+            $this->db->trans_complete();
+
             return TRUE;
         }
         return FALSE;

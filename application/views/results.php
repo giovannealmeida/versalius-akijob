@@ -59,34 +59,62 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="left">
 
-                    <h3><?= count($services) ?> Profissionais Encontrados</h2>
+                    <h3>Profissionais Encontrados</h2>
 
                         <hr>
                         <div class="list-container" style="height: 90%; overflow: auto;">
                             <?php if (count($services) > 0): ?>
                                 <?php foreach ($services as $key => $service): ?>
-                                    <div class="list-group result-list" id="line-<?= $key ?>">
-                                        <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
-                                            <div class="row">
-                                                <!--<div class="score">
+                                    <?php if ($service->primary == 1): ?>
+                                        <div class="list-group result-list" id="line-<?= $key ?>">
+                                            <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
+                                                <div class="row">
+                                                    <!--<div class="score">
                                                 </div>-->
-                                                <div class="details">
-                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                    <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
-                                                    <?php if ($tier_url[$service->id]): ?>
-                                                        <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
-                                                    <?php endif; ?>
+                                                    <div class="details">
+                                                        <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                        <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
+                                                        <?php if ($tier_url[$service->id]): ?>
+                                                            <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
+                                                        <?php endif; ?>
 
-                                                    <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
-                                                    <span class="job "><?= $service->job ?></span>
-                                                    <span class="recomendations hidden-xs">
-                                                        <?= $service->saldo ?> Recomendações
-                                                    </span>
+                                                        <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
+                                                        <span class="job "><?= $service->job ?></span>
+                                                        <span class="recomendations hidden-xs">
+                                                            <?= $service->saldo ?> Recomendações
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         <div class="divider"></div>
-                                    </div>
+                                        </div>
+                                    <?php else: ?>
+                                        <?php if ($service->premium == 1): ?>
+                                            <div class="list-group result-list" id="line-<?= $key ?>">
+                                                <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
+                                                    <div class="row">
+                                                        <!--<div class="score">
+                                                    </div>-->
+                                                        <div class="details">
+                                                            <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                            <input id="display_stars" disabled="true" id="input-id" type="text" class="rating" data-size="xs" value="<?= isset($service->rating) ? $service->rating : 0 ?>" >
+                                                            <?php if ($tier_url[$service->id]): ?>
+                                                                <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
+                                                            <?php endif; ?>
+
+                                                            <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
+                                                            <span class="job "><?= $service->job ?></span>
+                                                            <span class="recomendations hidden-xs">
+                                                                <?= $service->saldo ?> Recomendações
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div class="divider"></div>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
@@ -98,7 +126,7 @@
                     <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/ajax-bootstrap-select.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/search.js") ?>"></script>
-                    
+
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
                     async defer></script>
 
@@ -107,7 +135,7 @@
 
                     <!-- important mandatory libraries -->
                     <script src="<?= base_url("assets/js/star-rating.js") ?>" type="text/javascript"></script>
-                    
+
                 </div>
 
             </div>
@@ -302,18 +330,32 @@
                         }
 
                         function loadMarkers() {
-<?php if (count($services) > 0) : ?>
-    <?php foreach ($services as $service): ?>
-                                    var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
-                                    var htm = "<h1><?= $service->name ?></h1><br>" +
-                                            "<b>Email: </b><?= $service->email ?><br>" +
-                                            "<b>Endereço: </b><?= $service->street ?>, <?= $service->number ?><br>" +
-                                            "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
-                                            "<b>Complemento: </b><?= $service->complement ?><br>" +
-                                            "<b>CEP: </b><?= $service->zip_code ?><br>";
-                                    addMarker(location, htm);
-    <?php endforeach; ?>
-<?php endif; ?>
+                            <?php if (count($services) > 0) : ?>
+                                <?php foreach ($services as $service): ?>
+                                    <?php if ($service->primary == 1): ?>
+
+                                        var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
+                                        var htm = "<h1><?= $service->name ?></h1><br>" +
+                                                "<b>Email: </b><?= $service->email ?><br>" +
+                                                "<b>Endereço: </b><?= $service->street ?>, <?= $service->number ?><br>" +
+                                                "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
+                                                "<b>Complemento: </b><?= $service->complement ?><br>" +
+                                                "<b>CEP: </b><?= $service->zip_code ?><br>";
+                                        addMarker(location, htm);
+                                    <?php else: ?>
+                                        <?php if ($service->premium == 1): ?>
+                                            var location = {lat: <?= $service->latitude ?>, lng: <?= $service->longitude ?>};
+                                            var htm = "<h1><?= $service->name ?></h1><br>" +
+                                                    "<b>Email: </b><?= $service->email ?><br>" +
+                                                    "<b>Endereço: </b><?= $service->street ?>, <?= $service->number ?><br>" +
+                                                    "<b>Bairro: </b><?= $service->neighborhood ?><br>" +
+                                                    "<b>Complemento: </b><?= $service->complement ?><br>" +
+                                                    "<b>CEP: </b><?= $service->zip_code ?><br>";
+                                            addMarker(location, htm);
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         }
 
                         function highlightsDiv(id) {

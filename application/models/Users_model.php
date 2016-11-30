@@ -123,16 +123,16 @@ class Users_model extends CI_Model
             if ($result_page) {
                 return null;
             }
-            return base_url('assets/img/crown-nothing.png');
+            return base_url('assets/img/crown-gold.png');
         }
         if ($recommendations >= 100 && $recommendations <= 1000) {
             return base_url('assets/img/crown-bronze.png');
         } elseif ($recommendations > 1000 && $recommendations <= 5000) {
-            return base_url('assets/img/crown-bronze.png');
+            return base_url('assets/img/crown-silver.png');
         } elseif ($recommendations > 5000 && $recommendations < 10000) {
-            return base_url('assets/img/crown-bronze.png');
+            return base_url('assets/img/crown-gold.png');
         } elseif ($recommendations > 10000) {
-            return base_url('assets/img/crown-bronze.png');
+            return base_url('assets/img/crown-platina.png');
         }
     }
 
