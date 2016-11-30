@@ -34,8 +34,8 @@
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
-                        <?php echo form_open('login/register', array('id' => "register", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data", "data-toggle" => "validator")); ?>
-                        <?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'avatar', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>
+                        <?php echo form_open('login/register', array('id' => "register", "name" => "register", "class" => "form-horizontal", "role" => "form", "enctype" => "multipart/form-data", "data-toggle" => "validator")); ?>
+                        <!--<?php echo form_input(array('name' => 'avatar', 'class' => 'form-control', 'id' => 'avatar', 'type' => 'hidden', 'value' => isset($user_profile) ? $user_profile['avatar'] : NULL)); ?>-->
                         <?php if (validation_errors()): ?>
                             <div class="alert alert-danger">
                                 <strong>Erros no formulário!</strong><br/>
@@ -60,7 +60,7 @@
                                          <?php endif; ?>" class="avatar img-circle" alt="avatar" id="preview_image" style="max-width: 200px; max-height: 200px;">
                                     <h5><b>Avatar</b></h5>
                                 </div>
-                                <input type="file" accept="image/*" name="avatar" onchange="loadFile(event)">
+                                <input type="file" accept="image/*" name="avatar" id="avatar" onchange="loadFile(event)">
                             </div>
                         </div>
                         <div class="form-group">

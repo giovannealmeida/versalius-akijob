@@ -36,8 +36,9 @@ class Util_model extends CI_Model
                 $aux = $manipulator->resample($width, $height);
                 $path = __DIR__.'/../../images_temp/'.$file['name'];
                 $manipulator->save($path);
-                $aux = file_get_contents($path);
+                $aux = addslashes(file_get_contents($path));
                 unlink($path);
+                print_r($aux);die;
                 return $aux;
             } else {
                 echo 'Imagem não encontrada';

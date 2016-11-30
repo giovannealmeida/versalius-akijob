@@ -44,13 +44,18 @@ class Profile extends CI_Controller {
             redirect('profile/account');
         }
         if ($this->input->post()) {
+            $this->load->model("Util_model", "util");
             $this->load->library('form_validation');
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
+            if ($data['user_profile']->email == $this->input->post('email'))
+                $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            else
+                $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
             $this->form_validation->set_rules('gender', 'Gênero', 'required');
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('selectState', 'Estado', 'required');
             $this->form_validation->set_rules('selectCity', 'Cidade', 'required');
+            $this->form_validation->set_rules('avatar', 'Avatar', 'callback_validate_image');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('validate_name', 'O nome só pode conter letras');
@@ -67,10 +72,9 @@ class Profile extends CI_Controller {
                 $form['facebook'] = $this->input->post('facebook');
                 $form['twitter'] = $this->input->post('twitter');
                 if ($_FILES['upload_avatar']['tmp_name'] !== "") {
-                    $this->load->model("Util_model", "util");
-                    $image = $this->util->resizeImage($_FILES['upload_avatar'], 200, 200);
-                    $form['avatar'] = addslashes($image);
+                    $form['avatar'] = $this->util->resizeImage($_FILES['upload_avatar'], 200, 200);
                 }
+
                 $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
                     $this->session->set_flashdata("mensagem_profile", "Cadastro atualizado com sucesso");
@@ -338,6 +342,19 @@ class Profile extends CI_Controller {
         }
 
         return true;
+    }
+
+    public function validate_image() {
+        if ($_FILES['upload_avatar']['tmp_name'] !== '') {
+            if ($_FILES['upload_avatar']['type'] == 'image/jpeg' || $_FILES['upload_avatar']['type'] == 'image/png' || $_FILES['upload_avatar']['type'] == 'image/jpg') {
+                return true;
+            } else {
+                $this->form_validation->set_message('validate_image', 'Verifique se o tipo da imagem é JPEG ou PNG');
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 
 }

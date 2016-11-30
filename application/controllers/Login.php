@@ -59,6 +59,7 @@ class Login extends CI_Controller {
         $this->load->model('City_model', 'city');
         if ($this->input->post()) {
             $this->load->model('Users_model', 'users');
+            $this->load->model("Util_model", "util");
             $this->load->library('form_validation');
 
             $this->form_validation->set_rules('fullname', 'Nome Completo', 'required|callback_validate_name');
@@ -68,6 +69,7 @@ class Login extends CI_Controller {
             $this->form_validation->set_rules('birthDate', 'Data de Nascimento', 'required');
             $this->form_validation->set_rules('gender', 'Sexo', 'required|callback_gender');
             $this->form_validation->set_rules('termAcceptance', 'Termo de aceitação', 'required|callback_term');
+            $this->form_validation->set_rules('avatar', 'Avatar', 'callback_validate_image');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
@@ -90,11 +92,8 @@ class Login extends CI_Controller {
                     'site' => $this->input->post('site'),
                     'facebook' => $this->input->post('facebook'),
                     'twitter' => $this->input->post('twitter'),
+                    'avatar' => $this->util->resizeImage($_FILES['avatar'], 200, 200)
                 );
-
-                if ($_FILES['avatar']['tmp_name'] !== '') {
-                    $user_insert['avatar'] = addslashes(file_get_contents($_FILES['avatar']['tmp_name']));
-                }
 
                 $user = $this->users->insert($user_insert);
 
@@ -225,6 +224,19 @@ class Login extends CI_Controller {
                     $this->load->view('_inc/footer');
                 }
             }
+        }
+    }
+
+    public function validate_image() {
+        if ($_FILES['avatar']['tmp_name'] !== '') {
+            if ($_FILES['avatar']['type'] == 'image/jpeg' || $_FILES['avatar']['type'] == 'image/png' || $_FILES['avatar']['type'] == 'image/jpg') {
+                return true;
+            } else {
+                $this->form_validation->set_message('validate_image', 'Verifique se o tipo da imagem é JPEG ou PNG');
+                return false;
+            }
+        } else {
+            return true;
         }
     }
 
