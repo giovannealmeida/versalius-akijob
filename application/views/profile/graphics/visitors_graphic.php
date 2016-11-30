@@ -6,22 +6,6 @@
 				<h4 ><strong>Visitantes</strong></h4>
 				
 				
-				<?php echo form_open('profile/redirectGraphic', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
-				<?php echo form_hidden('selectTypeGraphic', 'Visitantes'); ?>
-				<div class="row">
-					<div class="col-xs-5">
-					
-					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectMonth", 'id' => "selectMonth", ), $months); ?></h5>
-					</div>
-					<div class="col-xs-5">
-					<h5><?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectYear", 'id' => "selectYear", ), $years); ?></h5>		
-					</div>
-					<div class="col-xs-2">
-					<input type="submit" class="btn btn-primary btn-statistics-buscar" value="Buscar" style="position: relative; top: 10px;">
-					
-					</div>	
-				</div>
-				<?php echo form_close(); ?>
 				<h4>Ultimos Visitantes</h4>		
 				<div class="divider"></div>
 
