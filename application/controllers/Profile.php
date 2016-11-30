@@ -292,33 +292,37 @@ class Profile extends CI_Controller {
 
     public function statistics() {
         $data = $this->user_info;
-        $data['typeGraphic'] = array(
-            'Visitas' => 'Visitas',
-            'Visitantes' => 'Visitantes'
-        );
-        $data['months'] = array(
-            '0' => '',
-            '1' => "Janeiro",
-            '2' => 'Fevereiro',
-            '3' => 'Março',
-            '4' => 'Abril',
-            '5' => 'Maio',
-            '6' => 'Junho',
-            '7' => 'Julho',
-            '8' => 'Agosto',
-            '9' => 'Setembro',
-            '10' => 'Outubro',
-            '11' => 'Novembro',
-            '12' => 'Dezembro',
-        );
-        $data['years'] = array(
-            '0' => '',
-            '2016' => "2016",
-        );
-        $this->load->view("_inc/header", $data);
-        $this->load->view("profile/menu");
-        $this->load->view("profile/statistics");
-        $this->load->view("_inc/footer");
+        if ($data['premium_data']['isPremium'] == NULL) {
+            redirect('subscribe');
+        } else {
+            $data['typeGraphic'] = array(
+                'Visitas' => 'Visitas',
+                'Visitantes' => 'Visitantes'
+            );
+            $data['months'] = array(
+                '0' => '',
+                '1' => "Janeiro",
+                '2' => 'Fevereiro',
+                '3' => 'Março',
+                '4' => 'Abril',
+                '5' => 'Maio',
+                '6' => 'Junho',
+                '7' => 'Julho',
+                '8' => 'Agosto',
+                '9' => 'Setembro',
+                '10' => 'Outubro',
+                '11' => 'Novembro',
+                '12' => 'Dezembro',
+            );
+            $data['years'] = array(
+                '0' => '',
+                '2016' => "2016",
+            );
+            $this->load->view("_inc/header", $data);
+            $this->load->view("profile/menu");
+            $this->load->view("profile/statistics");
+            $this->load->view("_inc/footer");
+        }
     }
 
     public function redirectGraphic() {
