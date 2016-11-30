@@ -4,9 +4,10 @@ class consult extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
+        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+            redirect('profile/account');
         }
     }
 
@@ -67,49 +68,57 @@ class consult extends CI_Controller {
     }
 
     public function insert_recommendation($id_user, $id_user_receiver, $value) {
-        $data = array("id_user" => $id_user, "id_user_receiver" => $id_user_receiver, "value" => $value);
-        $this->db->where($data);
-        $query = $this->db->get('tb_recommendation');
-        if ($query->num_rows() > 0) {
-            $this->db->delete('tb_recommendation', $data);
-            echo 0;
-        } else {
-            $this->db->where("id_user", $id_user);
-            $this->db->where("id_user_receiver", $id_user_receiver);
+        if ($this->session->userdata('logged_in')->id == $id_user) {
+            $data = array("id_user" => $id_user, "id_user_receiver" => $id_user_receiver, "value" => $value);
+            $this->db->where($data);
             $query = $this->db->get('tb_recommendation');
             if ($query->num_rows() > 0) {
-                $this->db->where('id_user', $id_user);
-                $this->db->where('id_user_receiver', $id_user_receiver);
-                $this->db->update('tb_recommendation', array("value" => $value));
-                echo 1;
+                $this->db->delete('tb_recommendation', $data);
+                echo 0;
             } else {
-                $this->db->insert("tb_recommendation", $data);
-                echo 2;
+                $this->db->where("id_user", $id_user);
+                $this->db->where("id_user_receiver", $id_user_receiver);
+                $query = $this->db->get('tb_recommendation');
+                if ($query->num_rows() > 0) {
+                    $this->db->where('id_user', $id_user);
+                    $this->db->where('id_user_receiver', $id_user_receiver);
+                    $this->db->update('tb_recommendation', array("value" => $value));
+                    echo 1;
+                } else {
+                    $this->db->insert("tb_recommendation", $data);
+                    echo 2;
+                }
             }
+        } else {
+            show_404();
         }
     }
 
     public function rating($id_user, $id_user_receiver, $id_service, $value) {
-        $data = array("id_user" => $id_user, "id_user_receiver" => $id_user_receiver, "id_service" => $id_service, "value" => $value);
-        $this->db->where($data);
-        $query = $this->db->get('tb_rating');
-        if ($query->num_rows() > 0) {
-            echo 0;
-        } else {
-            $this->db->where("id_user", $id_user);
-            $this->db->where("id_user_receiver", $id_user_receiver);
-            $this->db->where("id_service", $id_service);
+        if ($this->session->userdata('logged_in')->id == $id_user) {
+            $data = array("id_user" => $id_user, "id_user_receiver" => $id_user_receiver, "id_service" => $id_service, "value" => $value);
+            $this->db->where($data);
             $query = $this->db->get('tb_rating');
             if ($query->num_rows() > 0) {
-                $this->db->where('id_user', $id_user);
-                $this->db->where('id_user_receiver', $id_user_receiver);
-                $this->db->where("id_service", $id_service);
-                $this->db->update('tb_rating', array("value" => $value));
-                echo 1;
+                echo 0;
             } else {
-                $this->db->insert("tb_rating", $data);
-                echo 2;
+                $this->db->where("id_user", $id_user);
+                $this->db->where("id_user_receiver", $id_user_receiver);
+                $this->db->where("id_service", $id_service);
+                $query = $this->db->get('tb_rating');
+                if ($query->num_rows() > 0) {
+                    $this->db->where('id_user', $id_user);
+                    $this->db->where('id_user_receiver', $id_user_receiver);
+                    $this->db->where("id_service", $id_service);
+                    $this->db->update('tb_rating', array("value" => $value));
+                    echo 1;
+                } else {
+                    $this->db->insert("tb_rating", $data);
+                    echo 2;
+                }
             }
+        } else {
+            show_404();
         }
     }
 

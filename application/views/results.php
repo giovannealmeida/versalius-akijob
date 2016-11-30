@@ -59,20 +59,66 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" id="left">
 
-                    <h3>Profissionais Encontrados</h2>
+                    <h3>Profissionais Encontrados</h3>
 
-                        <hr>
-                        <div class="list-container" style="height: 90%; overflow: auto;">
-                            <?php if (count($services) > 0): ?>
-                                <?php foreach ($services as $key => $service): ?>
-                                    <?php if ($service->primary == 1): ?>
+                    <hr>
+                    <div class="list-container" style="height: 90%; overflow: auto;">
+                        <?php if (count($services) > 0): ?>
+                            <?php foreach ($services as $key => $service): ?>
+                                <?php if ($service->primary == 1): ?>
+                                    <div class="list-group result-list" id="line-<?= $key ?>">
+                                        <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
+                                            <div class="row">
+                                                <div class="score">
+                                                    <span><?= number_format(isset($service->rating) ? $service->rating : 0, 1) ?></span>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                                                        <img class="img-rounded img-responsive center-block profile-photo" src="
+                                                        <?php if ($user_profile->avatar === NULL): ?>
+                                                            <?= '//placehold.it/200' ?>
+                                                        <?php elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar)))): ?>
+                                                            <?= $user_profile->avatar ?>
+                                                        <?php else: ?>
+                                                            <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar)); ?>
+                                                        <?php endif; ?>
+                                                             " alt="">
+                                                    </div>
+                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                    <?php if ($tier_url[$service->id]): ?>
+                                                        <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
+                                                    <?php endif; ?>
+
+                                                    <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
+                                                    <span class="job "><?= $service->job ?></span>
+                                                    <span class="recomendations hidden-xs">
+                                                        <?= $service->saldo ?> Recomendações
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="divider"></div>
+                                    </div>
+                                <?php else: ?>
+                                    <?php if ($service->premium == 1): ?>
                                         <div class="list-group result-list" id="line-<?= $key ?>">
                                             <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
                                                 <div class="row">
                                                     <div class="score">
-                                                        <span class="badge"><?= isset($service->rating) ? $service->rating : 0 ?></span>
+                                                        <span><?= number_format(isset($service->rating) ? $service->rating : 0, 1) ?></span>
                                                     </div>
                                                     <div class="details">
+                                                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                                                            <img class="img-rounded img-responsive center-block profile-photo" src="
+                                                            <?php if ($service->avatar === NULL): ?>
+                                                                <?= '//placehold.it/200' ?>
+                                                            <?php elseif ($service->avatar == base64_decode(base64_encode(stripslashes($service->avatar)))): ?>
+                                                                <?= $service->avatar ?>
+                                                            <?php else: ?>
+                                                                <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($service->avatar)); ?>
+                                                            <?php endif; ?>
+                                                                 " alt="">
+                                                        </div>
                                                         <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                         <?php if ($tier_url[$service->id]): ?>
                                                             <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
@@ -88,36 +134,12 @@
                                             </div>
                                             <div class="divider"></div>
                                         </div>
-                                    <?php else: ?>
-                                        <?php if ($service->premium == 1): ?>
-                                            <div class="list-group result-list" id="line-<?= $key ?>">
-                                                <div class="list-group-item " id="item-<?= $key ?>" onclick="animationMarker(<?= $key ?>)">
-                                                    <div class="row">
-                                                        <div class="score">
-                                                            <span><?= isset($service->rating) ? $service->rating : 0 ?></span>
-                                                        </div>
-                                                        <div class="details">
-                                                            <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
-                                                            <?php if ($tier_url[$service->id]): ?>
-                                                                <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
-                                                            <?php endif; ?>
-
-                                                            <small class="address"><?= $service->street . ', ' . $service->number . ' - ' . $service->neighborhood ?></small>
-                                                            <span class="job "><?= $service->job ?></span>
-                                                            <span class="recomendations hidden-xs">
-                                                                <?= $service->saldo ?> Recomendações
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="divider"></div>
-                                            </div>
-                                        <?php endif; ?>
                                     <?php endif; ?>
+                                <?php endif; ?>
 
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-8">
                     <script type='text/javascript'>var base_url = {url: "<?= base_url() ?>"};</script>

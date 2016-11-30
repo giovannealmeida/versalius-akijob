@@ -64,7 +64,7 @@ $('#btn_positive').on('click', function () {
             }
         },
         error: function (error) {
-            alert("Falha ao consultar cidade!");
+            alert("Falha ao recmendar!");
         }
     });
 });

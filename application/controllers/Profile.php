@@ -153,13 +153,13 @@ class Profile extends CI_Controller {
             $this->load->library('form_validation');
             if ($data["user_profile"]->password !== NULL)
                 $this->form_validation->set_rules('oldPassword', 'Senha Atual', 'trim|required');
-            $this->form_validation->set_rules('password', 'Nova Senha', 'trim|required|min_length[8]|max_length[22]');
-            $this->form_validation->set_rules('ConfirmPassword', 'Confirmar Nova Senha', 'required|matches[password]|min_length[8]|max_length[22]');
+            $this->form_validation->set_rules('password', 'Nova Senha', 'trim|required|min_length[6]|max_length[22]');
+            $this->form_validation->set_rules('ConfirmPassword', 'Confirmar Nova Senha', 'required|matches[password]|min_length[6]|max_length[22]');
 
             $this->form_validation->set_message('required', 'O campo %s é obrigatório');
             $this->form_validation->set_message('matches', 'As senhas não conferem');
-            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 8 a 22 caracteres');
-            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 8 a 22 caracteres');
+            $this->form_validation->set_message('min_length', 'O campo %s deve conter de 6 a 22 caracteres');
+            $this->form_validation->set_message('max_length', 'O campo %s deve conter de 6 a 22 caracteres');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             if ($this->form_validation->run() !== FALSE) {
                 if ($data["user_profile"]->password !== NULL) {
