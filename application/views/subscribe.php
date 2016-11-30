@@ -5,8 +5,8 @@
 			<thead>
 				<tr>
 					<th class="tl tl2"></th>
-					<th class="product" style="">Grátis</th>
-					<th class="product" style="">Premium</th>
+					<th class="product text-center" style="">Básico</th>
+					<th class="product text-center" style="">Premium</th>
 				</tr>
 				<tr>
 					<th></th>
@@ -116,17 +116,10 @@
 				<tr>
 					<td style="border-bottom: none;border-left: none;"></td>
 					<td>
-							<?php if ($this->session->userdata('logged_in')): ?>
-								<a href="#">
-									<button type="button" name="button" class="btn btn-primary btn-lg btn-block" disabled="disabled">Cadastre-se</button>
-								</a>
-								<small>Você já possui esse plano</small>
-							<?php else: ?>
-								<a href="<?=base_url("register")?>">
-									<button type="button" name="button" class="btn btn-primary btn-lg btn-block">Cadastre-se</button>
-								</a>
+						<a href="<?=base_url("register")?>">
+							<button type="button" name="button" class="btn btn-primary btn-lg btn-block" <?= $this->session->userdata('logged_in') ? 'disabled="disabled"' : "" ?>>Cadastre-se</button>
+						</a>
 
-							<?php endif; ?>
 					</td>
 					<td>
 						<?php if ($this->session->userdata('logged_in')): ?>
