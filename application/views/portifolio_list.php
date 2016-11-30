@@ -5,7 +5,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>Portifólio - <?= $services->job ?>(a)</h2>
-                    <a class="btn btn-success" href="<?= base_url("service/portfolioNovo"); ?>">Novo</a>
+                    <a class="btn btn-success" href="<?= base_url("service/portfolioNovo/{$idService}"); ?>">Novo</a>
                     <div class="divider"></div>
                     <?php if (count($portfolios)): ?>
                         <p class="hint bg-info text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Dica: Clique nas datas para visualizar as imagens</p>

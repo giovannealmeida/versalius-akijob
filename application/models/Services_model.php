@@ -48,7 +48,7 @@ class Services_model extends CI_Model {
             ORDER BY p.id IS NOT NULL DESC, saldo DESC, ra.rating DESC"
             );
 
-        if (count($query->result()) > 0) {
+        if ($query->num_rows() > 0) {
             return $query->result();
         }
         return NULL;
@@ -62,7 +62,7 @@ class Services_model extends CI_Model {
         $this->db->where('id_user', $idUser);
         $query = $this->db->get();
 
-        if (count($query->result()) > 0) {
+        if ($query->num_rows() > 0) {
             return $query->result();
         }
         return NULL;
@@ -78,7 +78,7 @@ class Services_model extends CI_Model {
         $this->db->where('s.id', $idService);
         $query = $this->db->get();
 
-        if (count($query->result()) > 0) {
+        if ($query->num_rows() > 0) {
             return $query->result()[0];
         }
         return NULL;
@@ -92,7 +92,7 @@ class Services_model extends CI_Model {
         $this->db->where('s.id_user', $idUser);
         $query = $this->db->get();
 
-        if (count($query->result()) > 0) {
+        if ($query->num_rows() > 0) {
             return $query->result()[0];
         }
         return NULL;
@@ -101,7 +101,16 @@ class Services_model extends CI_Model {
     public function getPortfoliosByUser($idUser) {
         $query = $this->db->get_where('tb_portfolios', array('id_user' => $idUser));
 
-        if (count($query->result()) > 0) {
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return NULL;
+    }
+
+    public function getPortfoliosByService($idService) {
+        $query = $this->db->get_where('tb_portfolios', array('id_service' => $idService));
+
+        if ($query->num_rows() > 0) {
             return $query->result();
         }
         return NULL;
@@ -110,7 +119,7 @@ class Services_model extends CI_Model {
     public function getPortfolioById($idPortfolio) {
         $query = $this->db->get_where('tb_portfolios', array('id' => $idPortfolio));
 
-        if (count($query->result()) > 0) {
+        if ($query->num_rows() > 0) {
             return $query->result()[0];
         }
         return NULL;

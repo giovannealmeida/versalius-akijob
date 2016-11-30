@@ -113,49 +113,42 @@
             </div>
             <!-- END PROFILE SERVICE -->
 
-            <div class='row'>
-                <div class='col-xs-12'>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Este são meus últimos trabalhos</h3>
-                        </div>
-                        <div class="panel-body portfolio-body">
-                            <div id="links">
-                                <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <a data-gallery="" title="Delft Touch in the kitchen" href="http://farm4.static.flickr.com/3812/11188050815_5e8cccf0f6_b.jpg">
-                                        <img src="http://farm4.static.flickr.com/3812/11188050815_5e8cccf0f6_b.jpg" class="img-responsive center-block">
-                                    </a>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <a data-gallery="" title="Father Figure Project: The Social Construct" href="http://farm4.static.flickr.com/3703/11191153143_04bbbc8301_b.jpg">
-                                        <img src="http://farm4.static.flickr.com/3703/11191153143_04bbbc8301_b.jpg" class="img-responsive center-block">
-                                    </a>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <a data-gallery="" title="Natalia" href="http://farm4.static.flickr.com/3741/11188919165_b73f1ddc32_b.jpg">
-                                        <img src="http://farm4.static.flickr.com/3741/11188919165_b73f1ddc32_b.jpg" class="img-responsive center-block">
-                                    </a>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <a data-gallery="" title="Higherbeams." href="http://farm4.static.flickr.com/3821/11190956343_09b8022ea2_b.jpg">
-                                        <img src="http://farm4.static.flickr.com/3821/11190956343_09b8022ea2_b.jpg" class="img-responsive center-block">
-                                    </a>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    <a data-gallery="" title="Contact" href="http://farm8.static.flickr.com/7325/11186917235_003d9df5d6_b.jpg">
-                                        <img src="http://farm8.static.flickr.com/7325/11186917235_003d9df5d6_b.jpg" class="img-responsive center-block">
-                                    </a>
+
+
+
+            <!-- BEGIN PORTIFOLIO -->
+            <?php if ($premium_data["isPremium"] && count($portfolios) > 0): ?>
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Últimos trabalhos</h3>
+                            </div>
+                            <div class="panel-body portfolio-body">
+                                <div id="links">
+                                    <?php foreach ($portfolios as $portfolio): ?>
+
+                                        <div class=" col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                            <a data-gallery="" title="<?= $portfolio->description ?>" href="base64_encode(stripslashes($portfolio->image))">
+                                                <img class="img-responsive center-block" alt="images.jpg"
+                                                     src=" <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($portfolio->image)) ?>" />
+                                            </a>
+                                        </div>
+
+                                <?php endforeach; ?>
+
+
+                                    <!--
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a data-gallery="" title="Contact" href="http://farm8.static.flickr.com/7325/11186917235_003d9df5d6_b.jpg">
+                                            <img src="http://farm8.static.flickr.com/7325/11186917235_003d9df5d6_b.jpg" class="img-responsive center-block">
+                                        </a>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <!-- BEGIN PORTIFOLIO -->
-            <?php if ($premium_data["isPremium"] && count($portfolios) > 0): ?>
-            
             <?php endif; ?>
             <!-- END PORTIFOLIO -->
 

@@ -19,7 +19,7 @@
                             <strong><?php echo $this->session->flashdata("erro"); ?></strong><br/>
                         </div>
                     <?php endif; ?>
-                    <form action="<?= base_url('service/portfolioNovo') ?>" method="post" enctype="multipart/form-data">
+                    <form action="<?= base_url("service/portfolioNovo/{$idService}") ?>" method="post" enctype="multipart/form-data">
                         <img src="//placehold.it/500"  id="preview_image" style="max-width: 500px; max-height: 500px;">
 
                         <div class="form-group">

@@ -229,7 +229,7 @@ class Service extends CI_Controller {
             }
         }
 
-////////////////////////////////////////////////
+        ////////////////////////////////////////////////
         $this->load->model("Subscription_model", "subs");
         $user_service = $this->user->getUserByService($idService);
         $data["user_profile"] = $this->user->getUserById($user_service);
@@ -241,7 +241,7 @@ class Service extends CI_Controller {
         $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
         $data['id'] = $idService;
         $data['dataService'] = $this->service->getServicesById($idService);
-        $data['portfolios'] = $this->service->getPortfoliosByUser($user_service);
+        $data['portfolios'] = $this->service->getPortfoliosByService($idService);
         $data['comments'] = $this->comments->getCommentsByIdServices($idService, 0);
 
 
@@ -268,8 +268,8 @@ class Service extends CI_Controller {
             base_url('/assets/js/google_maps/mapsServiceView.js'),
             base_url("assets/js/star-rating.js"),
             base_url('assets/js/funcoes.js'),
-            base_url('assets/js/carousel.js'),
             base_url('assets/js/blueimp-gallery.min.js'),
+            base_url('assets/js/portfolio-gallery.js'),
 
         );
         $data['functions_scripts'] = array(
@@ -289,18 +289,21 @@ class Service extends CI_Controller {
         } else {
             $this->load->model("Services_model", 'services');
             $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
-            $data['portfolios'] = $this->services->getPortfoliosByUser($this->session->userdata('logged_in')->id);
+            $data['portfolios'] = $this->services->getPortfoliosByService($idService);
+            $data["idService"] = $idService;
             $this->load->view("_inc/header", $data);
             $this->load->view("portifolio_list");
             $this->load->view("_inc/footer");
         }
     }
 
-    public function portfolioNovo() {
+    public function portfolioNovo($idService) {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } elseif ($this->session->userdata('logged_in')->id_status == -1) {
             redirect('profile/account');
+        } elseif ($idService == "") {
+            redirect("profile");
         } else {
             $this->load->model("Services_model", 'services');
             if ($this->input->post()) {
@@ -314,17 +317,18 @@ class Service extends CI_Controller {
                 $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
                 if ($this->form_validation->run() !== FALSE) {
-                    $form['id_user'] = $this->session->userdata('logged_in')->id;
+                    $form['id_service'] = $idService;
                     $form['description'] = $this->input->post('description');
                     $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
 
                     $confirmation = $this->services->insertPortfolio($form);
                     if ($confirmation)
-                        redirect('profile/services');
+                        redirect("profile/service/{$idService}");
                     else
                         $this->session->set_flashdata("erro", "Falha ao enviar comentário! Consulte administrador do sistema");
                 }
             }
+            $data["idService"] = $idService;
             $data['scripts'] = array(base_url("assets/js/funcoes.js"));
             $this->load->view("_inc/header", $data);
             $this->load->view("portifolio_form");
