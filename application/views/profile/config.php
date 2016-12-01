@@ -227,7 +227,7 @@
                     </div>
                     <div class = "row">
                         <div style="">
-                            <a href="<?= base_url('register_service/cancel'); ?>" type="button" class="btn btn-danger" id="cancel">Cancelar</a>
+                            <a href="<?= base_url('service/cancel'); ?>" type="button" class="btn btn-danger" id="cancel">Cancelar</a>
                             <input type="submit" class="btn btn-success" value="Atualizar" onclick="return confirm('Confirma a atualização?')">
                         </div>
                     </div>

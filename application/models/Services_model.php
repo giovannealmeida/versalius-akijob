@@ -46,7 +46,7 @@ class Services_model extends CI_Model {
             WHERE s.id_job = {$idJob} AND s.id_city = {$idCity} AND u.id_status = 1
             GROUP BY s.id_user
             ORDER BY p.id IS NOT NULL DESC, saldo DESC, ra.rating DESC"
-            );
+        );
 
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -69,15 +69,15 @@ class Services_model extends CI_Model {
     }
 
     public function getServicesById($idService) {
-        $this->db->select('s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, IFNULL(SUM(r.`value`)/count(r.value),0) as saldo');
-        $this->db->from('tb_services s');
-        $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
-        $this->db->join('tb_city c', 's.id_city = c.id', "inner");
-        $this->db->join('tb_states st', 'c.id_state = st.id', "inner");
-        $this->db->join('tb_rating r', 'r.id_service = s.id', "left");
-        $this->db->where('s.id', $idService);
-        $query = $this->db->get();
-
+        $query = $this->db->query("
+            SELECT s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, ra.rating as saldo
+            FROM tb_services s
+            LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
+            INNER JOIN tb_jobs j ON j.id = s.id_job
+            INNER JOIN tb_city c ON s.id_city = c.id
+            INNER JOIN tb_states st ON c.id_state = st.id
+            WHERE s.id = {$idService}"
+        );
         if ($query->num_rows() > 0) {
             return $query->result()[0];
         }

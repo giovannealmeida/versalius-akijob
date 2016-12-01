@@ -352,7 +352,12 @@ class Profile extends CI_Controller {
     public function validate_image() {
         if ($_FILES['upload_avatar']['tmp_name'] !== '') {
             if ($_FILES['upload_avatar']['type'] == 'image/jpeg' || $_FILES['upload_avatar']['type'] == 'image/png' || $_FILES['upload_avatar']['type'] == 'image/jpg') {
-                return true;
+                if ($_FILES['upload_avatar']['type'] <= 2097152) {
+                    return true;
+                } else {
+                    $this->form_validation->set_message('validate_image', 'A imagem deve ter tamanho máximo de 2 MB');
+                    return false;
+                }
             } else {
                 $this->form_validation->set_message('validate_image', 'Verifique se o tipo da imagem é JPEG ou PNG');
                 return false;

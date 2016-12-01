@@ -192,7 +192,7 @@
                             <div class="col-xs-12">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="termAcceptance" id="termAcceptance" data-error="Para se cadastrar é necessário concordar com os termos e condições de uso" required >Eu li e concordo com os <a href="#"> Termos e Condições de Uso</a>
+                                        <input type="checkbox" name="termAcceptance" id="termAcceptance" data-error="Para se cadastrar é necessário aceitar os Termos e Condições de Uso" required >Eu li e concordo com os <a href="#"> Termos e Condições de Uso</a>
                                     </label>
                                     <div class="help-block with-errors"></div>
                                 </div>

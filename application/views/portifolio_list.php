@@ -4,7 +4,7 @@
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h2>Portifólio - <?= $services->job ?>(a)</h2>
+                    <h2>Portifólio - <?= $services->job ?></h2>
                     <a class="btn btn-success" href="<?= base_url("service/portfolioNovo/{$idService}"); ?>">Novo</a>
                     <div class="divider"></div>
                     <?php if (count($portfolios)): ?>

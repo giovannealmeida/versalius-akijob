@@ -42,15 +42,17 @@ class consult extends CI_Controller {
     public function getJobsByName() {
         if ($this->input->post()) {
             $name = $this->input->post("q");
-        }
-        $this->db->like('name', $name);
-        $result = $this->db->get("tb_jobs")->result();
-        $array = array();
-        foreach ($result as $row) {
-            $array[] = array("id" => $row->id, "name" => $row->name);
-        }
+            $this->db->like('name', $name);
+            $result = $this->db->get("tb_jobs")->result();
+            $array = array();
+            foreach ($result as $row) {
+                $array[] = array("id" => $row->id, "name" => $row->name);
+            }
 
-        print_r(json_encode($array));
+            print_r(json_encode($array));
+        }else{
+            show_404();
+        }
     }
 
     public function getComments($idService, $x) {
@@ -63,7 +65,7 @@ class consult extends CI_Controller {
     }
 
     public function insert_recommendation($id_user, $id_user_receiver, $value) {
-        if ($this->session->userdata('logged_in')->id == $id_user) {
+        if (isset($this->session->userdata('logged_in')->id) && $this->session->userdata('logged_in')->id == $id_user) {
             $data = array("id_user" => $id_user, "id_user_receiver" => $id_user_receiver, "value" => $value);
             $this->db->where($data);
             $query = $this->db->get('tb_recommendation');

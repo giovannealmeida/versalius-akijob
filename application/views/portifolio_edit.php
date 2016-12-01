@@ -37,7 +37,8 @@
                             <label for="description">Descrição</label>
                             <textarea class="form-control" id="description" name="description"><?= $portfolio->description ?></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                        <a href="<?= base_url('service/cancel'); ?>" type="button" class="btn btn-danger" id="cancel">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Atualizar</button>
 
                     </form>
                 </div>

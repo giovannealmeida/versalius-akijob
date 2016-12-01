@@ -230,7 +230,12 @@ class Login extends CI_Controller {
     public function validate_image() {
         if ($_FILES['avatar']['tmp_name'] !== '') {
             if ($_FILES['avatar']['type'] == 'image/jpeg' || $_FILES['avatar']['type'] == 'image/png' || $_FILES['avatar']['type'] == 'image/jpg') {
-                return true;
+                if ($_FILES['avatar']['type'] <= 2097152) {
+                    return true;
+                } else {
+                    $this->form_validation->set_message('validate_image', 'A imagem deve ter tamanho máximo de 2 MB');
+                    return false;
+                }
             } else {
                 $this->form_validation->set_message('validate_image', 'Verifique se o tipo da imagem é JPEG ou PNG');
                 return false;
@@ -263,7 +268,7 @@ class Login extends CI_Controller {
 
     public function term() {
         if ($this->input->post('termAcceptance') == null) {
-            $this->form_validation->set_message('term', 'Para se cadastrar é necessário aceitar o termo de uso');
+            $this->form_validation->set_message('term', 'Para se cadastrar é necessário aceitar os Termos e Condições de Uso');
 
             return false;
         }
