@@ -75,12 +75,12 @@
                                                 <div class="details">
                                                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
                                                         <img class="img-rounded img-responsive center-block profile-photo" src="
-                                                        <?php if ($user_profile->avatar === NULL): ?>
+                                                        <?php if ($service->avatar === NULL): ?>
                                                             <?= '//placehold.it/200' ?>
-                                                        <?php elseif ($user_profile->avatar == base64_decode(base64_encode(stripslashes($user_profile->avatar)))): ?>
-                                                            <?= $user_profile->avatar ?>
+                                                        <?php elseif ($service->avatar == base64_decode(base64_encode(stripslashes($service->avatar)))): ?>
+                                                            <?= $service->avatar ?>
                                                         <?php else: ?>
-                                                            <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($user_profile->avatar)); ?>
+                                                            <?= 'data:image/jpeg;base64,' . base64_encode(stripslashes($service->avatar)); ?>
                                                         <?php endif; ?>
                                                              " alt="">
                                                     </div>
