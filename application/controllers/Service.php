@@ -352,13 +352,18 @@ class Service extends CI_Controller {
         } else if ($this->session->userdata('logged_in')->id_status == -1) {
             redirect('profile/account');
         } else {
-            $this->load->model("Services_model", 'services');
-            $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
-            $data['portfolios'] = $this->services->getPortfoliosByService($idService);
-            $data["idService"] = $idService;
-            $this->load->view("_inc/header", $data);
-            $this->load->view("portifolio_list");
-            $this->load->view("_inc/footer");
+            $this->load->model("Services_model", 'service');
+            $data['services'] = $this->service->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
+            //Verifica se o serviço a ser editado é do usuário que está logado
+            if ($data['services']) {
+                $data['portfolios'] = $this->service->getPortfoliosByService($idService);
+                $data["idService"] = $idService;
+                $this->load->view("_inc/header", $data);
+                $this->load->view("portifolio_list");
+                $this->load->view("_inc/footer");
+            } else {
+                show_404();
+            }
         }
     }
 
@@ -372,37 +377,44 @@ class Service extends CI_Controller {
             redirect('login');
         } elseif ($this->session->userdata('logged_in')->id_status == -1) {
             redirect('profile/account');
-        } elseif ($idService == "") {
-            redirect("profile");
         } else {
             $this->load->model("Services_model", 'services');
-            if ($this->input->post()) {
-                //validação CodeIgniter
-                $this->load->library('form_validation');
-                $this->form_validation->set_rules('description', 'Descrição', 'required');
-                $this->form_validation->set_rules('inputFile', 'imagem', 'callback_validate_image');
+            $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $idService);
+            //Verifica se o serviço a ser editado é do usuário que está logado
+            if ($data['services']) {
+                if ($this->input->post()) {
+                    //validação CodeIgniter
+                    $this->load->library('form_validation');
+                    $this->form_validation->set_rules('description', 'Descrição', 'required');
+                    $this->form_validation->set_rules('inputFile', 'imagem', 'callback_validate_image');
 
-                $this->form_validation->set_message('required', 'O campo %s é obrigatório');
-                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                    $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+                    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
-                if ($this->form_validation->run()) {
-                    $form['id_service'] = $idService;
-                    $form['description'] = $this->input->post('description');
-                    $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
+                    if ($this->form_validation->run()) {
+                        $form['id_service'] = $idService;
+                        $form['description'] = $this->input->post('description');
+                        $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
 
-                    $confirmation = $this->services->insertPortfolio($form);
-                    //verifica se o portfolio foi inserido no banco com sucesso
-                    if ($confirmation)
-                        redirect("service/portfolio/{$idService}");
-                    else
-                        $this->session->set_flashdata("erro", "Falha ao enviar comentário! Consulte administrador do sistema");
+                        $confirmation = $this->services->insertPortfolio($form);
+                        //verifica se o portfolio foi inserido no banco com sucesso
+                        if ($confirmation)
+                            redirect("service/portfolio/{$idService}");
+                        else
+                            $this->session->set_flashdata("erro", "Falha ao enviar comentário! Consulte administrador do sistema");
+                    }
                 }
+                $data["idService"] = $idService;
+                $data['scripts'] = array(
+                    base_url("assets/js/funcoes.js"),
+                    base_url("assets/js/validator.js")
+                );
+                $this->load->view("_inc/header", $data);
+                $this->load->view("portfolio_form");
+                $this->load->view("_inc/footer");
+            }else {
+                show_404();
             }
-            $data["idService"] = $idService;
-            $data['scripts'] = array(base_url("assets/js/funcoes.js"));
-            $this->load->view("_inc/header", $data);
-            $this->load->view("portfolio_form");
-            $this->load->view("_inc/footer");
         }
     }
 
@@ -418,36 +430,48 @@ class Service extends CI_Controller {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'services');
-            if ($this->input->post()) {
-                //validação CodeIgniter
-                $this->load->library('form_validation');
-                $this->form_validation->set_rules('description', 'Descrição', 'required');
-                //verifica se houve carregamento da imagem para poder validar a imagem
-                if (!empty($_FILES['inputFile']['name'])) {
-                    $this->form_validation->set_rules('inputFile', 'imagem', 'callback_validate_image');
-                }
-
-                $this->form_validation->set_message('required', 'O campo %s é obrigatório');
-                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-
-                if ($this->form_validation->run() !== FALSE) {
-                    $form['description'] = $this->input->post('description');
-                    //verifica se houve carregamento da imagem para poder atualizar os dadoss sem precisar atualizar a imagem
-                    if (!empty($_FILES['inputFile']['name'])) {
-                        $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
-                    }
-
-                    //verifica se o portfolio foi atualizado no banco com sucesso
-                    $confirmation = $this->services->updatePortfolio($idPortfolio, $form);
-                    if ($confirmation)
-                        redirect('profile/services');
-                }
-            }
             $data['portfolio'] = $this->services->getPortfolioById($idPortfolio);
-            $data['scripts'] = array(base_url("assets/js/funcoes.js"));
-            $this->load->view("_inc/header", $data);
-            $this->load->view("portifolio_edit");
-            $this->load->view("_inc/footer");
+            if ($data['portfolio']) {
+                $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $data['portfolio']->id_service);
+                if ($data['services']) {
+                    if ($this->input->post()) {
+                        //validação CodeIgniter
+                        $this->load->library('form_validation');
+                        $this->form_validation->set_rules('description', 'Descrição', 'required');
+                        //verifica se houve carregamento da imagem para poder validar a imagem
+                        if (!empty($_FILES['inputFile']['name'])) {
+                            $this->form_validation->set_rules('inputFile', 'imagem', 'callback_validate_image');
+                        }
+
+                        $this->form_validation->set_message('required', 'O campo %s é obrigatório');
+                        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+                        if ($this->form_validation->run() !== FALSE) {
+                            $form['description'] = $this->input->post('description');
+                            //verifica se houve carregamento da imagem para poder atualizar os dadoss sem precisar atualizar a imagem
+                            if (!empty($_FILES['inputFile']['name'])) {
+                                $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
+                            }
+
+                            //verifica se o portfolio foi atualizado no banco com sucesso
+                            $confirmation = $this->services->updatePortfolio($idPortfolio, $form);
+                            if ($confirmation)
+                                redirect('profile/services');
+                        }
+                    }
+                    $data['scripts'] = array(
+                        base_url("assets/js/funcoes.js"),
+                        base_url("assets/js/validator.js")
+                    );
+                    $this->load->view("_inc/header", $data);
+                    $this->load->view("portifolio_edit");
+                    $this->load->view("_inc/footer");
+                }else {
+                    show_404();
+                }
+            } else {
+                show_404();
+            }
         }
     }
 
@@ -488,6 +512,10 @@ class Service extends CI_Controller {
 
     public function cancel() {
         redirect('profile');
+    }
+
+    public function cancelPortfolio() {
+        redirect('profile/services');
     }
 
     //callback para validação da imagem
