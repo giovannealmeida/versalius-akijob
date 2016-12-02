@@ -39,7 +39,7 @@
                     <td><?= $service->job ?></td>
                     <td></td>
                     <td>
-                        <a  class="btn btn-info btn-sm" href="<?= base_url("service/toView/{$service->id}"); ?>" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualizar Anúncio</a>
+                        <a  class="btn btn-info btn-sm" href="<?= base_url("service/service_view/{$service->id}"); ?>" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualizar Anúncio</a>
                         <a  class="btn btn-warning btn-sm" href="<?= base_url("service/edit/{$service->id}"); ?>"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
                         <a class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')" href="<?= base_url("service/delete/{$service->id}"); ?>"><span class="glyphicon glyphicon-remove"></span> Remover</a>
                         <?php if ($premium_data["isPremium"]): ?>

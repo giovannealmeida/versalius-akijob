@@ -163,7 +163,7 @@
                             <h3 class="panel-title">Comentários</h3>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= base_url("service/toView/" . $id) ?>" method="post">
+                            <form action="<?= base_url("service/service_view/" . $id) ?>" method="post">
                                 <?php if (isset($user_session) && $user_profile->id != $user_session->id) : ?>
                                     <legend>Deixe seu comentário:</legend>
                                     <textarea name="comment" class="form-control" rows="3" style="resize: none" required></textarea>

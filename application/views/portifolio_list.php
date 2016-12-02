@@ -5,7 +5,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>Portifólio - <?= $services->job ?></h2>
-                    <a class="btn btn-success" href="<?= base_url("service/portfolioNovo/{$idService}"); ?>">Novo</a>
+                    <a class="btn btn-success" href="<?= base_url("service/new_portfolio/{$idService}"); ?>">Novo</a>
                     <div class="divider"></div>
                     <?php if (count($portfolios)): ?>
                         <p class="hint bg-info text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Dica: Clique nas datas para visualizar as imagens</p>
@@ -25,8 +25,8 @@
                                         </div>
                                     </div>
                                     <div class="panel-heading portifolio-buttons" >
-                                        <a class="btn btn-warning" href="<?= base_url("service/editPortfolio/{$portfolio->id}"); ?>">Editar</a>
-                                        <a class="btn btn-danger" href="<?= base_url("service/deletePortfolio/{$portfolio->id}"); ?>">Excluir</a>
+                                        <a class="btn btn-warning" href="<?= base_url("service/edit_portfolio/{$portfolio->id}"); ?>">Editar</a>
+                                        <a class="btn btn-danger" href="<?= base_url("service/delete_portfolio/{$portfolio->id}"); ?>">Excluir</a>
                                     </div>
                                 </div>
                             </div>

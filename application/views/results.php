@@ -84,7 +84,7 @@
                                                         <?php endif; ?>
                                                              " alt="">
                                                     </div>
-                                                    <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                    <a href="<?= base_url("service/service_view/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                     <?php if ($tier_url[$service->id]): ?>
                                                         <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
                                                     <?php endif; ?>
@@ -119,7 +119,7 @@
                                                             <?php endif; ?>
                                                                  " alt="">
                                                         </div>
-                                                        <a href="<?= base_url("service/toView/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
+                                                        <a href="<?= base_url("service/service_view/{$service->id}") ?>" target="_blank"><span class="list-group-item-heading"><?= $service->name ?></span></a>
                                                         <?php if ($tier_url[$service->id]): ?>
                                                             <img src="<?= $tier_url[$service->id] ?>" alt="tier" class="tier"/>
                                                         <?php endif; ?>

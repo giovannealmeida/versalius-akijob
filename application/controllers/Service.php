@@ -251,7 +251,7 @@ class Service extends CI_Controller {
      * Visualizar anúncio
      */
 
-    public function toView($idService) {
+    public function service_view($idService) {
         $this->load->model("Services_model", 'service');
         $data['dataService'] = $this->service->getServicesById($idService);
 
@@ -281,7 +281,7 @@ class Service extends CI_Controller {
                     } else {
                         $this->session->set_flashdata("erro_service", "Falha ao enviar comentário! Consulte administrador do sistema");
                     }
-                    redirect('service/toView/' . $idService);
+                    redirect('service/service_view/' . $idService);
                 }
             }
 
@@ -371,7 +371,7 @@ class Service extends CI_Controller {
      * Novo portfolio
      */
 
-    public function portfolioNovo($idService) {
+    public function new_portfolio($idService) {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
@@ -422,7 +422,7 @@ class Service extends CI_Controller {
      * Editar portfolio
      */
 
-    public function editPortfolio($idPortfolio) {
+    public function edit_portfolio($idPortfolio) {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
@@ -456,7 +456,7 @@ class Service extends CI_Controller {
                             //verifica se o portfolio foi atualizado no banco com sucesso
                             $confirmation = $this->services->updatePortfolio($idPortfolio, $form);
                             if ($confirmation)
-                                redirect('profile/services');
+                                redirect("service/portfolio/{$data['services']->id}");
                         }
                     }
                     $data['scripts'] = array(
@@ -479,7 +479,7 @@ class Service extends CI_Controller {
      * Deleta portfolio
      */
 
-    public function deletePortfolio($idPortfolio) {
+    public function delete_portfolio($idPortfolio) {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
@@ -514,7 +514,7 @@ class Service extends CI_Controller {
         redirect('profile');
     }
 
-    public function cancelPortfolio() {
+    public function cancel_portfolio() {
         redirect('profile/services');
     }
 

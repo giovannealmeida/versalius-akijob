@@ -230,7 +230,7 @@ class Profile extends CI_Controller {
         } else {
             $this->recommendation->insert_recommendation($form);
         }
-        redirect("service/toView/{$idService}");
+        redirect("service/service_view/{$idService}");
     }
 
     public function excluir($idUser) {

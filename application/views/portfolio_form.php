@@ -19,7 +19,7 @@
                             <strong><?php echo $this->session->flashdata("erro"); ?></strong><br/>
                         </div>
                     <?php endif; ?>
-                    <form action="<?= base_url("service/portfolioNovo/{$idService}") ?>" method="post" enctype="multipart/form-data" data-toggle="validator">
+                    <form action="<?= base_url("service/new_portfolio/{$idService}") ?>" method="post" enctype="multipart/form-data" data-toggle="validator">
                         <img src="//placehold.it/500"  id="preview_image" style="max-width: 500px; max-height: 500px;">
 
                         <div class="form-group">
@@ -32,7 +32,7 @@
                             <textarea class="form-control" id="description" name="description" required="true"></textarea>
                             <div class="help-block with-errors"></div>
                         </div>
-                        <a href="<?= base_url('service/cancelPortfolio'); ?>" type="button" class="btn btn-danger" id="cancel">Cancelar</a>
+                        <a href="<?= base_url('service/cancel_portfolio'); ?>" type="button" class="btn btn-danger" id="cancel">Cancelar</a>
                         <button type="submit" class="btn btn-success">Cadastrar</button>
 
                     </form>
