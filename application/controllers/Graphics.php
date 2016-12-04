@@ -30,8 +30,8 @@ class Graphics extends CI_Controller {
     		
     	$data = $this->user_info;
     	$data['typeGraphic'] = array(
-	    	'Visitas'=>'Visitas',
-	    	'Visitantes'=>'Visitantes'
+	    	'Visitas'=>'Visitas diárias por mês/ano',
+	    	'Visitantes'=>'Ultimos visitantes'
 		);	
     	$data['months'] = array(
     		'0'=>'',
@@ -50,9 +50,12 @@ class Graphics extends CI_Controller {
 		);
 		$data['years'] = array(
 			'0'=>'',
-			'2016'=>"2016"
+			'2016'=>"2016",
+			'2017'=>"2017"
 		);
 		
+		$data['monthChosen'] = $monthChosen;
+		$data['yearChosen'] = $yearChosen;
 		if($this->input->post() == NULL){
 				$monthYear = array();
 			$monthYear[0] = $monthChosen;
@@ -69,10 +72,10 @@ class Graphics extends CI_Controller {
 				
 		}
 		else{
-			echo "2";
 			$monthYear = array();
 			$monthYear[0] = $monthChosen;
 			$monthYear[1] = $yearChosen;
+			
 		}
 		
         if ($data['premium_data']['isPremium'] == NULL) {
@@ -87,7 +90,7 @@ class Graphics extends CI_Controller {
             $total_visits = 0;
             $add_column_chart = 'data.addColumn("number", "Dia");';
             for ($i = 0; $i < count($data['all_services']); $i++) {
-                $visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id);
+                $visits_service = $this->visits->getVisitsByService($data['all_services'][$i]->id, $monthChosen, $yearChosen);
                 $data['all_services'][$i]->service_visits = $visits_service[0]->visit_service;
                 $data['all_services'][$i]->visit_dates = $this->visits->getVisitDateByService($data['all_services'][$i]->id);
                 $total_visits += $data['all_services'][$i]->service_visits;
@@ -221,8 +224,8 @@ class Graphics extends CI_Controller {
 	public function visitorsGraphics($monthChosen, $yearChosen){
 		$data = $this->user_info;
     	$data['typeGraphic'] = array(
-	    	'Visitas'=>'Visitas',
-	    	'Visitantes'=>'Visitantes'
+	    	'Visitas'=>'Visitas diárias por mês/ano',
+	    	'Visitantes'=>'Ultimos visitantes'
 		);	
     	$data['months'] = array(
     		'0'=>'',
@@ -241,7 +244,8 @@ class Graphics extends CI_Controller {
 		);
 		$data['years'] = array(
 			'0'=>'',
-			'2016'=>"2016"
+			'2016'=>"2016",
+			"2017"=>"2017"
 		);
 		
 		$this->load->model("Services_model", "services");

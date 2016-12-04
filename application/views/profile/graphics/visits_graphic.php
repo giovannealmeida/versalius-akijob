@@ -2,7 +2,7 @@
 <h2 class="profile-page-title"><strong>Estatísticas</strong></h2>
 				<?php if(isset($invalide_date) == true):?>
 					<div class="divider"></div>
-					<h4 ><strong>Visitas</strong></h4>
+					<h4 ><strong>Visitas do mês de <?php echo $months[$monthChosen] ?></strong></h4>
 					<h5><?= $invalide_date?></h5>
 					<?php echo form_open('graphics/visitsGraphics', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
 					<div class="row">
@@ -24,11 +24,12 @@
 				<?php elseif(isset($no_service) == false):?>
 				<div class="divider"></div>
 
-				<h4 ><strong>Visitas</strong></h4>
+				<h4 ><strong>Visitas do mês de <?php echo $months[$monthChosen] ?></strong></h4>
 				
 				<h5>Total de visitas: <?= $all_services[0]->total_visits?></h5>
 				<?php echo form_open('profile/redirectGraphic', array('id' => 'monthYear', 'class' => 'form-horizontal', 'role' => 'form')); ?>
 				<?php echo form_hidden('selectTypeGraphic', 'Visitas');?>
+				<h5>Escolha, se desejar, um mês e ano para visualizar a evolução de visitas aos seus serviços.</h5>
 				<div class="row">
 					<div class="col-xs-5">
 					

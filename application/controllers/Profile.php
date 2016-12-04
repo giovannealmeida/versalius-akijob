@@ -299,8 +299,8 @@ class Profile extends CI_Controller {
             redirect('subscribe');
         } else {
             $data['typeGraphic'] = array(
-                'Visitas' => 'Visitas',
-                'Visitantes' => 'Visitantes'
+                'Visitas' => 'Visitas diárias por mês/ano',
+                'Visitantes' => 'Ultimos visitantes'
             );
             $data['months'] = array(
                 '0' => '',
@@ -320,6 +320,7 @@ class Profile extends CI_Controller {
             $data['years'] = array(
                 '0' => '',
                 '2016' => "2016",
+                "2017" => "2017"
             );
             $this->load->view("_inc/header", $data);
             $this->load->view("profile/menu");

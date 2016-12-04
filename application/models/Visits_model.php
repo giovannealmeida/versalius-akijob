@@ -13,8 +13,8 @@ class Visits_model extends CI_Model {
 	}
 	
 	
-	public function getVisitsByService($idService){
-		return $this->db->query('SELECT COUNT(id_service) as visit_service FROM tb_visits WHERE id_service = '.$idService)->result();
+	public function getVisitsByService($idService, $month, $year){
+		return $this->db->query('SELECT COUNT(id_service) as visit_service FROM tb_visits WHERE id_service = '.$idService.' AND MONTH(visit_date) = "'.$month.'" AND YEAR(visit_date) = "'.$year.'"')->result();
 	}
 	
 	public function getVisitDateByService($idService){
