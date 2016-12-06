@@ -86,12 +86,12 @@
                             <div class="differential">
                                 <h3 class="text-primary"><strong>Diferencial</strong></h3>
                                 <ul class="list-unstyled list-inline">
-                                    <?php if ($dataService->availability_fds): ?>
+                                    <?php if (isset($differential) && in_array(2, $differential)): ?>
                                         <li>
                                             <span class="label label-default ">Trabalha No Fim de Semana</span>
                                         </li>
                                     <?php endif; ?>
-                                    <?php if ($dataService->availability_24h): ?>
+                                    <?php if (isset($differential) && in_array(1, $differential)): ?>
                                         <li>
                                             <span class="label label-default ">Trabalha 24h</span>
                                         </li>

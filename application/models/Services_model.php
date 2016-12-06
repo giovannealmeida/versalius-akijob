@@ -70,7 +70,7 @@ class Services_model extends CI_Model {
 
     public function getServicesById($idService) {
         $query = $this->db->query("
-            SELECT s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, s.availability_fds, s.availability_24h, j.name as job, c.name as city, st.name as state, ra.rating as saldo
+            SELECT s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, j.name as job, c.name as city, st.name as state, ra.rating as saldo
             FROM tb_services s
             LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
             INNER JOIN tb_jobs j ON j.id = s.id_job
@@ -94,6 +94,22 @@ class Services_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             return $query->result()[0];
+        }
+        return NULL;
+    }
+
+    public function getDifferentialByService($idService) {
+        $this->db->select('id_differential');
+        $this->db->from('tb_service_differential');
+        $this->db->where('id_service', $idService);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            foreach ($result as $value) {
+                $data[] = $value['id_differential'];
+            }
+            return $data;
         }
         return NULL;
     }
@@ -164,6 +180,30 @@ class Services_model extends CI_Model {
         }
 
         $this->db->insert('tb_services', $data);
+
+        if ($this->db->affected_rows() > 0) {
+
+            return true; // to the controller
+        }
+
+        return false;
+    }
+
+    public function insert_differential($data) {
+        foreach ($data['id_differential'] as $value) {
+            $this->db->insert('tb_service_differential', array('id_service' => $data['id_service'], 'id_differential' => $value));
+        }
+
+        if ($this->db->affected_rows() > 0) {
+
+            return true; // to the controller
+        }
+
+        return false;
+    }
+
+    public function delete_differential($idService, $idDifferential) {
+        $this->db->delete('tb_service_differential', array('id_service' => $idService, 'id_differential' => $idDifferential));
 
         if ($this->db->affected_rows() > 0) {
 

@@ -58,13 +58,15 @@ class Service extends CI_Controller {
                         $form['skills'] = $this->input->post('skills');
                         $form['id_job'] = $this->input->post('selectJob');
                         if ($this->input->post('availability_fds') != NULL) {
-                            $form['availability_fds'] = $this->input->post('availability_fds');
+                            $form_differential['id_differential'][] = $this->input->post('availability_fds');
                         }
                         if ($this->input->post('availability_24h') != NULL) {
-                            $form['availability_24h'] = $this->input->post('availability_24h');
+                            $form_differential['id_differential'][] = $this->input->post('availability_24h');
                         }
                         $confirmationInsert = $this->service->insert($form);
                         if ($confirmationInsert) {
+                             $form_differential['id_service'] = $this->db->insert_id();
+                            $this->service->insert_differential($form_differential);
                             $this->session->set_flashdata("mensagem_service", "Cadastro realizado com sucesso");
                         } else {
                             $this->session->set_flashdata("erro_service", "Falha ao cadastrar! Consulte administrador do sistema");
@@ -162,17 +164,19 @@ class Service extends CI_Controller {
                         $form['skills'] = $this->input->post('skills');
                         $form['id_job'] = $this->input->post('selectJob');
                         if ($this->input->post('availability_fds') != NULL) {
-                            $form['availability_fds'] = $this->input->post('availability_fds');
+                            $form_differential['id_differential'][] = $this->input->post('availability_fds');
                         } else {
-                            $form['availability_fds'] = 0;
+                            $this->service->delete_differential($idService, 2);
                         }
                         if ($this->input->post('availability_24h') != NULL) {
-                            $form['availability_24h'] = $this->input->post('availability_24h');
+                            $form_differential['id_differential'][] = $this->input->post('availability_24h');
                         } else {
-                            $form['availability_24h'] = 0;
+                            $this->service->delete_differential($idService, 1);
                         }
                         $confirmationUpdate = $this->service->update($idService, $form);
-                        if ($confirmationUpdate) {
+                        $form_differential['id_service'] = $idService;
+                        $confirmationUpdateDifferential = $this->service->insert_differential($form_differential);
+                        if ($confirmationUpdate || $confirmationUpdateDifferential) {
                             $this->session->set_flashdata("mensagem_service", "Atualização realizada com sucesso");
                         }
                         redirect('profile/services');
@@ -187,6 +191,7 @@ class Service extends CI_Controller {
                 $data['states'] = $this->state->getAll();
                 $data['idState'] = $this->state->getStateByCity($data['dataService']->id_city);
                 $data['citys'] = $this->city->getCityByState($data['idState']->id);
+                $data['differential'] = $this->service->getDifferentialByService($idService);
 
                 //Carrega os styles para página
                 $data["styles"] = array(
@@ -214,7 +219,6 @@ class Service extends CI_Controller {
                 if ($this->input->post('latitude')) {
                     array_push($data['functions_scripts'], "setMarker({lat: {$this->input->post('latitude')}, lng:{$this->input->post('longitude')}});");
                 }
-
                 $this->load->view("_inc/header", $data);
                 $this->load->view("new_service");
                 $this->load->view("_inc/footer");
@@ -298,6 +302,7 @@ class Service extends CI_Controller {
             $data['id'] = $idService;
             $data['portfolios'] = $this->service->getPortfoliosByService($idService);
             $data['comments'] = $this->comments->getCommentsByIdServices($idService, 0);
+            $data['differential'] = $this->service->getDifferentialByService($idService);
 
 
             //Verifica se o usuário está logado para poder pegar o id do visitante e carregar suas recomendaçoes e notas ao anúncio

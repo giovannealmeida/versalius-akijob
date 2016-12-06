@@ -113,13 +113,12 @@
 
                     <div class="divider"></div>
 
-
                     <h4 class="text-info">Diferenciais</h4>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                             <div class="checkbox">
                                 <label style="width:100%;">
-                                    <?php echo form_checkbox(array("data-toggle" => "toggle", "data-on" => "Possui Disponibilidade<br> 24h", "data-off" => "Não Possui Disponibilidade<br> 24h", 'name' => 'availability_24h', 'id' => 'availability_24h', 'value' => 1, 'style' => 'margin:10px', 'checked' => isset($dataService) ? $dataService->availability_24h : set_checkbox('availability_24h', 1))); ?>
+                                    <?php echo form_checkbox(array("data-toggle" => "toggle", "data-on" => "Possui Disponibilidade<br> 24h", "data-off" => "Não Possui Disponibilidade<br> 24h", 'name' => 'availability_24h', 'id' => 'availability_24h', 'value' => 1, 'style' => 'margin:10px', 'checked' => isset($differential) && in_array(1, $differential) ? 1 : set_checkbox('availability_24h', 1))); ?>
                                 </label>
                             </div>
 
@@ -127,7 +126,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5">
                             <div class="checkbox">
                                 <label style="width:100%;">
-                                    <?php echo form_checkbox(array("data-toggle" => "toggle", "data-on" => "Possui Disponibilidade<br>no Final de Semana", "data-off" => "Não Possui Disponibilidade<br>no Final de Semana ", 'name' => 'availability_fds', 'id' => 'availability_fds', 'value' => 1, 'style' => 'margin:10px', 'checked' => isset($dataService) ? $dataService->availability_fds : set_checkbox('availability_fds', 1))); ?>
+                                    <?php echo form_checkbox(array("data-toggle" => "toggle", "data-on" => "Possui Disponibilidade<br>no Final de Semana", "data-off" => "Não Possui Disponibilidade<br>no Final de Semana ", 'name' => 'availability_fds', 'id' => 'availability_fds', 'value' => 2, 'style' => 'margin:10px', 'checked' => isset($differential) && in_array(2, $differential) ? 2 : set_checkbox('availability_fds', 1))); ?>
                                 </label>
                             </div>
 
