@@ -23,7 +23,7 @@ class Services_model extends CI_Model {
     function getUserLatLng($idUser) {
         $this->db->select('c.latitude, c.longitude');
         $this->db->from('tb_users u');
-        $this->db->join('tb_city c', 'u.id_city = c.id', "inner");
+        $this->db->join('tb_city c', 'u.city_id = c.id', "inner");
         $this->db->where('u.id', $idUser);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -35,16 +35,16 @@ class Services_model extends CI_Model {
 
     public function getServicesByIdByCity($idJob, $idCity) {
         $query = $this->db->query("
-            SELECT u.name as name, u.email, u.id as id_user, u.avatar, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.value),0) as saldo, ra.rating, IF(sub.id is null,0,1) as premium, s.`primary`
+            SELECT u.name as name, u.email, u.id as user_id, u.avatar, s.street, s.complement, s.number, s.neighborhood, s.id, s.zip_code, s.latitude, s.longitude, j.name as job, IFNULL(SUM(r.value),0) as saldo, ra.rating, IF(sub.id is null,0,1) as premium, s.`primary`
             FROM tb_services s
-            LEFT JOIN tb_recommendation r ON r.id_user_receiver = s.id_user
-            INNER JOIN tb_jobs j ON j.id = s.id_job
-            INNER JOIN tb_users u ON u.id = s.id_user
-            LEFT JOIN tb_subscriptions sub ON u.id = sub.id_user AND NOW() BETWEEN sub.`start` AND sub.`end`
-            LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
-            LEFT JOIN tb_subscriptions p ON s.id_user = p.id_user
-            WHERE s.id_job = {$idJob} AND s.id_city = {$idCity} AND u.id_status = 1
-            GROUP BY s.id_user
+            LEFT JOIN tb_recommendation r ON r.user_receiver_id = s.user_id
+            INNER JOIN tb_jobs j ON j.id = s.job_id
+            INNER JOIN tb_users u ON u.id = s.user_id
+            LEFT JOIN tb_subscriptions sub ON u.id = sub.user_id AND NOW() BETWEEN sub.`start` AND sub.`end`
+            LEFT JOIN (SELECT service_id, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY user_receiver_id) AS ra ON s.id = ra.service_id
+            LEFT JOIN tb_subscriptions p ON s.user_id = p.user_id
+            WHERE s.job_id = {$idJob} AND s.city_id = {$idCity} AND u.ativo = 1
+            GROUP BY s.user_id
             ORDER BY p.id IS NOT NULL DESC, saldo DESC, ra.rating DESC"
         );
 
@@ -57,9 +57,9 @@ class Services_model extends CI_Model {
     public function getServicesByUser($idUser) {
         $this->db->select('s.id, j.name as job');
         $this->db->from('tb_services s');
-        $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
-        $this->db->join('tb_city c', 's.id_city = c.id', "inner");
-        $this->db->where('id_user', $idUser);
+        $this->db->join('tb_jobs j', 's.job_id = j.id', "inner");
+        $this->db->join('tb_city c', 's.city_id = c.id', "inner");
+        $this->db->where('user_id', $idUser);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -70,12 +70,12 @@ class Services_model extends CI_Model {
 
     public function getServicesById($idService) {
         $query = $this->db->query("
-            SELECT s.id_user, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, j.name as job, c.name as city, st.name as state, ra.rating as saldo
+            SELECT s.user_id, s.id, s.street, s.number, s.neighborhood, s.latitude, s.longitude, s.skills, j.name as job, c.name as city, st.name as state, ra.rating as saldo
             FROM tb_services s
-            LEFT JOIN (SELECT id_service, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY id_user_receiver) AS ra ON s.id = ra.id_service
-            INNER JOIN tb_jobs j ON j.id = s.id_job
-            INNER JOIN tb_city c ON s.id_city = c.id
-            INNER JOIN tb_states st ON c.id_state = st.id
+            LEFT JOIN (SELECT service_id, SUM(`value`)/count(value) as rating FROM tb_rating GROUP BY user_receiver_id) AS ra ON s.id = ra.service_id
+            INNER JOIN tb_jobs j ON j.id = s.job_id
+            INNER JOIN tb_city c ON s.city_id = c.id
+            INNER JOIN tb_states st ON c.state_id = st.id
             WHERE s.id = {$idService}"
         );
         if ($query->num_rows() > 0) {
@@ -87,9 +87,9 @@ class Services_model extends CI_Model {
     public function getServicesByIdAndUser($idUser, $idService) {
         $this->db->select('s.*, j.name as job');
         $this->db->from('tb_services s');
-        $this->db->join('tb_jobs j', 's.id_job = j.id', "inner");
+        $this->db->join('tb_jobs j', 's.job_id = j.id', "inner");
         $this->db->where('s.id', $idService);
-        $this->db->where('s.id_user', $idUser);
+        $this->db->where('s.user_id', $idUser);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -99,15 +99,15 @@ class Services_model extends CI_Model {
     }
 
     public function getDifferentialByService($idService) {
-        $this->db->select('id_differential');
+        $this->db->select('differential_id');
         $this->db->from('tb_service_differential');
-        $this->db->where('id_service', $idService);
+        $this->db->where('service_id', $idService);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
             foreach ($result as $value) {
-                $data[] = $value['id_differential'];
+                $data[] = $value['differential_id'];
             }
             return $data;
         }
@@ -115,7 +115,7 @@ class Services_model extends CI_Model {
     }
 
     public function getPortfoliosByUser($idUser) {
-        $query = $this->db->get_where('tb_portfolios', array('id_user' => $idUser));
+        $query = $this->db->get_where('tb_portfolios', array('user_id' => $idUser));
 
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -124,7 +124,7 @@ class Services_model extends CI_Model {
     }
 
     public function getPortfoliosByService($idService) {
-        $query = $this->db->get_where('tb_portfolios', array('id_service' => $idService));
+        $query = $this->db->get_where('tb_portfolios', array('service_id' => $idService));
 
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -173,7 +173,7 @@ class Services_model extends CI_Model {
     }
 
     public function insert($data) {
-        $result = $this->db->query("SELECT count(*) as quantidade FROM tb_services WHERE id_user = {$data["id_user"]}")->result()[0]->quantidade;
+        $result = $this->db->query("SELECT count(*) as quantidade FROM tb_services WHERE user_id = {$data["user_id"]}")->result()[0]->quantidade;
 
         if ($result == 0) {
             $data["primary"] = 1;
@@ -190,8 +190,8 @@ class Services_model extends CI_Model {
     }
 
     public function insert_differential($data) {
-        foreach ($data['id_differential'] as $value) {
-            $this->db->insert('tb_service_differential', array('id_service' => $data['id_service'], 'id_differential' => $value));
+        foreach ($data['differential_id'] as $value) {
+            $this->db->insert('tb_service_differential', array('service_id' => $data['service_id'], 'differential_id' => $value));
         }
 
         if ($this->db->affected_rows() > 0) {
@@ -203,7 +203,7 @@ class Services_model extends CI_Model {
     }
 
     public function delete_differential($idService, $idDifferential) {
-        $this->db->delete('tb_service_differential', array('id_service' => $idService, 'id_differential' => $idDifferential));
+        $this->db->delete('tb_service_differential', array('service_id' => $idService, 'differential_id' => $idDifferential));
 
         if ($this->db->affected_rows() > 0) {
 
@@ -228,12 +228,12 @@ class Services_model extends CI_Model {
 
         $this->db->trans_start();
 
-        $this->db->delete('tb_services', array('id' => $idService, 'id_user' => $idUser));
+        $this->db->delete('tb_services', array('id' => $idService, 'user_id' => $idUser));
 
         if ($this->db->affected_rows() > 0) {
-            $result = $this->db->query("SELECT count(*) as quantidade FROM tb_services WHERE id_user = {$idUser}")->result()[0]->quantidade;
+            $result = $this->db->query("SELECT count(*) as quantidade FROM tb_services WHERE user_id = {$idUser}")->result()[0]->quantidade;
             if ($result > 0) {
-                $next = $this->db->limit(1)->get_where("tb_services", array("id_user" => $idUser))->result()[0]->id;
+                $next = $this->db->limit(1)->get_where("tb_services", array("user_id" => $idUser))->result()[0]->id;
                 $this->update($next, array("primary" => 1));
             }
             $this->db->trans_complete();

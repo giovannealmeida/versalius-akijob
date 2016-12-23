@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <?php echo form_label('Cidade', 'selectCity'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, set_value('selectCity', isset($dataService) ? $dataService->id_city : "")); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectCity", 'id' => "selectCity",), $citys, set_value('selectCity', isset($dataService) ? $dataService->city_id : "")); ?>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@
                             <div class="form-group">
                                 <?php echo form_label('Serviço', 'selectJob'); ?>
                                 <span class="required">*</span>
-                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob", "required" => "true"), $jobs, set_value('selectJob', isset($dataService) ? $dataService->id_job : "")); ?>
+                                <?php echo form_dropdown(array('class' => "selectpicker", 'data-live-search' => "true", 'data-width' => "100%", 'name' => "selectJob", 'id' => "selectJob", "required" => "true"), $jobs, set_value('selectJob', isset($dataService) ? $dataService->job_id : "")); ?>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>

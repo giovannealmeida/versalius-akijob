@@ -24,7 +24,6 @@ class Util_model extends CI_Model
     public function resizeImage($file, $width, $height)
     {
         require __DIR__.'/../third_party/ImageManipulator.php';
-
         if ($file['error'] > 0) {
             echo 'Error: '.$file['error'].'<br />';
         } else {
@@ -36,7 +35,7 @@ class Util_model extends CI_Model
                 $aux = $manipulator->resample($width, $height);
                 $path = __DIR__.'/../../images_temp/'.$file['name'];
                 $manipulator->save($path);
-                $aux = addslashes(file_get_contents($path));
+                $aux = file_get_contents($path);
                 unlink($path);
                 return $aux;
             }

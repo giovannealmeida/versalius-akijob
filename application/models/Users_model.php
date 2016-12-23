@@ -2,15 +2,14 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Users_model extends CI_Model
-{
-    public function __construct()
-    {
+class Users_model extends CI_Model {
+
+    public function __construct() {
         parent::__construct();
     }
 
-    public function getUserLogin($email, $password, $idStatus){
-        $response = $this->db->get_where('tb_users', array('email' => $email, 'id_status' => $idStatus));
+    public function getUserLogin($email, $password, $idStatus) {
+        $response = $this->db->get_where('tb_users', array('email' => $email, 'ativo' => $idStatus));
         if ($response->num_rows() == 1) {
             $user = $response->result()[0];
             if (password_verify($password, $user->password)) {
@@ -21,9 +20,7 @@ class Users_model extends CI_Model
         return null;
     }
 
-
-    public function getUserById($id)
-    {
+    public function getUserById($id) {
         $response = $this->db->get_where('tb_users', array('id' => $id));
 
         if ($response->num_rows() == 1) {
@@ -33,23 +30,21 @@ class Users_model extends CI_Model
         return null;
     }
 
-    public function getUserByService($idService)
-    {
+    public function getUserByService($idService) {
         $response = $this->db->get_where('tb_services', array('id' => $idService));
 
         if ($response->num_rows() == 1) {
-            return $response->result()[0]->id_user;
+            return $response->result()[0]->user_id;
         }
 
         return null;
     }
 
     // $type pode ser "facebook" ou "google"
-    public function getUserExternalAuth($email, $id_social, $id_satus)
-    {
+    public function getUserExternalAuth($email, $social_id, $id_satus) {
         $this->db->where('email', $email);
-        $this->db->where('id_social', $id_social);
-        $this->db->where('id_status', $id_satus);
+        $this->db->where('social_id', $social_id);
+        $this->db->where('ativo', $id_satus);
         $response = $this->db->get('tb_users');
 
         if ($response->num_rows() == 1) {
@@ -59,8 +54,7 @@ class Users_model extends CI_Model
         return null;
     }
 
-    public function insert($dados)
-    {
+    public function insert($dados) {
         //print_r($dados);die;
         $query = $this->db->insert('tb_users', $dados);
 
@@ -71,9 +65,8 @@ class Users_model extends CI_Model
         return null;
     }
 
-    public function update($id_user, $data)
-    {
-        $this->db->where('id', $id_user);
+    public function update($user_id, $data) {
+        $this->db->where('id', $user_id);
         $this->db->update('tb_users', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -82,8 +75,7 @@ class Users_model extends CI_Model
         return false;
     }
 
-    public function validatePassword($id, $password)
-    {
+    public function validatePassword($id, $password) {
         $this->db->where('id', $id);
         $this->db->where('password', $password);
 
@@ -96,8 +88,7 @@ class Users_model extends CI_Model
         return false;
     }
 
-    public function exists($email)
-    {
+    public function exists($email) {
         $response = $this->db->get_where('tb_users', array('email' => $email));
 
         if ($response->num_rows() == 1) {
@@ -107,18 +98,16 @@ class Users_model extends CI_Model
         return null;
     }
 
-    public function forgot_password($hash)
-    {
-        $query = $this->db->query("SELECT id_user FROM tb_forgotten_password_hash WHERE TIMESTAMPDIFF(MINUTE,time,NOW()) < 80 AND hash = \"{$hash}\"");
+    public function forgot_password($hash) {
+        $query = $this->db->query("SELECT user_id FROM tb_forgotten_password_hash WHERE TIMESTAMPDIFF(MINUTE,time,NOW()) < 80 AND hash = \"{$hash}\"");
         if ($query->num_rows() == 1) {
-            return $query->result()[0]->id_user;
+            return $query->result()[0]->user_id;
         }
 
         return false;
     }
 
-    public function getTierImage($id, $recommendations, $result_page = false)
-    {
+    public function getTierImage($id, $recommendations, $result_page = false) {
         if ($recommendations < 100) {
             if ($result_page) {
                 return null;
@@ -144,4 +133,14 @@ class Users_model extends CI_Model
         }
         return FALSE;
     }
+
+    public function get_keys() {
+        $query = $this->db->get("tb_keys_api_maps");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return null;
+        }
+    }
+
 }

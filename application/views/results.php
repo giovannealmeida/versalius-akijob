@@ -148,8 +148,9 @@
                     <script src="<?= base_url("assets/js/bootstrap-select.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/ajax-bootstrap-select.min.js") ?>"></script>
                     <script src="<?= base_url("assets/js/search.js") ?>"></script>
-
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC69Ji81pHJ6ol7VhIrIDE1mUofcZw_WuA&signed_in=true&libraries=places,drawing&callback=initMap"
+                    <?php $url = "https://maps.googleapis.com/maps/api/js?key={$keys[rand(0, count($keys) - 1)]->key}&signed_in=true&libraries=places,drawing&callback=initMap" ?>
+                    <script> console.log('<?= $url ?>') </script>
+                    <script src="<?= $url ?>"
                     async defer></script>
 
                 </div>

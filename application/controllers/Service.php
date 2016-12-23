@@ -14,7 +14,7 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } else if ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Subscription_model", "subs");
@@ -46,17 +46,17 @@ class Service extends CI_Controller {
                     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
                     if ($this->form_validation->run() !== FALSE) {
-                        $form['id_user'] = $this->session->userdata('logged_in')->id;
+                        $form['user_id'] = $this->session->userdata('logged_in')->id;
                         $form['street'] = $this->input->post('street');
                         $form['number'] = $this->input->post('number');
                         $form['complement'] = $this->input->post('complement');
                         $form['neighborhood'] = $this->input->post('neighborhood');
-                        $form['id_city'] = $this->input->post('selectCity');
+                        $form['city_id'] = $this->input->post('selectCity');
                         $form['zip_code'] = $this->input->post('zipCode');
                         $form['latitude'] = $this->input->post('latitude');
                         $form['longitude'] = $this->input->post('longitude');
                         $form['skills'] = $this->input->post('skills');
-                        $form['id_job'] = $this->input->post('selectJob');
+                        $form['job_id'] = $this->input->post('selectJob');
                         if ($this->input->post('availability_fds') != NULL) {
                             $form_differential['id_differential'][] = $this->input->post('availability_fds');
                         }
@@ -65,7 +65,7 @@ class Service extends CI_Controller {
                         }
                         $confirmationInsert = $this->service->insert($form);
                         if ($confirmationInsert) {
-                             $form_differential['id_service'] = $this->db->insert_id();
+                             $form_differential['service_id'] = $this->db->insert_id();
                             $this->service->insert_differential($form_differential);
                             $this->session->set_flashdata("mensagem_service", "Cadastro realizado com sucesso");
                         } else {
@@ -128,7 +128,7 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } else if ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'service');
@@ -157,12 +157,12 @@ class Service extends CI_Controller {
                         $form['number'] = $this->input->post('number');
                         $form['complement'] = $this->input->post('complement');
                         $form['neighborhood'] = $this->input->post('neighborhood');
-                        $form['id_city'] = $this->input->post('selectCity');
+                        $form['city_id'] = $this->input->post('selectCity');
                         $form['zip_code'] = $this->input->post('zipCode');
                         $form['latitude'] = $this->input->post('latitude');
                         $form['longitude'] = $this->input->post('longitude');
                         $form['skills'] = $this->input->post('skills');
-                        $form['id_job'] = $this->input->post('selectJob');
+                        $form['job_id'] = $this->input->post('selectJob');
                         if ($this->input->post('availability_fds') != NULL) {
                             $form_differential['id_differential'][] = $this->input->post('availability_fds');
                         } else {
@@ -174,7 +174,7 @@ class Service extends CI_Controller {
                             $this->service->delete_differential($idService, 1);
                         }
                         $confirmationUpdate = $this->service->update($idService, $form);
-                        $form_differential['id_service'] = $idService;
+                        $form_differential['service_id'] = $idService;
                         $confirmationUpdateDifferential = $this->service->insert_differential($form_differential);
                         if ($confirmationUpdate || $confirmationUpdateDifferential) {
                             $this->session->set_flashdata("mensagem_service", "Atualização realizada com sucesso");
@@ -189,7 +189,7 @@ class Service extends CI_Controller {
                 $data['jobs'] = $this->service->getJobsAll();
                 $data['coordinates'] = $this->service->getUserLatLng($this->session->userdata('logged_in')->id);
                 $data['states'] = $this->state->getAll();
-                $data['idState'] = $this->state->getStateByCity($data['dataService']->id_city);
+                $data['idState'] = $this->state->getStateByCity($data['dataService']->city_id);
                 $data['citys'] = $this->city->getCityByState($data['idState']->id);
                 $data['differential'] = $this->service->getDifferentialByService($idService);
 
@@ -236,7 +236,7 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } else if ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", "services");
@@ -275,8 +275,8 @@ class Service extends CI_Controller {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('comment', 'Nome', 'required');
                 $this->form_validation->set_message('required', 'O campo %s é obrigatório');
-                $form['id_service'] = $this->input->post('id_service');
-                $form['id_user'] = $this->input->post('id_user');
+                $form['service_id'] = $this->input->post('service_id');
+                $form['user_id'] = $this->input->post('user_id');
                 if ($this->form_validation->run() !== FALSE) {
                     $form['comment'] = $this->input->post('comment');
                     $confirmationInsertComment = $this->comments->insert($form);
@@ -297,8 +297,8 @@ class Service extends CI_Controller {
             $data['recommendations_positive'] = $this->recommendation->getRecommendationPositiveByUser($user_service);
             $data['recommendations_negative'] = $this->recommendation->getRecommendationNegativeByUser($user_service);
             $data["premium_data"]["isPremium"] = $this->subs->isSubscribed($user_service);
-            $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
-            $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
+            $data['city'] = $this->city->getCityById($data["user_profile"]->city_id);
+            $data['state'] = $this->state->getStateByCity($data['user_profile']->city_id);
             $data['id'] = $idService;
             $data['portfolios'] = $this->service->getPortfoliosByService($idService);
             $data['comments'] = $this->comments->getCommentsByIdServices($idService, 0);
@@ -307,14 +307,14 @@ class Service extends CI_Controller {
 
             //Verifica se o usuário está logado para poder pegar o id do visitante e carregar suas recomendaçoes e notas ao anúncio
             if (!isset($data["user_session"]->id)) {
-                $visit['id_user'] = NULL;
+                $visit['user_id'] = NULL;
             } else {
-                $visit['id_user'] = $data["user_session"]->id;
+                $visit['user_id'] = $data["user_session"]->id;
                 $data['recommendation'] = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
                 $data['rating'] = $this->rating->getRating($this->session->userdata('logged_in')->id, $user_service, $idService);
             }
             $visit['visit_date'] = date('Y-m-d H:i:s');
-            $visit['id_service'] = $idService;
+            $visit['service_id'] = $idService;
             $this->visits->insert($visit);
 
             //Carrega os styles para página
@@ -354,7 +354,7 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } else if ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'service');
@@ -380,7 +380,7 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } elseif ($this->session->userdata('logged_in')->id_status == -1) {
+        } elseif ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'services');
@@ -397,7 +397,7 @@ class Service extends CI_Controller {
                     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
                     if ($this->form_validation->run()) {
-                        $form['id_service'] = $idService;
+                        $form['service_id'] = $idService;
                         $form['description'] = $this->input->post('description');
                         $form['image'] = addslashes(file_get_contents($_FILES['inputFile']['tmp_name']));
 
@@ -431,13 +431,13 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } else if ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", 'services');
             $data['portfolio'] = $this->services->getPortfolioById($idPortfolio);
             if ($data['portfolio']) {
-                $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $data['portfolio']->id_service);
+                $data['services'] = $this->services->getServicesByIdAndUser($this->session->userdata('logged_in')->id, $data['portfolio']->service_id);
                 if ($data['services']) {
                     if ($this->input->post()) {
                         //validação CodeIgniter
@@ -488,7 +488,7 @@ class Service extends CI_Controller {
         //Verifica se o usuário está logado e ativo
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
-        } else if ($this->session->userdata('logged_in')->id_status == -1) {
+        } else if ($this->session->userdata('logged_in')->ativo == -1) {
             redirect('profile/account');
         } else {
             $this->load->model("Services_model", "services");

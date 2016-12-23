@@ -29,7 +29,7 @@ class Profile extends CI_Controller {
     public function index() {
 
         $data = $this->user_info;
-        if ($data['user_profile']->id_status == -1) {
+        if ($data['user_profile']->ativo == -1) {
             redirect('profile/account');
         }
         $this->load->view("_inc/header", $data);
@@ -40,7 +40,7 @@ class Profile extends CI_Controller {
 
     public function config() {
         $data = $this->user_info;
-        if ($data['user_profile']->id_status == -1) {
+        if ($data['user_profile']->ativo == -1) {
             redirect('profile/account');
         }
         if ($this->input->post()) {
@@ -64,17 +64,16 @@ class Profile extends CI_Controller {
             if ($this->form_validation->run() !== FALSE) {
                 $form['name'] = $this->input->post('fullname');
                 $form['email'] = $this->input->post('email');
-                $form['id_city'] = $this->input->post('selectCity');
-                $form['id_gender'] = $this->input->post('gender');
+                $form['city_id'] = $this->input->post('selectCity');
+                $form['gender_id'] = $this->input->post('gender');
                 $form['birthday'] = $this->input->post('birthDate');
                 $form['phone'] = $this->input->post('phone');
                 $form['site'] = $this->input->post('site');
                 $form['facebook'] = $this->input->post('facebook');
                 $form['twitter'] = $this->input->post('twitter');
                 if ($_FILES['upload_avatar']['tmp_name'] !== "") {
-                    $form['avatar'] = $this->util->resizeImage($_FILES['upload_avatar'], 200, 200);
+                    $form['avatar'] = base64_encode($this->util->resizeImage($_FILES['upload_avatar'], 200, 200));
                 }
-
                 $confirmationUpdate = $this->users->update($data["user_profile"]->id, $form);
                 if ($confirmationUpdate) {
                     $this->session->set_flashdata("mensagem_profile", "Cadastro atualizado com sucesso");
@@ -87,9 +86,9 @@ class Profile extends CI_Controller {
             }
         }
 
-        $data['city'] = $this->city->getCityById($data["user_profile"]->id_city);
+        $data['city'] = $this->city->getCityById($data["user_profile"]->city_id);
         $data['states'] = $this->state->getAll();
-        $data['state'] = $this->state->getStateByCity($data['user_profile']->id_city);
+        $data['state'] = $this->state->getStateByCity($data['user_profile']->city_id);
         if (isset($data['state']->id)) {
             $data['citys'] = $this->city->getCityByState($data['state']->id);
         } else if ($this->input->post('selectState') != null) {
@@ -112,7 +111,7 @@ class Profile extends CI_Controller {
 
     public function plan() {
         $data = $this->user_info;
-        if ($data['user_profile']->id_status == -1) {
+        if ($data['user_profile']->ativo == -1) {
             redirect('profile/account');
         }
         if ($data["premium_data"]["isPremium"]) {
@@ -137,7 +136,7 @@ class Profile extends CI_Controller {
     public function account() {
         $data = $this->user_info;
         $this->load->view("_inc/header", $data);
-        if ($data['user_profile']->id_status == 1) {
+        if ($data['user_profile']->ativo == 1) {
             $this->load->view("profile/menu");
         }
         $this->load->view("profile/account");
@@ -146,7 +145,7 @@ class Profile extends CI_Controller {
 
     public function alterPassword() {
         $data = $this->user_info;
-        if ($data['user_profile']->id_status == -1) {
+        if ($data['user_profile']->ativo == -1) {
             redirect('profile/account');
         }
         if ($this->input->post()) {
@@ -200,7 +199,7 @@ class Profile extends CI_Controller {
 
     public function services() {
         $data = $this->user_info;
-        if ($data['user_profile']->id_status == -1) {
+        if ($data['user_profile']->ativo == -1) {
             redirect('profile/account');
         }
         $this->load->model("Services_model", "services");
@@ -214,13 +213,13 @@ class Profile extends CI_Controller {
     }
 
     public function recommendations($idService, $id_recommendation) {
-        if ($data['user_profile']->id_status == -1) {
+        if ($data['user_profile']->ativo == -1) {
             redirect('profile/account');
         }
         $this->load->model("Users_model", 'user');
         $this->load->model("Recommendation_model", 'recommendation');
         $user_service = $this->users->getUserByService($idService);
-        $form = array('id_user' => $this->session->userdata('logged_in')->id, 'id_user_receiver' => $user_service, 'value' => $id_recommendation);
+        $form = array('user_id' => $this->session->userdata('logged_in')->id, 'user_id_receiver' => $user_service, 'value' => $id_recommendation);
         $recommendation = $this->recommendation->getRecommendation($this->session->userdata('logged_in')->id, $user_service);
         if ($recommendation) {
             if ($recommendation->value == $id_recommendation)
@@ -254,7 +253,7 @@ class Profile extends CI_Controller {
             redirect('login');
         } else if ($this->session->userdata('logged_in')->id == $idUser) {
             $this->load->model("Users_model", "users");
-            $data['id_status'] = -1;
+            $data['ativo'] = -1;
             $disable = $this->users->update($idUser, $data);
             if ($disable) {
                 session_destroy();
@@ -271,7 +270,7 @@ class Profile extends CI_Controller {
             redirect('login');
         } else if ($this->session->userdata('logged_in')->id == $idUser) {
             $this->load->model("Users_model", "users");
-            $data['id_status'] = 1;
+            $data['ativo'] = 1;
             $active = $this->users->update($idUser, $data);
             if ($active) {
                 $user = $this->users->getUserById($this->session->userdata('logged_in')->id);

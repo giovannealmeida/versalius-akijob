@@ -8,8 +8,8 @@ class City_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getCityByState($id_state) {
-        $this->db->where('id_state', $id_state);
+    public function getCityByState($state_id) {
+        $this->db->where('state_id', $state_id);
         $query = $this->db->get("tb_city");
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $city) {
@@ -46,7 +46,7 @@ class City_model extends CI_Model {
     public function getAllWithStateInitials() {
         $this->db->select('c.id, c.name, s.initials');
         $this->db->from('tb_city c');
-        $this->db->join('tb_states s', 's.id = c.id_state', "inner");
+        $this->db->join('tb_states s', 's.id = c.state_id', "inner");
 
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -62,7 +62,7 @@ class City_model extends CI_Model {
     public function getIdByNameAndState($city, $initials) {
         $this->db->select('c.id');
         $this->db->from('tb_city c');
-        $this->db->join('tb_states s', 's.id = c.id_state', "inner");
+        $this->db->join('tb_states s', 's.id = c.state_id', "inner");
         $this->db->where('c.name', $city);
         $this->db->where('s.initials', $initials);
 

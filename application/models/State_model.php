@@ -20,11 +20,11 @@ class State_model extends CI_Model {
         }
     }
 
-    public function getStateByCity($id_city) {
+    public function getStateByCity($city_id) {
         $this->db->select('s.id, s.name, s.initials');
         $this->db->from('tb_city c');
-        $this->db->join('tb_states s', 's.id = c.id_state', "inner");
-        $this->db->where('c.id', $id_city);
+        $this->db->join('tb_states s', 's.id = c.state_id', "inner");
+        $this->db->where('c.id', $city_id);
 
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

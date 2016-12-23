@@ -6,9 +6,9 @@ class consult extends CI_Controller {
         parent::__construct();
     }
 
-    public function getCityByState($id_state) {
+    public function getCityByState($state_id) {
         $this->load->model('City_model');
-        $result = $this->City_model->getCityByState($id_state);
+        $result = $this->City_model->getCityByState($state_id);
         echo json_encode($result);
     }
 
@@ -18,7 +18,7 @@ class consult extends CI_Controller {
         }
         $this->db->select('c.id, s.initials, c.name');
         $this->db->like('c.name', $name);
-        $this->db->join("tb_states s", "s.id = c.id_state");
+        $this->db->join("tb_states s", "s.id = c.state_id");
         $result = $this->db->get("tb_city c")->result();
         $array = array();
 
