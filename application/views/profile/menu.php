@@ -10,11 +10,11 @@
                     <img class="img-responsive" src="
                     <?php if ($user_profile->avatar === NULL): ?>
                         <?= '//placehold.it/200' ?>
-                    <?php elseif ($user_profile->avatar == base64_decode(stripslashes($user_profile->avatar))): ?>
+                    <?php elseif (substr($user_profile->avatar, 0, 1) == 'h'): ?>
                         <?= $user_profile->avatar ?>
                     <?php else: ?>
-                        <?= 'data:image/jpeg;base64,' . $user_profile->avatar; ?>
-                         <?php endif; ?>" alt="">
+                        <?= "http://localhost/akijob-back-end/" . $user_profile->avatar; ?>
+                    <?php endif; ?>" alt="">
 
                 </div>
                 <!-- END SIDEBAR USERPIC -->
