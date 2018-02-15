@@ -1,0 +1,23 @@
+body {
+    background-image: url(../img/bgparallax.jpg);
+    background-color: #2C3E50;
+	background-blend-mode: multiply;
+	background-repeat: no-repeat;
+	background-origin: center;
+	background-clip: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#main {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
+    background-color: transparent;
+}

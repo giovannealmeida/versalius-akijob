@@ -1,0 +1,72 @@
+body{
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', sans-serif;
+	}
+#sub_navigation_desk{
+	background-color: #50b2ef !important;
+}
+#sub_navigation_desk > div > ul.nav-menu > li > a{
+	color: white;
+}
+#sub_navigation_desk > div > ul.nav-menu > li > a > span.submenu-indicator > span.submenu-indicator-chevron{
+	border-width: 0 2px 2px 0;
+	border-color: transparent #ffffff #ffffff transparent;
+}
+
+#sub_navigation_desk > div > ul.nav-menu > li > a:hover{
+	color: #f9f9f9;
+
+}
+.headline h2, .headline h4, .headline h5{
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.headline {
+	margin-bottom: 20px;
+}
+
+.headline_header {
+	margin-bottom: 25px !important;
+}
+
+.content{
+	margin-top: 20px;
+}
+
+#logo  img{
+	margin: 0;
+	height: 70px;
+}
+
+#logo_mobile  img{
+	height: 100px;
+}
+
+.nav-button {
+	background-color: #50b2ef !important;
+}
+
+.megamenu-list > li > a {
+	color: black !important;
+
+}
+.megamenu-list > li > a:hover{
+	background-color: #ffc83e;
+}
+
+
+.nav-menu > li:hover > a,
+.nav-menu > li.active > a,
+.nav-menu > li.focus > a{
+	color: #ffc83e;
+}
+
+.nav-menu > li:hover > a .submenu-indicator-chevron,
+.nav-menu > .active > a .submenu-indicator-chevron,
+.nav-menu > .focus > a .submenu-indicator-chevron{
+	border-color: transparent #ffc83e #ffc83e transparent;
+
+}
